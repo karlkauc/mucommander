@@ -70,8 +70,8 @@ jobs:
 
       - uses: actions/setup-java@v4
         with:
-          java-version: '18'
-          distribution: 'adopt'
+          java-version: '21'
+          distribution: 'temurin'
 
       - uses: gradle/actions/setup-gradle@v3
 
@@ -136,8 +136,8 @@ jobs:
 
       - uses: actions/setup-java@v4
         with:
-          java-version: '20'
-          distribution: 'adopt'
+          java-version: '21'
+          distribution: 'temurin'
 
       - name: Checkout 'release'
         uses: actions/checkout@v4
@@ -209,10 +209,8 @@ jobs:
         include:
           - arch: aarch64
             os: windows-11-arm
-            java: '23'
           - arch: x86_64
             os: windows-2025
-            java: '24'
     runs-on: ${{ matrix.os }}
     needs: init
 
@@ -223,8 +221,8 @@ jobs:
 
       - uses: actions/setup-java@v4
         with:
-          java-version: ${{ matrix.java }}
-          distribution: 'adopt'
+          java-version: '21'
+          distribution: 'temurin'
 
       - name: Install WiX
         if: matrix.arch == 'aarch64'
