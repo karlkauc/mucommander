@@ -342,7 +342,9 @@ jar {
     }
 }
 
-test.useTestNG()
+// Root project has no tests of its own; subproject test{} blocks own the
+// framework selection (mucommander-core / commons-file run TestNG via
+// the JUnit Platform bridge, the rest are native JUnit 5).
 
 ext.jlinkModules = [
         'java.base',

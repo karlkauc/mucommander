@@ -11,8 +11,6 @@ plugins {
     id 'biz.aQute.bnd.builder'
 }
 
-test.useTestNG()
-
 repositories.mavenCentral()
 
 dependencies {
