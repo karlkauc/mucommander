@@ -18,9 +18,6 @@
 package com.mucommander.ui.main;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.FocusTraversalPolicy;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Insets;
@@ -308,7 +305,7 @@ public class MainFrame implements LocationListener {
         fireActivePanelChanged(activeTable.getFolderPanel());
 
         // Set the custom FocusTraversalPolicy that manages focus for both FolderPanel and their sub components.
-        getJFrame().setFocusTraversalPolicy(new CustomFocusTraversalPolicy());
+        getJFrame().setFocusTraversalPolicy(new MainFrameFocusTraversalPolicy(this));
     }
 
     public MainFrame(ConfFileTableTab leftTab, FileTableConfiguration leftTableConf,
@@ -798,60 +795,6 @@ public class MainFrame implements LocationListener {
         if((getJFrame().getExtendedState()&Frame.ICONIFIED)!=0)
             getJFrame().setExtendedState(Frame.NORMAL);
         getJFrame().toFront();
-    }
-
-    ///////////////////
-    // Inner classes //
-    ///////////////////
-
-    /**
-     * Manages focus for both FolderPanel and their subcomponents.
-     *
-     * @author Maxence Bernard
-     */
-    protected class CustomFocusTraversalPolicy extends FocusTraversalPolicy {
-
-        @Override
-        public Component getComponentAfter(Container container, Component component) {
-            if (component == leftFolderPanel.getFoldersTreePanel().getTree()) {
-                return leftTable;
-            }
-            if (component == rightFolderPanel.getFoldersTreePanel().getTree()) {
-                return rightTable;
-            }
-            if (component == leftFolderPanel.getLocationTextField()) {
-                return leftTable;
-            }
-            if (component == leftTable) {
-                return rightTable;
-            }
-            if (component== rightFolderPanel.getLocationTextField()) {
-                return rightTable;
-            }
-            // otherwise (component==table2)
-            return leftTable;
-        }
-
-        @Override
-        public Component getComponentBefore(Container container, Component component) {
-            // Completely symmetrical with getComponentAfter
-            return getComponentAfter(container, component);
-        }
-
-        @Override
-        public Component getFirstComponent(Container container) {
-            return leftTable;
-        }
-
-        @Override
-        public Component getLastComponent(Container container) {
-            return rightTable;
-        }
-
-        @Override
-        public Component getDefaultComponent(Container container) {
-            return getActiveTable();
-        }
     }
 
     public boolean isAutoSizeColumnsEnabled() {
