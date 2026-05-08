@@ -113,26 +113,7 @@ public class Application {
      *            exception that triggered the error (for verbose output).
      */
     private void printError(String msg, Exception exception, boolean quit) {
-        printError(createErrorMessage(msg, exception, quit).toString(), quit);
-    }
-
-    /**
-     * Creates an error message.
-     */
-    private StringBuilder createErrorMessage(String msg, Exception exception, boolean quit) {
-        StringBuilder error;
-
-        error = new StringBuilder();
-        if (quit) {
-            error.append("Warning: ");
-        }
-        error.append(msg);
-        if (!activator.silent() && (exception != null)) {
-            error.append(": ");
-            error.append(exception.getMessage());
-        }
-
-        return error;
+        printError(ApplicationErrorMessage.format(msg, exception, quit, activator.silent()), quit);
     }
 
     /**
@@ -150,14 +131,11 @@ public class Application {
      * Prints a configuration file specific error message.
      */
     private void printFileError(String msg, Exception exception, boolean quit) {
-        StringBuilder error;
-
-        error = createErrorMessage(msg, exception, quit);
+        String error = ApplicationErrorMessage.format(msg, exception, quit, activator.silent());
         if (!quit) {
-            error.append(". Using default values.");
+            error = error + ". Using default values.";
         }
-
-        printError(error.toString(), quit);
+        printError(error, quit);
     }
 
     /**
