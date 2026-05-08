@@ -85,7 +85,9 @@ public class Translator {
      * @return <code>true</code> if the given key has a corresponding value in the current language.
      */
     public static boolean hasValue(String key, boolean useDefaultLanguage) {
-        return dictionaryBundle.containsKey(key);
+        // Tolerate uninitialised state (e.g. unit tests that touch a class
+        // whose <clinit> calls Translator.get(...) without OSGi bootstrap).
+        return dictionaryBundle != null && dictionaryBundle.containsKey(key);
     }
 
     /**
@@ -93,15 +95,20 @@ public class Translator {
      * if there is no value for the current language. Entry parameters (%1, %2, ...), if any, are replaced by the
      * specified values.
      *
+     * <p>If the translator has not been {@link #init initialised} (no
+     * dictionary loaded — typical in unit tests), the {@code key} itself is
+     * returned. That keeps callers null-safe and lets classes whose static
+     * initialisers eagerly resolve labels load in test contexts.
+     *
      * @param key key of the requested dictionary entry (case-insensitive)
      * @param paramValues array of parameters which will be used as values for variables.
      * @return the localized text String for the given key expressed in the current language
      */
     public static String get(String key, Object... paramValues) {
-        if (dictionaryBundle.containsKey(key))
+        if (dictionaryBundle != null && dictionaryBundle.containsKey(key))
             return MessageFormat.format(dictionaryBundle.getString(key), paramValues);
 
-        if (languagesBundle.containsKey(key))
+        if (languagesBundle != null && languagesBundle.containsKey(key))
             return languagesBundle.getString(key);
 
         return key;

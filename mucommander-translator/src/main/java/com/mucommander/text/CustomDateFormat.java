@@ -120,8 +120,14 @@ public class CustomDateFormat implements ConfigurationListener {
         // Calls to SimpleDateFormat MUST be synchronized otherwise it will start throwing exceptions (verified that!),
         // that is why this method is synchronized.
         // Quote from SimpleDateFormat's Javadoc: "Date formats are not synchronized. It is recommended to create
-        // separate format instances for each thread. If multiple threads access a format concurrently, 
+        // separate format instances for each thread. If multiple threads access a format concurrently,
         // it must be synchronized externally."
+        if (dateFormat == null) {
+            // Lazy fallback: if init() was never called (typical in unit tests
+            // touching classes whose cell-cache calls format(), e.g. FileTableModel),
+            // pull the configured format on demand instead of NPE-ing.
+            dateFormat = createDateFormat();
+        }
         return dateFormat.format(date);
     }
 	
