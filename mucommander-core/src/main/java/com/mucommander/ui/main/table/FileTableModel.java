@@ -358,15 +358,18 @@ public class FileTableModel extends AbstractTableModel {
     }
 
     public Function<AbstractFile, String> getNameFunc() {
-        switch (currentFolder.getURL().getScheme()) {
-        case SearchFile.SCHEMA:
-            String basePath = currentFolder.getURL().getHost();
-            AbstractFile baseFile = FileFactory.getFile(basePath);
-            int beginIndex = baseFile.getAbsolutePath(true).length();
-            return file -> file.getAbsolutePath(false).substring(beginIndex);
-        default:
-            return AbstractFile::getName;
-        }
+        return switch (currentFolder.getURL().getScheme()) {
+            case SearchFile.SCHEMA -> {
+                // For search results, show the path relative to the search base
+                // so the user sees something useful (the bare file name would be
+                // ambiguous when the same file name turns up under several roots).
+                String basePath = currentFolder.getURL().getHost();
+                AbstractFile baseFile = FileFactory.getFile(basePath);
+                int beginIndex = baseFile.getAbsolutePath(true).length();
+                yield file -> file.getAbsolutePath(false).substring(beginIndex);
+            }
+            default -> AbstractFile::getName;
+        };
     }
 
     /**
