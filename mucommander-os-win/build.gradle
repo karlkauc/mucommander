@@ -16,7 +16,7 @@ dependencies {
     api project(":mucommander-core")
     api project(":mucommander-os-api")
 
-    comprise 'net.java.dev.jna:jna-platform:5.5.0'
+    comprise 'net.java.dev.jna:jna-platform:5.12.1'
 
     // Use JUnit test framework
     testImplementation(platform('org.junit:junit-bom:5.14.1'))

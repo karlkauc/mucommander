@@ -1,0 +1,82 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":timezone(Europe/Berlin)",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    "schedule:weekly"
+  ],
+  "labels": ["dependencies"],
+  "prHourlyLimit": 4,
+  "prConcurrentLimit": 8,
+  "rangeStrategy": "pin",
+  "lockFileMaintenance": {
+    "enabled": false
+  },
+  "vulnerabilityAlerts": {
+    "labels": ["dependencies", "security"],
+    "schedule": "at any time"
+  },
+  "packageRules": [
+    {
+      "description": "Group all SLF4J + Logback updates together — they need to move in lockstep.",
+      "matchPackagePatterns": ["^org\\.slf4j:", "^ch\\.qos\\.logback:"],
+      "groupName": "slf4j + logback"
+    },
+    {
+      "description": "Group test framework updates (JUnit, TestNG, Mockito).",
+      "matchPackagePatterns": [
+        "^org\\.junit",
+        "^org\\.testng:",
+        "^org\\.mockito:",
+        "^org\\.junit\\.support:testng-engine"
+      ],
+      "groupName": "test frameworks"
+    },
+    {
+      "description": "Group static-analysis tooling.",
+      "matchPackagePatterns": [
+        "^com\\.github\\.spotbugs",
+        "^net\\.ltgt\\.errorprone",
+        "^com\\.google\\.errorprone:",
+        "checkstyle"
+      ],
+      "groupName": "static analysis"
+    },
+    {
+      "description": "Group Kotlin stdlib variants.",
+      "matchPackagePatterns": ["^org\\.jetbrains\\.kotlin:kotlin-stdlib"],
+      "groupName": "kotlin-stdlib"
+    },
+    {
+      "description": "Major upgrades stay separate — give them a manual review.",
+      "matchUpdateTypes": ["major"],
+      "labels": ["dependencies", "major-version"],
+      "groupName": null,
+      "automerge": false
+    },
+    {
+      "description": "Pin the OSGi/Bnd/Felix stack — coordinated drops only.",
+      "matchPackagePatterns": [
+        "^biz\\.aQute\\.bnd:",
+        "^org\\.apache\\.felix:",
+        "^org\\.osgi:"
+      ],
+      "groupName": "OSGi stack",
+      "schedule": ["before 6am on the first day of the month"]
+    },
+    {
+      "description": "Java toolchain stays on LTS — open a PR but don't auto-merge.",
+      "matchPackageNames": ["java"],
+      "automerge": false
+    }
+  ],
+  "gradle": {
+    "enabled": true
+  },
+  "github-actions": {
+    "enabled": true,
+    "groupName": "github actions"
+  }
+}
