@@ -35,7 +35,7 @@ import com.mucommander.commons.file.AbstractFile;
  * @author Arik Hadas, Mariusz Jakubowski
  *
  */
-public class JobsManager implements FileJobListener {
+public class JobsManager implements JobsService, FileJobListener {
 	
     /** Controls how often should current file label be refreshed (in ms) */
 	private final static int CURRENT_FILE_LABEL_REFRESH_RATE = 100;
