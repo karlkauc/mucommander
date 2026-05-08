@@ -94,7 +94,7 @@ public class LocationChanger {
 		};
 
 		if (EventQueue.isDispatchThread())
-		    new Thread(locationSetter).start();
+		    Thread.ofVirtual().start(locationSetter);
 		else
 		    locationSetter.run();
 	}

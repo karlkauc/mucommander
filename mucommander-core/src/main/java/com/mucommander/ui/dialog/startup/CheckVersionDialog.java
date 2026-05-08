@@ -100,7 +100,7 @@ public class CheckVersionDialog extends QuestionDialog implements Runnable {
         this.userInitiated = userInitiated;
 
         // Do all the hard work in a separate thread
-        new Thread(this, "CheckVersionDialog").start();
+        Thread.ofVirtual().name("CheckVersionDialog").start(this);
     }
 
 

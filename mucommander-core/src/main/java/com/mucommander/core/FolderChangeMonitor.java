@@ -89,6 +89,9 @@ public class FolderChangeMonitor implements Runnable, WindowListener, LocationLi
     /** Thread in which the actual monitoring is performed */
     private static volatile Thread monitorThread;
 
+    /** Wake target for the monitor thread; notify() on this object to break out of its TICK-long wait. */
+    private static final Object MONITOR_WAKE = new Object();
+
     /** FolderChangeMonitor instances */
     private static List<FolderChangeMonitor> instances;
 
@@ -174,14 +177,18 @@ public class FolderChangeMonitor implements Runnable, WindowListener, LocationLi
     }
 	
     public void run() {
-        // TODO: it would be more efficient to use a wait/notify scheme rather than sleeping. 
-        // It would also allow folders to be checked immediately upon certain conditions such as a window becoming activated.
+        // Block on MONITOR_WAKE rather than sleeping outright so that
+        // windowGainedFocus() can wake us up immediately instead of waiting
+        // for the next TICK.  A full WatchService-based replacement (lookup
+        // strategies for local vs. remote filesystems) is tracked separately.
         while (monitorThread != null) {
-            // Sleep for a while
             try {
-                Thread.sleep(TICK);
+                synchronized (MONITOR_WAKE) {
+                    MONITOR_WAKE.wait(TICK);
+                }
             } catch(InterruptedException e) {
-                LOGGER.trace("Folder Changer Monitor interrupted", e);
+                LOGGER.trace("Folder Change Monitor interrupted", e);
+                Thread.currentThread().interrupt();
             }
 			
             // Loop on instances
@@ -347,6 +354,11 @@ public class FolderChangeMonitor implements Runnable, WindowListener, LocationLi
         LOGGER.debug("{}: setting forceRefresh as MainFrame gained focus", this);
         synchronized (monitorThread) {
             forceRefresh = true;
+        }
+        // Kick the monitor thread out of its wait() so it picks up the new
+        // forceRefresh flag without waiting for the next TICK boundary.
+        synchronized (MONITOR_WAKE) {
+            MONITOR_WAKE.notifyAll();
         }
     }
 

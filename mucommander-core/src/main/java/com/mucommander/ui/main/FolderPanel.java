@@ -141,7 +141,7 @@ public class FolderPanel implements FocusListener, QuickListContainer, ActiveTab
 
         panel.add(locationPanel, BorderLayout.NORTH);
 
-        new Thread(() -> {
+        Thread.ofVirtual().start(() -> {
             GridBagConstraints c = new GridBagConstraints();
             c.fill = GridBagConstraints.HORIZONTAL;
             c.gridy = 0;

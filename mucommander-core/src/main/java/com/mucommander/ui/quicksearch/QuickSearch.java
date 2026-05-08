@@ -88,7 +88,7 @@ public abstract class QuickSearch<T> extends KeyAdapter implements Runnable, Con
             searchString = "";
             // Start the thread that's responsible for canceling the quick search on timeout, if timeout is set
             if (quickSearchTimeout > 0) {
-                timeoutThread = new Thread(this, "QuickSearch timeout thread");
+                timeoutThread = Thread.ofVirtual().name("QuickSearch timeout thread").unstarted(this);
                 timeoutThread.start();
             }
             active = true;

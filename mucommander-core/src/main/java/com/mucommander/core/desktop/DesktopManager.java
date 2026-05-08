@@ -218,11 +218,11 @@ public final class DesktopManager {
                 desktop = current;
                 LOGGER.debug("Using desktop: " + desktop);
                 desktop.init(install);
-                new Thread(() -> {
+                Thread.ofVirtual().name("DesktopInit").start(() -> {
                     // takes a bit longer, lets do that async
                     setTrashProvider(desktop.getTrash());
                     setNotifier(desktop.getNotifier());
-                }, "DesktopInit").start();
+                });
                 setTabbedPaneCustomizer(desktop.getTabbedPaneCustomizer());
                 setActionShortcuts(desktop.getActionShortcuts());
                 return;

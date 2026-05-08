@@ -104,7 +104,7 @@ public abstract class AsyncPanel extends JPanel {
      * Loads the target component by calling {@link #getTargetComponent()} and replace the wait component by it.
      */
     private void loadTargetComponent() {
-        new Thread(() -> {
+        Thread.ofVirtual().start(() -> {
             JComponent targetComponent = getTargetComponent();
             SwingUtilities.invokeLater(() -> {
                 remove(waitComponent);
@@ -112,7 +112,7 @@ public abstract class AsyncPanel extends JPanel {
                 add(targetComponent, BorderLayout.CENTER);
                 updateLayout();
             });
-        }).start();
+        });
     }
 
     /**

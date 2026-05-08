@@ -124,16 +124,13 @@ public abstract class QuickListWithIcons<T> extends QuickListWithDataList<T> {
 		Icon icon = itemToIconCacheMap.get(item);
 
 		if (icon == waitingIcon)
-			new Thread() {
-				@Override
-                public void run() {
-					Icon icon = itemToIcon(item);
-					// If the item does not exist or is not accessible, show notAvailableIcon for it.
-					itemToIconCacheMap.put(item, icon != null ? icon : notAvailableIcon);
-					waitingIconRemovedFromList();
-					repaint();
-				}
-			}.start();
+			Thread.ofVirtual().start(() -> {
+				Icon resolvedIcon = itemToIcon(item);
+				// If the item does not exist or is not accessible, show notAvailableIcon for it.
+				itemToIconCacheMap.put(item, resolvedIcon != null ? resolvedIcon : notAvailableIcon);
+				waitingIconRemovedFromList();
+				repaint();
+			});
 		
 		return resizeIcon(icon, preferredSize);
 	}

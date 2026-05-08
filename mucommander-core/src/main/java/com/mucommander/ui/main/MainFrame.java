@@ -323,7 +323,7 @@ public class MainFrame implements LocationListener {
                      ConfFileTableTab[] rightTabs, int indexOfRightSelectedTab, FileTableConfiguration rightTableConf) {
         super();    // left to easily debug the performance
         frameInstance = PreloadedJFrame.getJFrame(this);
-        ExecutorService executor = Executors.newFixedThreadPool(4);
+        ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
         try {
             var leftFolderPanel = executor.submit(() -> new FolderPanel(this, leftTabs, indexOfLeftSelectedTab, leftTableConf));
             var rightFolderPanel = executor.submit(() -> new FolderPanel(this, rightTabs, indexOfRightSelectedTab, rightTableConf));
@@ -360,7 +360,7 @@ public class MainFrame implements LocationListener {
         FileTable leftFileTable = leftFolderPanel.getFileTable();
         FileTable rightFileTable = rightFolderPanel.getFileTable();
 
-        ExecutorService executor = Executors.newFixedThreadPool(4);
+        ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
         try {
             init(CompletableFuture.completedFuture( // non-async
                         new FolderPanel(this, new ConfFileTableTab[] {

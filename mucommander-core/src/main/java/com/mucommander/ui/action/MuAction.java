@@ -405,7 +405,7 @@ public abstract class MuAction extends AbstractAction {
                 displayKeyboardNotification(e);
             }
             if (performActionInSeparateThread()) {
-                new Thread(this::performAction).start();
+                Thread.ofVirtual().start(this::performAction);
             } else {
                 performAction();
             }

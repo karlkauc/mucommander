@@ -452,7 +452,7 @@ public class StatusBar extends JPanel {
     private synchronized void startAutoUpdate() {
         if (autoUpdateThread==null) {
             // Start volume info auto-update thread
-            autoUpdateThread = new Thread(() -> {
+            autoUpdateThread = Thread.ofVirtual().name("StatusBar autoUpdateThread").unstarted(() -> {
                 // Periodically updates volume info (free / total space).
                 while (!mainFrameDisposed) { // Stop when MainFrame is disposed
                     // Update volume info if:
@@ -481,10 +481,8 @@ public class StatusBar extends JPanel {
                     }
                     autoUpdateThreadNotified = false;
                 }
-            }, "DiskFreeUpdater");
-            autoUpdateThread.setName("StatusBar autoUpdateThread");
-            // Set the thread as a daemon thread
-            autoUpdateThread.setDaemon(true);
+            });
+            // Virtual threads are inherently daemon-like (do not prevent JVM exit)
             autoUpdateThread.start();
         }
     }

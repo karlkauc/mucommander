@@ -892,7 +892,7 @@ class AppearancePanel extends PreferencesPanel implements ActionListener, Runnab
 
             // Imports the JAR in a separate thread.
             lookAndFeelLibrary = file;
-            new Thread(this).start();
+            Thread.ofVirtual().start(this);
         }
     }
 

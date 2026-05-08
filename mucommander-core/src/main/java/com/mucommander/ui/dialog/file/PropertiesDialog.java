@@ -171,7 +171,7 @@ public class PropertiesDialog extends FocusDialog implements Runnable, ActionLis
     public void start() {
         job.start();
 		
-        repaintThread = new Thread(this, "com.mucommander.ui.dialog.file.PropertiesDialog's Thread");
+        repaintThread = Thread.ofVirtual().name("com.mucommander.ui.dialog.file.PropertiesDialog's Thread").unstarted(this);
         repaintThread.start();
     }
 

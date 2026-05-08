@@ -199,7 +199,7 @@ public class Application {
     }
 
     private void run() {
-        ExecutorService executor = Executors.newFixedThreadPool(12);
+        ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
 
         try {
             // Associations handling.
@@ -483,7 +483,7 @@ public class Application {
             }
 
             // Invoke in a different thread: https://www.oracle.com/technical-resources/articles/javase/swingworker.html
-            Thread mainThread = new Thread(() -> {
+            Thread mainThread = Thread.ofVirtual().name("MainFrameInit").unstarted(() -> {
                 LOGGER.debug("muC UI about to be presented");
                 // Creates the initial main frame using any initial path specified by the command line.
                 printStartupMessage(splashScreenProvider, "Initializing window...");
@@ -531,7 +531,7 @@ public class Application {
                         new InitialSetupDialog(WindowManager.getCurrentMainFrame().getJFrame()).showDialog();
                     });
                 }
-            }, "MainFrameInit");
+            });
             mainThread.start();
 
             // Check for newer version unless it was disabled

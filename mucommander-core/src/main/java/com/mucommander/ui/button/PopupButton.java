@@ -217,7 +217,7 @@ public abstract class PopupButton extends NonFocusableButton {
 
                 // Spawn a thread to check if mouse is still pressed in POPUP_DELAY ms. If that is the case, popup menu
                 // will be displayed.
-                new Thread(this).start();
+                Thread.ofVirtual().start(this);
             }
         }
 

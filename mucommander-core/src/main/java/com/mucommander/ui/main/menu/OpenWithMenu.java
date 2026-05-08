@@ -141,7 +141,7 @@ public class OpenWithMenu extends JMenu {
                 spinningIcon.setAnimated(true);
                 // going to run getCommandsForOpenWith in background as it may take some time to complete
                 // especially if a given file has a lot of apps that can be opened with...
-                new Thread(() -> {
+                Thread.ofVirtual().name("OpenWithAppThread").start(() -> {
 
                     var commands = DesktopManager.getAppsForOpenWith(selectedFile);
                     if (!commands.isEmpty() && getItemCount() > 1) {
@@ -163,7 +163,7 @@ public class OpenWithMenu extends JMenu {
                         setEnabled(false);
                     }
                     super.getPopupMenu().pack();
-                }, "OpenWithAppThread").start();
+                });
             } else {
                 if (DesktopManager.canEnableOpenWithApps()) {
                     if (getItemCount() > 0) {
