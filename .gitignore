@@ -13,6 +13,7 @@ DEBIAN
 .project
 .DS_Store
 settings.json
+.factorypath
 
 /bin
 /classes
