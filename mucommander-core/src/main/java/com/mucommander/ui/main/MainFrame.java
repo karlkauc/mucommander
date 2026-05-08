@@ -679,20 +679,7 @@ public class MainFrame implements LocationListener {
      * @return <code>true</code> if this MainFrame is active, or is an ancestor of a Window that is currently active
      */
     public boolean isAncestorOfActiveWindow() {
-        if (getJFrame().isActive()) {
-            return true;
-        }
-
-        Window ownedWindows[] = getJFrame().getOwnedWindows();
-
-        int nbWindows = ownedWindows.length;
-        for (int i = 0; i < nbWindows; i++) {
-            if (ownedWindows[i].isActive()) {
-                return true;
-            }
-        }
-
-        return false;
+        return WindowActivity.isFrameOrOwnedActive(getJFrame());
     }
 
     /**
