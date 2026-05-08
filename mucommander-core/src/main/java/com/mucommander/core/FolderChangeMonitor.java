@@ -38,6 +38,7 @@ import com.mucommander.conf.MuConfigurations;
 import com.mucommander.conf.MuPreference;
 import com.mucommander.conf.MuPreferences;
 import com.mucommander.job.JobsManager;
+import com.mucommander.job.JobsService;
 import com.mucommander.ui.event.LocationEvent;
 import com.mucommander.ui.event.LocationListener;
 import com.mucommander.ui.main.FolderPanel;
@@ -65,6 +66,9 @@ public class FolderChangeMonitor implements Runnable, WindowListener, LocationLi
 
     /** Folder panel we are monitoring */
     private FolderPanel folderPanel;
+
+    /** Jobs registry consulted before refreshing — running file jobs may be the cause of the folder change. */
+    private final JobsService jobsService;
 
     /** True when the current folder is currently being changed */
     private boolean folderChanging;
@@ -141,7 +145,17 @@ public class FolderChangeMonitor implements Runnable, WindowListener, LocationLi
     }
 
     public FolderChangeMonitor(FolderPanel folderPanel) {
+        this(folderPanel, JobsManager.getInstance());
+    }
+
+    /**
+     * Test-friendly constructor: lets callers wire in an alternative
+     * {@link JobsService} instead of always going through the
+     * {@link JobsManager#getInstance() singleton}.
+     */
+    public FolderChangeMonitor(FolderPanel folderPanel, JobsService jobsService) {
         this.folderPanel = folderPanel;
+        this.jobsService = jobsService;
 
         // Listen to folder changes to know when a folder is being / has been changed
         folderPanel.getLocationManager().addLocationListener(this);
@@ -279,7 +293,7 @@ public class FolderChangeMonitor implements Runnable, WindowListener, LocationLi
     }
 
     private boolean mayFolderChangeByFileJob() {
-        return JobsManager.getInstance().mayFolderChangeByExistingJob(folderPanel.getCurrentFolder());
+        return jobsService.mayFolderChangeByExistingJob(folderPanel.getCurrentFolder());
     }
 
     private boolean isFolderChanged(boolean forceRefresh) {
