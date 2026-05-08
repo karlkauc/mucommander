@@ -722,18 +722,12 @@ public class MainFrame implements LocationListener {
      * This method is called by this class and WindowManager.
      */
     public void updateWindowTitle() {
-        // Update window title
-        String title = activeTable.getFolderPanel().getCurrentFolder().getAbsolutePath();
-
-        // Add the application name to window title on all OSs except MAC
-        if (!OsFamily.MAC_OS.isCurrent()) {
-            title += " - muCommander";
-        }
-
         java.util.List<MainFrame> mainFrames = WindowManager.getMainFrames();
-        if (mainFrames.size() > 1) {
-            title += " [" + (mainFrames.indexOf(this) + 1) + "]";
-        }
+        String title = MainFrameTitle.buildTitle(
+                activeTable.getFolderPanel().getCurrentFolder().getAbsolutePath(),
+                OsFamily.MAC_OS.isCurrent(),
+                mainFrames.indexOf(this),
+                mainFrames.size());
         getJFrame().setTitle(title);
 
         if (OsFamily.MAC_OS.isCurrent()) {
