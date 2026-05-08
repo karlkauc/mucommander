@@ -88,7 +88,7 @@ public class Application {
      * launched when it is called.
      */
     public static void waitUntilLaunched() {
-        LOGGER.debug("called, thread=" + Thread.currentThread());
+        LOGGER.debug("called, thread={}", Thread.currentThread());
         synchronized (LAUNCH_LOCK) {
             while (isLaunching) {
                 try {

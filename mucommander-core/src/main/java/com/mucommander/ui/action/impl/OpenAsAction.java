@@ -31,12 +31,17 @@ import com.mucommander.ui.action.NoIcon;
 import com.mucommander.ui.dialog.InformationDialog;
 import com.mucommander.ui.main.MainFrame;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Open a file as if it has the specified file extension.
- * 
+ *
  * @author Arik Hadas
  */
 public class OpenAsAction extends OpenAction {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(OpenAsAction.class);
 
     private String extension;
 
@@ -72,7 +77,7 @@ public class OpenAsAction extends OpenAction {
             resolvedFile = FileFactory.wrapArchive(resolvedFile, extension);
             resolvedFile.setCustomExtension(extension.substring(1));
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.warn("Failed to open {} as {}", resolvedFile, extension, e);
             return;
         }
 

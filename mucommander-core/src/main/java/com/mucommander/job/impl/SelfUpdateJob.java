@@ -151,10 +151,10 @@ public class SelfUpdateJob extends CopyJob {
             try {
                 classLoader.loadClass(classname);
 
-                LOGGER.trace("Loaded class "+classname);
+                LOGGER.trace("Loaded class {}", classname);
             }
             catch(java.lang.NoClassDefFoundError e) {
-                LOGGER.debug("Caught an error while loading class "+classname, e);
+                LOGGER.debug("Caught an error while loading class {}", classname, e);
             }
         }
     }
@@ -207,7 +207,7 @@ public class SelfUpdateJob extends CopyJob {
 
                     String appPath = parent.getAbsolutePath();
 
-                    LOGGER.debug("Opening "+appPath);
+                    LOGGER.debug("Opening {}", appPath);
 
                     // Open -W wait for the current muCommander .app to terminate, before re-opening it
                     ProcessRunner.execute(new String[]{"/bin/sh", "-c", "open -W "+appPath+" && open "+appPath});

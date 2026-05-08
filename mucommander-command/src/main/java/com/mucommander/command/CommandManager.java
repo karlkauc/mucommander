@@ -205,7 +205,7 @@ public class CommandManager implements CommandBuilder {
 
     private static void setDefaultCommand(Command command) {
         if (defaultCommand == null && command.getAlias().equals(FILE_OPENER_ALIAS)) {
-            LOGGER.debug("Registering '" + command.getCommand() + "' as default command.");
+            LOGGER.debug("Registering '{}' as default command.", command.getCommand());
             defaultCommand = command;
         }
     }
@@ -214,7 +214,7 @@ public class CommandManager implements CommandBuilder {
         // Registers the command and marks command as having been modified.
         setDefaultCommand(command);
 
-        LOGGER.debug("Registering '" + command.getCommand() + "' as '" + command.getAlias() + "'");
+        LOGGER.debug("Registering '{}' as '{}'", command.getCommand(), command.getAlias());
 
         Command oldCommand = commands.put(command.getAlias(), command);
         wereCommandsModified = wereCommandsModified || (mark && !command.equals(oldCommand));
@@ -256,7 +256,7 @@ public class CommandManager implements CommandBuilder {
     private static CommandAssociation createAssociation(String cmd, FileFilter filter) throws CommandException {
         Command command = getCommandForAlias(cmd);
         if (command == null) {
-            LOGGER.debug("Failed to create association as '" + cmd + "' is not known.");
+            LOGGER.debug("Failed to create association as '{}' is not known.", cmd);
             throw new CommandException(cmd + " not found");
         }
 
@@ -478,7 +478,7 @@ public class CommandManager implements CommandBuilder {
      */
     public static void loadAssociations() throws IOException, CommandException {
         AbstractFile file = getAssociationFile();
-        LOGGER.debug("Loading associations from file: " + file.getAbsolutePath());
+        LOGGER.debug("Loading associations from file: {}", file.getAbsolutePath());
 
         // Tries to load the associations file.
         // Associations are not considered to be modified by this. 
@@ -509,7 +509,7 @@ public class CommandManager implements CommandBuilder {
     public static void writeAssociations() throws CommandException, IOException {
         // Do not save the associations if they were not modified.
         if (wereAssociationsModified) {
-            LOGGER.debug("Writing associations to file: " + getAssociationFile());
+            LOGGER.debug("Writing associations to file: {}", getAssociationFile());
 
             // Writes the associations.
             try (BackupOutputStream out = new BackupOutputStream(getAssociationFile())) {
@@ -629,7 +629,7 @@ public class CommandManager implements CommandBuilder {
         // Only saves the command if they were modified since the last time they were written.
         if (wereCommandsModified) {
             var commandsFile = getCommandsFile(FORMAT.YAML);
-            LOGGER.debug("Writing custom commands to file: " + commandsFile);
+            LOGGER.debug("Writing custom commands to file: {}", commandsFile);
 
             // Writes the commands.
             var options = new DumperOptions();
@@ -673,7 +673,7 @@ public class CommandManager implements CommandBuilder {
     public static void loadCommands() throws IOException, CommandException {
         var commandsFile = getCommandsFile(FORMAT.YAML);
         if (commandsFile.exists()) {
-            LOGGER.debug("Loading custom commands from: " + commandsFile.getAbsolutePath());
+            LOGGER.debug("Loading custom commands from: {}", commandsFile.getAbsolutePath());
             var constructor = new Constructor(Commands.class, new LoaderOptions());
             constructor.addTypeDescription(getCommandTypeDescription());
             var yaml = new Yaml(constructor);
@@ -688,7 +688,7 @@ public class CommandManager implements CommandBuilder {
             }
         } else {
             commandsFile = getCommandsFile(FORMAT.XML);
-            LOGGER.debug("Loading custom commands from: " + commandsFile.getAbsolutePath());
+            LOGGER.debug("Loading custom commands from: {}", commandsFile.getAbsolutePath());
 
             try (InputStream in = new BackupInputStream(commandsFile)) {
                 CommandReader.read(in, new CommandManager());

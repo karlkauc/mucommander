@@ -160,14 +160,14 @@ public class LocationChanger {
 	 * @return the thread that performs the actual folder change, null if another folder change is already underway  
 	 */
 	public ChangeFolderThread tryChangeCurrentFolder(boolean internal, AbstractFile folder, AbstractFile selectThisFileAfter, boolean findWorkableFolder, boolean changeLockedTab) {
-		LOGGER.debug("folder="+folder+" selectThisFileAfter="+selectThisFileAfter);
+		LOGGER.debug("folder={} selectThisFileAfter={}", folder, selectThisFileAfter);
 
 		synchronized(FOLDER_CHANGE_LOCK) {
 			// Make sure a folder change is not already taking place. This can happen under rare but normal
 			// circumstances, if this method is called before the folder change thread has had the time to call
 			// MainFrame#setNoEventsMode.
 			if(changeFolderThread!=null) {
-				LOGGER.debug("A folder change is already taking place ("+changeFolderThread+"), returning null");
+				LOGGER.debug("A folder change is already taking place ({}), returning null", changeFolderThread);
 				return null;
 			}
 
@@ -270,14 +270,14 @@ public class LocationChanger {
 	 * @return the thread that performs the actual folder change, null if another folder change is already underway
 	 */
 	public ChangeFolderThread tryChangeCurrentFolder(FileURL folderURL, CredentialsMapping credentialsMapping, boolean changeLockedTab) {
-		LOGGER.debug("folderURL="+folderURL);
+		LOGGER.debug("folderURL={}", folderURL);
 
 		synchronized(FOLDER_CHANGE_LOCK) {
 			// Make sure a folder change is not already taking place. This can happen under rare but normal
 			// circumstances, if this method is called before the folder change thread has had the time to call
 			// MainFrame#setNoEventsMode.
 			if(changeFolderThread!=null) {
-				LOGGER.debug("A folder change is already taking place ("+changeFolderThread+"), returning null");
+				LOGGER.debug("A folder change is already taking place ({}), returning null", changeFolderThread);
 				return null;
 			}
 

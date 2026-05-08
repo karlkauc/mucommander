@@ -206,7 +206,7 @@ public class SplitFileJob extends AbstractCopyJob {
                 try {
                     destFile.changeDate(sourceFile.getDate());
                 } catch (IOException e) {
-                    LOGGER.debug("failed to change date of " + destFile, e);
+                    LOGGER.debug("failed to change date of {}", destFile, e);
                     // Fail silently
                 }
             }
@@ -218,7 +218,7 @@ public class SplitFileJob extends AbstractCopyJob {
                     // use #importPermissions(AbstractFile, int) to avoid isDirectory test
                     destFile.importPermissions(sourceFile, FilePermissions.DEFAULT_FILE_PERMISSIONS);
                 } catch (IOException e) {
-                    LOGGER.debug("failed to import " + sourceFile + " permissions into " + destFile, e);
+                    LOGGER.debug("failed to import {} permissions into {}", sourceFile, destFile, e);
                     // Fail silently
                 }
             }

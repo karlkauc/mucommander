@@ -221,7 +221,7 @@ public abstract class LRUCache<K, V> {
                 cache.testCorruption();
             }
             catch(RuntimeException e) {
-                LOGGER.debug("Cache corrupted after "+i+" iterations, cache state="+cache);
+                LOGGER.debug("Cache corrupted after {} iterations, cache state={}", i, cache);
                 return;
             }
 
@@ -229,7 +229,7 @@ public abstract class LRUCache<K, V> {
             //			System.out.println(cache.toString());
         }
 
-        LOGGER.debug("Stress test took "+(System.currentTimeMillis()-timeStamp)+" ms.\n");
+        LOGGER.debug("Stress test took {} ms.\n", System.currentTimeMillis()-timeStamp);
 
         // Print the cache's state
         System.out.println(cache.toString());

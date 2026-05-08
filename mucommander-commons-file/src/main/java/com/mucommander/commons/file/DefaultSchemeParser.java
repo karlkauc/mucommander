@@ -304,7 +304,7 @@ public class DefaultSchemeParser implements SchemeParser {
             throw e;
         }
         catch(Exception e2) {
-            LOGGER.info("Unexpected exception in FileURL() with "+url, e2);
+            LOGGER.info("Unexpected exception in FileURL() with {}", url, e2);
 
             throw new MalformedURLException();
         }

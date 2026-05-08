@@ -102,7 +102,7 @@ public class TempOpenWithJob extends TempCopyJob {
                         currentDestFile.changePermission(PermissionAccess.USER, PermissionType.WRITE, false);
                 }
                 catch(IOException e) {
-                    LOGGER.debug("Caught exeception while changing permissions of "+currentDestFile, e);
+                    LOGGER.debug("Caught exeception while changing permissions of {}", currentDestFile, e);
                     return false;
                 }
             }
@@ -121,7 +121,7 @@ public class TempOpenWithJob extends TempCopyJob {
             ProcessRunner.execute(command.getTokens(tempFiles), baseDestFolder);
         }
         catch(Exception e) {
-            LOGGER.debug("Caught exception executing "+command+" "+tempFiles, e);
+            LOGGER.debug("Caught exception executing {} {}", command, tempFiles, e);
         }
     }
 }

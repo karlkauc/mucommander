@@ -57,8 +57,7 @@ public class SignatureCheckedRandomAccessFile implements IInStream, ISequentialI
         try {
             this.stream = openStreamAndCheckSignature(file, signature);
         } catch (IOException e) {
-            e.printStackTrace();
-            LOGGER.trace("Error", e);
+            LOGGER.warn("Failed to open file for signature check: {}", file, e);
             throw new UnsupportedFileOperationException(FileOperation.READ_FILE);
         }
     }

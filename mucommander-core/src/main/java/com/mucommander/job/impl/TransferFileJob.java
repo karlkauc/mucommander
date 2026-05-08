@@ -220,7 +220,7 @@ public abstract class TransferFileJob extends FileJob {
                 }
             }
 
-            LOGGER.debug("Source checksum= "+sourceChecksum);
+            LOGGER.debug("Source checksum= {}", sourceChecksum);
 
             // Calculate the destination file's checksum
             try {
@@ -230,7 +230,7 @@ public abstract class TransferFileJob extends FileJob {
                 throw new FileTransferException(FileTransferError.READING_DESTINATION);
             }
 
-            LOGGER.debug("Destination checksum= "+destinationChecksum);
+            LOGGER.debug("Destination checksum= {}", destinationChecksum);
 
             // Compare both checksums and throw an exception if they don't match
             if(!sourceChecksum.equals(destinationChecksum)) {
@@ -246,7 +246,7 @@ public abstract class TransferFileJob extends FileJob {
                 destFile.importPermissions(sourceFile, FilePermissions.DEFAULT_FILE_PERMISSIONS);  // use #importPermissions(AbstractFile, int) to avoid isDirectory test
             }
             catch(IOException e) {
-                LOGGER.debug("failed to import "+sourceFile+" permissions into "+destFile, e);
+                LOGGER.debug("failed to import {} permissions into {}", sourceFile, destFile, e);
                 // Fail silently
             }
         }
@@ -259,7 +259,7 @@ public abstract class TransferFileJob extends FileJob {
                 destFile.changeDate(sourceFile.getDate());
             }
             catch (IOException e) {
-                LOGGER.debug("failed to change the date of "+destFile, e);
+                LOGGER.debug("failed to change the date of {}", destFile, e);
                 // Fail silently
             }
         }
@@ -283,7 +283,7 @@ public abstract class TransferFileJob extends FileJob {
         try {
             Files.createSymbolicLink(destPath, Files.readSymbolicLink(sourcePath));
         } catch (IOException e) {
-            LOGGER.debug("failed to create symbolic link "+destFile, e);
+            LOGGER.debug("failed to create symbolic link {}", destFile, e);
             return false;
         }
 
@@ -441,7 +441,7 @@ public abstract class TransferFileJob extends FileJob {
      */
     public synchronized void skipCurrentFile() {
         if(tlin !=null) {
-            LOGGER.debug("skipping current file, closing "+ tlin);
+            LOGGER.debug("skipping current file, closing {}", tlin);
 
             // Prevents an error from being reported when the current InputStream is closed
             currentFileSkipped = true;
@@ -580,7 +580,7 @@ public abstract class TransferFileJob extends FileJob {
 
         synchronized(this) {
             if(tlin !=null) {
-                LOGGER.debug("closing current InputStream "+ tlin);
+                LOGGER.debug("closing current InputStream {}", tlin);
 
                 closeCurrentInputStream();
             }

@@ -110,7 +110,7 @@ subprojects {
     }
 
     dependencies {
-        implementation 'org.slf4j:slf4j-api:1.7.36'
+        implementation 'org.slf4j:slf4j-api:2.0.16'
         implementation 'org.osgi:osgi.core:8.0.0'
         errorprone 'com.google.errorprone:error_prone_core:2.36.0'
         constraints {

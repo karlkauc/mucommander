@@ -66,7 +66,7 @@ public class SkopeoCommandExecutor {
         try {
             obj = parser.parse(output.toString());
         } catch (ParseException e) {
-            e.printStackTrace();
+            LOGGER.warn("Failed to parse skopeo inspect output for {}", imageUrl, e);
         }
         return (JSONObject)obj;
     }

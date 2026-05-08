@@ -129,7 +129,7 @@ public abstract class AbstractArchiveFile extends ProxyFile {
             while((entry=entries.nextEntry())!=null)
                 treeRoot.addArchiveEntry(entry);
 
-            LOGGER.info("entries tree created in "+(System.currentTimeMillis()-start)+" ms");
+            LOGGER.info("entries tree created in {} ms", System.currentTimeMillis()-start);
 
             this.entryTreeRoot = treeRoot;
             declareEntriesTreeUpToDate();

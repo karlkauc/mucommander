@@ -118,7 +118,7 @@ public class ChangeFileAttributesJob extends FileJob {
             return true;
         }
         catch (IOException e) {
-            LOGGER.debug("failed to change the date of "+file, e);
+            LOGGER.debug("failed to change the date of {}", file, e);
             return false;
         }
     }

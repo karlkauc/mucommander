@@ -160,7 +160,7 @@ public class AdbUtils {
                 try {
                     ProcessRunner.execute(new String[]{"adb", "devices", "-l", adbPath}, listener);
                 } catch (IOException e2) {
-                    e2.printStackTrace();
+                    LOGGER.warn("Failed to invoke adb at {}", adbPath, e2);
                 }
             }
         }

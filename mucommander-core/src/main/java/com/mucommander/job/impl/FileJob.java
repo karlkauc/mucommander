@@ -23,6 +23,7 @@ import java.util.WeakHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import com.mucommander.commons.file.AbstractFile;
 import com.mucommander.commons.file.CachedFile;
@@ -702,45 +703,54 @@ public abstract class FileJob implements com.mucommander.job.FileJob {
      * This method is public as a side-effect of this class implementing <code>Runnable</code>.
      */
     public final void run() {
-        FileTable activeTable = getMainFrame().getActiveTable();
+        // Tag every log line emitted from the job thread with a stable identifier
+        // so users tracking down a specific Copy/Delete/Pack/etc. job can grep
+        // the log file or filter the in-app debug console by it.
+        MDC.put("jobId", getClass().getSimpleName() + "#"
+                + Integer.toHexString(System.identityHashCode(this)));
+        try {
+            FileTable activeTable = getMainFrame().getActiveTable();
 
-        // Notify that this job has started
-        jobStarted();
+            // Notify that this job has started
+            jobStarted();
 
-        // Loop on all source files, checking that job has not been interrupted
-        for (currentFileIndex=0; currentFileIndex<nbFiles; currentFileIndex++) {
-            AbstractFile currentFile = files.elementAt(currentFileIndex);
+            // Loop on all source files, checking that job has not been interrupted
+            for (currentFileIndex=0; currentFileIndex<nbFiles; currentFileIndex++) {
+                AbstractFile currentFile = files.elementAt(currentFileIndex);
 
-            // Change current file and advance file index
-            nextFile(currentFile);
+                // Change current file and advance file index
+                nextFile(currentFile);
 
-            // Process current file
-            boolean success = processFile(currentFile, null);
+                // Process current file
+                boolean success = processFile(currentFile, null);
 
-            // Stop if job was interrupted
-            if (getState() == FileJobState.INTERRUPTED)
-                break;
+                // Stop if job was interrupted
+                if (getState() == FileJobState.INTERRUPTED)
+                    break;
 
-            // Unmark file in active table if 'auto unmark' is enabled
-            // and file was processed successfully
-            if (autoUnmark && success) {
-                // Do not repaint rows individually as it would be too expensive
-                activeTable.setFileMarked(currentFile, false, false);
+                // Unmark file in active table if 'auto unmark' is enabled
+                // and file was processed successfully
+                if (autoUnmark && success) {
+                    // Do not repaint rows individually as it would be too expensive
+                    activeTable.setFileMarked(currentFile, false, false);
+                }
             }
+
+            // If last file was reached without any user interruption, all files have been processed with or
+            // without errors, switch to FINISHED state and notify listeners
+            if (currentFileIndex == nbFiles && getState() != FileJobState.INTERRUPTED) {
+                stop();
+                jobCompleted();
+                setState(FileJobState.FINISHED);
+            }
+
+            // Refresh tables's current folders, based on the job's refresh policy.
+            refreshTables();
+
+            JobsManager.getInstance().jobEnded(this);
+        } finally {
+            MDC.remove("jobId");
         }
-
-        // If last file was reached without any user interruption, all files have been processed with or
-        // without errors, switch to FINISHED state and notify listeners
-        if (currentFileIndex == nbFiles && getState() != FileJobState.INTERRUPTED) {
-            stop();
-            jobCompleted();
-            setState(FileJobState.FINISHED);
-        }
-
-        // Refresh tables's current folders, based on the job's refresh policy.
-        refreshTables();
-
-        JobsManager.getInstance().jobEnded(this);
     }
 
 

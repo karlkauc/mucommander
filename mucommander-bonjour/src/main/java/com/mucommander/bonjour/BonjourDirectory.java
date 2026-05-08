@@ -179,7 +179,7 @@ public final class BonjourDirectory implements ServiceListener, ConfigurationLis
     ////////////////////////////////////
 
     public void serviceAdded(final ServiceEvent serviceEvent) {
-        LOGGER.trace("name="+serviceEvent.getName()+" type="+serviceEvent.getType());
+        LOGGER.trace("name={} type={}", serviceEvent.getName(), serviceEvent.getType());
         
         // Ignore if Bonjour has been disabled
         if (!isActive()) {
@@ -197,7 +197,7 @@ public final class BonjourDirectory implements ServiceListener, ConfigurationLis
     }
 
     public void serviceResolved(ServiceEvent serviceEvent) {
-        LOGGER.trace("name="+serviceEvent.getName()+" type="+serviceEvent.getType()+" info="+serviceEvent.getInfo());
+        LOGGER.trace("name={} type={} info={}", serviceEvent.getName(), serviceEvent.getType(), serviceEvent.getInfo());
 
         // Ignore if Bonjour has been disabled
         if (!isActive()) {
@@ -217,7 +217,7 @@ public final class BonjourDirectory implements ServiceListener, ConfigurationLis
             // Synchronized to properly handle duplicate calls
             synchronized(LOCK) {
                 if (bs != null && !services.contains(bs)) {
-                    LOGGER.debug("BonjourService "+bs+" added");
+                    LOGGER.debug("BonjourService {} added", bs);
                     services.add(bs);
                 }
             }
@@ -225,7 +225,7 @@ public final class BonjourDirectory implements ServiceListener, ConfigurationLis
     }
 
     public void serviceRemoved(ServiceEvent serviceEvent) {
-        LOGGER.trace("name="+serviceEvent.getName()+" type="+serviceEvent.getType());
+        LOGGER.trace("name={} type={}", serviceEvent.getName(), serviceEvent.getType());
 
         // Ignore if Bonjour has been disabled
         if (!isActive()) {
@@ -248,7 +248,7 @@ public final class BonjourDirectory implements ServiceListener, ConfigurationLis
             synchronized(LOCK) {
                 // Note: BonjourService#equals() uses the service's fully qualified name as the discriminator.
                 if(bs!=null && services.contains(bs)) {
-                    LOGGER.debug("BonjourService "+bs+" removed");
+                    LOGGER.debug("BonjourService {} removed", bs);
                     services.remove(bs);
                 }
             }

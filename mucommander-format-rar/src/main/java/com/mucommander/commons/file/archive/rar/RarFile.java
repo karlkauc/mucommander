@@ -27,12 +27,17 @@ import com.mucommander.commons.file.AbstractFile;
 import com.mucommander.commons.file.UnsupportedFileOperationException;
 import com.mucommander.commons.util.CircularByteBuffer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * RAR 4 and lower
  * @author Arik Hadas
  */
 public class RarFile {
-	
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RarFile.class);
+
     /** Interface to junrar library */
     private Archive archive;
 
@@ -72,13 +77,13 @@ public class RarFile {
     		    	try {
 						archive.extractFile(header, cbb.getOutputStream());
 					} catch (RarException e) {
-					    e.printStackTrace();
+					    LOGGER.warn("Failed to extract RAR entry {}", path, e);
 					}
     		    	finally {
     		    		try {
 							cbb.getOutputStream().close();
 						} catch (IOException e1) {
-							e1.printStackTrace();
+							LOGGER.debug("Failed to close RAR extraction output stream", e1);
 						}
     		    	}
     		      }

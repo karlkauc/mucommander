@@ -120,7 +120,7 @@ public class AdbFile extends ProtocolFile {
                 }
             }
         } catch (JadbException e) {
-            e.printStackTrace();
+            LOGGER.warn("Failed to list adb device contents", e);
         }
         return result;
     }
@@ -136,7 +136,7 @@ public class AdbFile extends ProtocolFile {
                 }
             }
         } catch (JadbException e) {
-            e.printStackTrace();
+            LOGGER.warn("Failed to rebuild adb children list for {}", url, e);
         }
         closeConnection();
     }
@@ -155,7 +155,7 @@ public class AdbFile extends ProtocolFile {
                 }
             }
         } catch (JadbException e) {
-            e.printStackTrace();
+            LOGGER.warn("Failed to enumerate adb devices for {}", url, e);
         }
         return device;
     }
@@ -194,7 +194,7 @@ public class AdbFile extends ProtocolFile {
             try {
                 parent = new AdbFile(getURL().getParent(), null);
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.warn("Failed to resolve parent of {}", getURL(), e);
             }
         }
         return parent;
@@ -283,14 +283,14 @@ public class AdbFile extends ProtocolFile {
                     try {
                         url = FileURL.getFileURL(getURL() + rootFolder + rf.getPath());
                     } catch (MalformedURLException e) {
-                        e.printStackTrace();
+                        LOGGER.warn("Skipping adb child with malformed URL: {}", rf.getPath(), e);
                         return null;
                     }
                     AdbFile adbFile;
                     try {
                         adbFile = new AdbFile(url, rf);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        LOGGER.warn("Skipping adb child {}: failed to construct AdbFile", url, e);
                         return null;
                     }
                     adbFile.parent = AdbFile.this;
@@ -316,7 +316,8 @@ public class AdbFile extends ProtocolFile {
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.debug("Interrupted while waiting for adb file operation to settle", e);
+            Thread.currentThread().interrupt();
         }
         closeConnection();
         if (getParent() instanceof AdbFile) {
@@ -362,7 +363,8 @@ public class AdbFile extends ProtocolFile {
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.debug("Interrupted while waiting for adb file operation to settle", e);
+            Thread.currentThread().interrupt();
         }
         closeConnection();
         if (getParent() instanceof AdbFile) {
@@ -388,7 +390,7 @@ public class AdbFile extends ProtocolFile {
             }
         } catch (JadbException e) {
             closeConnection();
-            e.printStackTrace();
+            LOGGER.warn("adb operation failed for {}", getURL(), e);
             throw new IOException(e);
         }
         finishFileOperation();
@@ -461,7 +463,7 @@ public class AdbFile extends ProtocolFile {
             device.push(sourceFile.getInputStream(), lastModified, mode, new RemoteFile(getURL().getPath()));
         } catch (JadbException e) {
             closeConnection();
-            e.printStackTrace();
+            LOGGER.warn("adb operation failed for {}", getURL(), e);
             throw new IOException(e);
         }
         closeConnection();

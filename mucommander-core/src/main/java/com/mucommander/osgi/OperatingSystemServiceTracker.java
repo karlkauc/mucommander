@@ -40,13 +40,13 @@ public class OperatingSystemServiceTracker extends ServiceTracker<OperatingSyste
     public OperatingSystemService addingService(ServiceReference<OperatingSystemService> reference) {
         OperatingSystemService service = super.addingService(reference);
         service.getDesktopAdapters().forEach(DesktopManager::registerAdapter);
-        LOGGER.info("OperatingSystemService is registered: " + service);
+        LOGGER.info("OperatingSystemService is registered: {}", service);
         return service;
     }
 
     @Override
     public void removedService(ServiceReference<OperatingSystemService> reference, OperatingSystemService service) {
         super.removedService(reference, service);
-        LOGGER.info("OperatingSystemService is unregistered: " + service);
+        LOGGER.info("OperatingSystemService is unregistered: {}", service);
     }
 }

@@ -26,6 +26,9 @@ import com.vmware.vim25.InvalidLocaleFaultMsg;
 import com.vmware.vim25.InvalidLoginFaultMsg;
 import com.vmware.vim25.RuntimeFaultFaultMsg;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Manage VSphere connections.
  * 
@@ -33,6 +36,8 @@ import com.vmware.vim25.RuntimeFaultFaultMsg;
  * 
  */
 public class VsphereConnHandler extends ConnectionHandler {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(VsphereConnHandler.class);
 
 	private VSphereClient client = null;
 	private FileURL location;
@@ -82,7 +87,7 @@ public class VsphereConnHandler extends ConnectionHandler {
 			client.disconnect();
 		} catch (RuntimeFaultFaultMsg e) {
 			// nothing we can do... ignore..
-			e.printStackTrace();
+			LOGGER.debug("Ignored vSphere fault while closing connection", e);
 		}
 		client = null;
 	}

@@ -25,11 +25,16 @@ import javax.swing.SwingWorker;
 import java.io.IOException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Oleg Trifonov
  * Created on 09/01/14.
  */
 public class CalculateDirectorySizeWorker extends SwingWorker<Long, Long> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CalculateDirectorySizeWorker.class);
+
     /** Refresh rate in milliseconds  */
     private static final long REFRESH_RATE_MS = 300;
 
@@ -51,7 +56,7 @@ public class CalculateDirectorySizeWorker extends SwingWorker<Long, Long> {
         try {
             calcDirectorySize(path);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.warn("Failed to calculate directory size for {}", path, e);
             size = -1;
         }
         return size;

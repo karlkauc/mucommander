@@ -38,7 +38,7 @@ public class FileFormatServiceTracker extends ServiceTracker<FileFormatService, 
     public FileFormatService addingService(ServiceReference<FileFormatService> reference) {
         FileFormatService service = super.addingService(reference);
         FileFactory.registerArchiveFormat(service.getProvider());
-        LOGGER.info("FileFormatService is registered: " + service);
+        LOGGER.info("FileFormatService is registered: {}", service);
         return service;
     }
 
@@ -46,6 +46,6 @@ public class FileFormatServiceTracker extends ServiceTracker<FileFormatService, 
     public void removedService(ServiceReference<FileFormatService> reference, FileFormatService service) {
         FileFactory.unregisterArchiveFormat(service.getProvider());
         super.removedService(reference, service);
-        LOGGER.info("FileFormatService is unregistered: " + service);
+        LOGGER.info("FileFormatService is unregistered: {}", service);
     }
 }

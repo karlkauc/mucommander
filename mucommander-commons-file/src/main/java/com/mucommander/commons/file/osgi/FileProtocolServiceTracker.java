@@ -40,7 +40,7 @@ public class FileProtocolServiceTracker extends ServiceTracker<FileProtocolServi
         FileProtocolService service = super.addingService(reference);
         FileFactory.registerProtocol(service.getSchema(), service.getProtocolProvider());
         FileURL.registerHandler(service.getSchema(), service.getSchemeHandler());
-        LOGGER.info("FileProtocolService is registered: " + service);
+        LOGGER.info("FileProtocolService is registered: {}", service);
         return service;
     }
 
@@ -49,6 +49,6 @@ public class FileProtocolServiceTracker extends ServiceTracker<FileProtocolServi
         FileFactory.unregisterProtocol(service.getSchema());
         FileURL.unregisterHandler(service.getSchema());
         super.removedService(reference, service);
-        LOGGER.info("FileProtocolService is unregistered: " + service);
+        LOGGER.info("FileProtocolService is unregistered: {}", service);
     }
 }

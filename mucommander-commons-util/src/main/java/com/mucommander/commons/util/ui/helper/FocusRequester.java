@@ -99,7 +99,7 @@ public class FocusRequester implements Runnable {
         else
             c.requestFocus();
 
-        LOGGER.debug("focus requested on "+(c.getClass().getName()));
+        LOGGER.debug("focus requested on {}", c.getClass().getName());
 
         this.c = null;
     }

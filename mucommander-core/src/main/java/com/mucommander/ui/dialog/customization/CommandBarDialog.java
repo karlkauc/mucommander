@@ -33,6 +33,9 @@ import com.mucommander.ui.main.commandbar.CommandBarButtonForDisplay;
 import com.mucommander.ui.main.commandbar.CommandBarIO;
 import com.mucommander.ui.text.RecordingKeyStrokeTextField;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.Box.Filler;
@@ -72,6 +75,8 @@ import java.util.Set;
  * @author Arik Hadas
  */
 public class CommandBarDialog extends CustomizeDialog {
+	private static final Logger LOGGER = LoggerFactory.getLogger(CommandBarDialog.class);
+
 	
 	/** List that contains all available buttons, i.e buttons that are not used by the command bar */
 	private DynamicHorizontalWrapList<JButton> commandBarAvailableButtonsList;
@@ -260,10 +265,8 @@ public class CommandBarDialog extends CustomizeDialog {
 					commandBarButtonsList.ensureIndexIsVisible(index);
 					commandBarButtonsList.repaint();
 					return true;
-				} catch (UnsupportedFlavorException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
+				} catch (UnsupportedFlavorException | IOException e) {
+					LOGGER.warn("Failed to import dragged command-bar button", e);
 				}
 				return false;
 			}
@@ -372,10 +375,8 @@ public class CommandBarDialog extends CustomizeDialog {
 					commandBarAlternateButtonsList.ensureIndexIsVisible(index);
 					commandBarAlternateButtonsList.repaint();
 					return true;
-				} catch (UnsupportedFlavorException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
+				} catch (UnsupportedFlavorException | IOException e) {
+					LOGGER.warn("Failed to import dragged alternate command-bar button", e);
 				}
 				return false;
 			}
@@ -439,10 +440,8 @@ public class CommandBarDialog extends CustomizeDialog {
 					commandBarAvailableButtonsList.ensureIndexIsVisible(insertedIndex);
 					return true;
 				}
-				catch (UnsupportedFlavorException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
+				catch (UnsupportedFlavorException | IOException e) {
+					LOGGER.warn("Failed to import dragged command-bar button into available list", e);
 				}
 				return false;
 			}

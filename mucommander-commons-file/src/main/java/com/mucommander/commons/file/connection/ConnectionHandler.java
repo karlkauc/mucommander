@@ -105,7 +105,7 @@ public abstract class ConnectionHandler {
      */
     public boolean checkConnection() throws IOException {
         if(!isConnected()) {
-            LOGGER.info("not connected, starting connection, this="+this);
+            LOGGER.info("not connected, starting connection, this={}", this);
             startConnection();
             return true;
         }
