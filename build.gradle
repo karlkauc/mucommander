@@ -57,6 +57,26 @@ subprojects {
     apply plugin: 'checkstyle'
     apply plugin: 'com.github.spotbugs'
     apply plugin: 'net.ltgt.errorprone'
+    apply plugin: 'jacoco'
+
+    // Phase 6.2: Coverage tracking. Initial pass is reporting-only; once a
+    // module has meaningful tests, raise it to enforce a minimum threshold
+    // by adding a jacocoTestCoverageVerification task to its build.gradle.
+    jacoco {
+        toolVersion = '0.8.12'
+    }
+    tasks.named('jacocoTestReport') {
+        dependsOn tasks.named('test')
+        reports {
+            xml.required = true   // for CI consumption (codecov, sonar, etc.)
+            html.required = true  // for humans
+        }
+    }
+    // Make `gradle check` also produce the coverage report so it shows up
+    // alongside the unit-test results.
+    tasks.named('check') {
+        dependsOn tasks.named('jacocoTestReport')
+    }
 
     compileJava.options.compilerArgs += ['--release', '21']
     compileJava.options.encoding = 'UTF-8'
