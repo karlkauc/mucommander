@@ -759,7 +759,7 @@ public class FileTable extends JTable implements MouseListener, MouseMotionListe
      * @param row the row to repaint
      */
     private void repaintRow(int row) {
-        repaint(0, row*getRowHeight(), getWidth(), rowHeight);
+        repaint(RowRepaintBounds.forRow(row, getRowHeight(), getWidth()));
     }
 
     /**
@@ -770,8 +770,7 @@ public class FileTable extends JTable implements MouseListener, MouseMotionListe
      * @param endRow index of the last row to repaint, can be lower, greater or equals to startRow
      */
     private void repaintRange(int startRow, int endRow) {
-        int rowHeight = getRowHeight();
-        repaint(0, Math.min(startRow, endRow)*rowHeight, getWidth(), (Math.abs(startRow-endRow)+1)*rowHeight);
+        repaint(RowRepaintBounds.forRange(startRow, endRow, getRowHeight(), getWidth()));
     }
 
 
