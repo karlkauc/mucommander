@@ -25,6 +25,7 @@ import com.mucommander.commons.util.ui.button.RolloverButtonAdapter;
 import com.mucommander.job.FileJob;
 import com.mucommander.job.JobListener;
 import com.mucommander.job.JobsManager;
+import com.mucommander.job.JobsService;
 import com.mucommander.ui.button.PopupButton;
 import com.mucommander.ui.icon.IconManager;
 
@@ -42,7 +43,19 @@ class JobsPopupButton extends PopupButton implements JobListener {
     /** Holds a reference to the RolloverButtonAdapter instance so that it doesn't get garbage-collected */
     private RolloverButtonAdapter rolloverButtonAdapter;
 
+    private final JobsService jobsService;
+
     JobsPopupButton() {
+        this(JobsManager.getInstance());
+    }
+
+    /**
+     * Test-friendly constructor: lets callers wire in an alternative
+     * {@link JobsService} instead of always going through the
+     * {@link JobsManager#getInstance() singleton}.
+     */
+    JobsPopupButton(JobsService jobsService) {
+        this.jobsService = jobsService;
         setContentAreaFilled(false);
         setIcon(IconManager.getIcon(IconManager.STATUS_BAR_ICON_SET, "waiting.png"));
 
@@ -53,7 +66,7 @@ class JobsPopupButton extends PopupButton implements JobListener {
         addMouseListener(rolloverButtonAdapter);
 
         setVisible(false);
-        JobsManager.getInstance().addJobListener(this);
+        jobsService.addJobListener(this);
     }
 
     @Override
@@ -63,13 +76,13 @@ class JobsPopupButton extends PopupButton implements JobListener {
 
     @Override
     public void jobAdded(FileJob source) {
-        int nbBackgroundJobs = JobsManager.getInstance().getBackgroundJobs().size(); 
+        int nbBackgroundJobs = jobsService.getBackgroundJobs().size();
         setVisible(nbBackgroundJobs != 0);
     }
 
     @Override
     public void jobRemoved(FileJob source) {
-        int nbBackgroundJobs = JobsManager.getInstance().getBackgroundJobs().size();
+        int nbBackgroundJobs = jobsService.getBackgroundJobs().size();
         setVisible(nbBackgroundJobs != 0);
         if (!isVisible() && isPopupMenuVisible())
             popupMenu.setVisible(false);
@@ -79,8 +92,7 @@ class JobsPopupButton extends PopupButton implements JobListener {
     public JPopupMenu getPopupMenu() {
         JPopupMenu popupMenu = new JPopupMenu();
 
-        JobsManager jobsManager = JobsManager.getInstance();
-        for (FileJob job : jobsManager.getBackgroundJobs()) {
+        for (FileJob job : jobsService.getBackgroundJobs()) {
             JMenuItem jobItem = new JMenuItem();
 
             jobItem.setText(String.format("%s (%s%%)",
@@ -92,7 +104,7 @@ class JobsPopupButton extends PopupButton implements JobListener {
                 job.getProgressDialog().showDialog();
             });
 
-            jobsManager.addJobListener(new JobListener() {
+            jobsService.addJobListener(new JobListener() {
                 @Override
                 public void jobProgress(FileJob source, boolean fullUpdate) {
                     if (source == job) {
