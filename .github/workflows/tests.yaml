@@ -5,15 +5,27 @@ on: [pull_request, workflow_dispatch]
 jobs:
   unit-tests:
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-15]
+        os: [ubuntu-latest, macos-15, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'adopt'
+          java-version: '21'
+          distribution: 'temurin'
       - uses: gradle/wrapper-validation-action@v2
       - uses: gradle/actions/setup-gradle@v3
-      - run: ./gradlew test
+      - name: Run check (tests + static analysis)
+        run: ./gradlew check
+      - name: Upload static-analysis reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-analysis-reports-${{ matrix.os }}
+          path: |
+            **/build/reports/spotbugs/**
+            **/build/reports/checkstyle/**
+            **/build/reports/tests/**
+          if-no-files-found: ignore

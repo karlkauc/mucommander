@@ -12,6 +12,8 @@ plugins {
     id 'com.athaydes.osgi-run' version '1.6.0'
     id 'java'
     id 'org.ajoberstar.grgit' version '5.0.0'
+    id 'com.github.spotbugs' version '6.0.27' apply false
+    id 'net.ltgt.errorprone' version '4.1.0' apply false
 }
 
 // This is the only syntax that appears to work for a local plugin
@@ -44,12 +46,65 @@ repositories.mavenCentral()
 subprojects {
     apply plugin: 'biz.aQute.bnd.builder'
     apply plugin: 'java-library'
+    apply plugin: 'checkstyle'
+    apply plugin: 'com.github.spotbugs'
+    apply plugin: 'net.ltgt.errorprone'
+
     compileJava.options.compilerArgs += ['--release', '11']
     compileJava.options.encoding = 'UTF-8'
     compileTestJava.options.encoding = 'UTF-8'
+
+    // Phase 0.2: static analysis is reporting-only for now. Findings surface in
+    // build/reports/ and the CI artifact upload but never break the build.
+    // Phase 0.3+ will enable strict mode per module once the existing findings
+    // have been triaged.
+    checkstyle {
+        toolVersion = '10.21.1'
+        configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+        ignoreFailures = true
+        showViolations = true
+    }
+    // No checkstyle on test sources for now — focus on production code.
+    tasks.named('checkstyleTest') { enabled = false }
+
+    spotbugs {
+        toolVersion = '4.8.6'
+        effort = 'max'
+        reportLevel = 'medium'
+        ignoreFailures = true
+    }
+    tasks.named('spotbugsMain') {
+        reports {
+            xml.required = true
+            html.required = true
+        }
+    }
+    tasks.named('spotbugsTest') { enabled = false }
+
+    tasks.withType(JavaCompile).configureEach { task ->
+        // ErrorProne only on production sources, not test code.
+        options.errorprone.enabled = task.name == 'compileJava'
+        options.errorprone.disableWarningsInGeneratedCode = true
+        // Initial rollout: every finding stays a warning, never breaks the build.
+        options.errorprone.allErrorsAsWarnings = true
+        // Disable noisy / legacy-incompatible checks for the initial sweep.
+        options.errorprone.disable(
+            'UnusedVariable',
+            'MissingOverride',
+            'EmptyBlockTag',
+            'JavaUtilDate',
+            'StringSplitter',
+            'StaticAssignmentInConstructor',
+            'MutablePublicArray',
+            'CatchAndPrintStackTrace',
+            'InconsistentCapitalization'
+        )
+    }
+
     dependencies {
         implementation 'org.slf4j:slf4j-api:1.7.36'
         implementation 'org.osgi:osgi.core:8.0.0'
+        errorprone 'com.google.errorprone:error_prone_core:2.36.0'
         constraints {
             implementation 'com.squareup.okio:okio-jvm:3.11.0'
             implementation 'org.jetbrains.kotlin:kotlin-stdlib:2.1.20'
