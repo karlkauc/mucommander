@@ -360,8 +360,8 @@ public class WindowManager implements WindowListener, ConfigurationListener {
 
         Object source = e.getSource();
 
-        if(source instanceof PreloadedJFrame) {
-            var mainFrame = (MainFrame) ((PreloadedJFrame) source).getMainFrameObject();
+        if(source instanceof PreloadedJFrame preloadedFrame) {
+            var mainFrame = (MainFrame) preloadedFrame.getMainFrameObject();
             // Remove disposed MainFrame from the MainFrame list
             int frameIndex = mainFrames.indexOf(mainFrame);
 

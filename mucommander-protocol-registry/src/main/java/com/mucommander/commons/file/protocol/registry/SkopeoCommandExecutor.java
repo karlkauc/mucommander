@@ -82,14 +82,11 @@ public class SkopeoCommandExecutor {
     }
 
     private static String getSkopeoPath() {
-        switch (OsFamily.getCurrent()) {
-            case MAC_OS:
-                return "/usr/local/bin/skopeo";
-            case LINUX:
-                return "/usr/bin/skopeo";
-            default:
-                return "skopeo";
-        }
+        return switch (OsFamily.getCurrent()) {
+            case MAC_OS -> "/usr/local/bin/skopeo";
+            case LINUX -> "/usr/bin/skopeo";
+            default -> "skopeo";
+        };
     }
 
     public static void execute(StringBuilder outputBuffer, String command, Credentials creds, String... args) throws IOException {

@@ -204,10 +204,10 @@ public abstract class TransferFileJob extends FileJob {
             // Indicate that integrity is being checked, the value is reset when the next file starts
             isCheckingIntegrity = true;
 
-            if(in!=null && (in instanceof ChecksumInputStream)) {
+            if(in instanceof ChecksumInputStream cis) {
                 // The file was copied with a ChecksumInputStream, the checksum is already calculated, simply
                 // retrieve it
-                sourceChecksum = ((ChecksumInputStream)in).getChecksumString();
+                sourceChecksum = cis.getChecksumString();
             }
             else {
                 // The file was copied using AbstractFile#copyRemotelyTo(), or the transfer was resumed:
@@ -326,32 +326,26 @@ public abstract class TransferFileJob extends FileJob {
                 // Print the exception's stack trace
                 LOGGER.debug("Copy failed", e);
 
-                DialogAction choice;
-                switch(e.getReason()) {
+                DialogAction choice = switch (e.getReason()) {
                     // Could not open source file for read
-                    case OPENING_SOURCE:
-                        choice = showErrorDialog(errorDialogTitle, Translator.get("cannot_read_file", sourceFile.getName()));
-                        break;
+                    case OPENING_SOURCE ->
+                            showErrorDialog(errorDialogTitle, Translator.get("cannot_read_file", sourceFile.getName()));
                     // Could not open destination file for write
-                    case OPENING_DESTINATION:
-                        choice = showErrorDialog(errorDialogTitle, Translator.get("cannot_write_file", destFile.getName()));
-                        break;
+                    case OPENING_DESTINATION ->
+                            showErrorDialog(errorDialogTitle, Translator.get("cannot_write_file", destFile.getName()));
                     // Source and destination files are identical
-                    case SOURCE_AND_DESTINATION_IDENTICAL:
-                        choice = showErrorDialog(errorDialogTitle, Translator.get("same_source_destination"));
-                        break;
+                    case SOURCE_AND_DESTINATION_IDENTICAL ->
+                            showErrorDialog(errorDialogTitle, Translator.get("same_source_destination"));
                     // Checksum of source and destination files don't match
-                    case CHECKSUM_MISMATCH:
-                        choice = showErrorDialog(errorDialogTitle, Translator.get("integrity_check_error"));
-                        break;
-                    default:
-                        choice = showErrorDialog(errorDialogTitle,
-                                                 Translator.get("error_while_transferring", sourceFile.getName()),
-                                                 Arrays.asList(FileJobAction.SKIP, FileJobAction.SKIP_ALL,
-                                                         FileJobAction.APPEND, FileJobAction.RETRY,
-                                                         FileJobAction.CANCEL));
-                    break;
-                }
+                    case CHECKSUM_MISMATCH ->
+                            showErrorDialog(errorDialogTitle, Translator.get("integrity_check_error"));
+                    default ->
+                            showErrorDialog(errorDialogTitle,
+                                            Translator.get("error_while_transferring", sourceFile.getName()),
+                                            Arrays.asList(FileJobAction.SKIP, FileJobAction.SKIP_ALL,
+                                                    FileJobAction.APPEND, FileJobAction.RETRY,
+                                                    FileJobAction.CANCEL));
+                };
 
                 // Retry action (append or retry)
                 if(choice==FileJobAction.RETRY || choice==FileJobAction.APPEND) {

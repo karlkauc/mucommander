@@ -204,8 +204,7 @@ public class Activator implements BundleActivator {
          */
         private static Object resolve(final String key, final ResourceBundle resource, final Map<String, String> map) {
             Object result = resource.getObject(key);
-            if (result instanceof String) {
-                final String value = (String) result;
+            if (result instanceof String value) {
                 final Matcher matcher = VARIABLE.matcher(value);
                 int startIndex = 0;
                 final StringBuilder buffer = new StringBuilder(64);

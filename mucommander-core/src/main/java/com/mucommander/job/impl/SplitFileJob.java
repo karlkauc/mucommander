@@ -253,7 +253,7 @@ public class SplitFileJob extends AbstractCopyJob {
     protected void jobCompleted() {
         // create checksum file
         if (isIntegrityCheckEnabled()) {
-            if (origFileStream != null && (origFileStream instanceof ChecksumInputStream)) {
+            if (origFileStream instanceof ChecksumInputStream cis) {
                 String crcFileName = sourceFile.getName() + ".sfv";
                 try {
                     String sourceChecksum;
@@ -262,7 +262,7 @@ public class SplitFileJob extends AbstractCopyJob {
                         sourceChecksum = AbstractFile.calculateChecksum(origFileStream, MessageDigest.getInstance("CRC32"));
                         origFileStream.close();
                     } else {
-                        sourceChecksum = ((ChecksumInputStream) origFileStream).getChecksumString();
+                        sourceChecksum = cis.getChecksumString();
                     }
                     AbstractFile crcFile = baseDestFolder.getDirectChild(crcFileName);
                     OutputStream crcStream = crcFile.getOutputStream();

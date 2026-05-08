@@ -105,9 +105,8 @@ public class ConfFileTableTab extends FileTableTab {
 	        }
 	        // If an AuthException occurred, gets login credential from the user.
 	        catch (Exception e) {
-	            if (e instanceof AuthException) {
+	            if (e instanceof AuthException authException) {
 	                // Prompts the user for a login and password.
-	                AuthException authException = (AuthException) e;
 	                FileURL url = authException.getURL();
 	                AuthDialog authDialog = new AuthDialog(WindowManager.getCurrentMainFrame(), url, true, authException.getMessage());
 	                authDialog.showDialog();

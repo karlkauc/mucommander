@@ -319,9 +319,7 @@ public class CommandManager implements CommandBuilder {
                 builder.setIsSymlink(!attributeFilter.isInverted());
                 break;
             }
-        } else if (filter instanceof PermissionsFileFilter) {
-            PermissionsFileFilter permissionFilter = (PermissionsFileFilter)filter;
-
+        } else if (filter instanceof PermissionsFileFilter permissionFilter) {
             switch (permissionFilter.getPermission()) {
             case READ:
                 builder.setIsReadable(permissionFilter.getFilter());
@@ -335,8 +333,7 @@ public class CommandManager implements CommandBuilder {
                 builder.setIsExecutable(permissionFilter.getFilter());
                 break;
             }
-        } else if (filter instanceof RegexpFilenameFilter) {
-            RegexpFilenameFilter regexpFilter = (RegexpFilenameFilter)filter;
+        } else if (filter instanceof RegexpFilenameFilter regexpFilter) {
             builder.setMask(regexpFilter.getRegularExpression(), regexpFilter.isCaseSensitive());
         }
     }

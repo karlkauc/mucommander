@@ -286,15 +286,11 @@ public class LocationChanger {
 			// changes the changeFolderThread field to null when finished, and it may do so before this method has
 			// returned (I've seen this happening). Relying solely on the changeFolderThread field could thus cause
 			// a null value to be returned, which is particularly problematic during startup (would cause an NPE).
-			ChangeFolderThread thread;
-			switch (folderURL.getScheme()) {
-			case SearchFile.SCHEMA:
-			    thread = new SearchUpdaterThread(folderURL, changeLockedTab, mainFrame, folderPanel, locationManager, this);
-			    break;
-			default:
-			    thread = new BrowseLocationThread(folderURL, credentialsMapping, changeLockedTab, mainFrame, folderPanel,
+			ChangeFolderThread thread = switch (folderURL.getScheme()) {
+			    case SearchFile.SCHEMA -> new SearchUpdaterThread(folderURL, changeLockedTab, mainFrame, folderPanel, locationManager, this);
+			    default -> new BrowseLocationThread(folderURL, credentialsMapping, changeLockedTab, mainFrame, folderPanel,
 			            locationManager, this);
-			}
+			};
 			thread.start();
 
 			changeFolderThread = thread;

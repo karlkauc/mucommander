@@ -66,16 +66,14 @@ public class DropboxFile extends ProtocolFile implements ConnectionHandlerFactor
 	}
 
 	void updateAttributes(Metadata metadata) {
-		if (metadata instanceof FileMetadata) {
-			FileMetadata file = (FileMetadata) metadata;
+		if (metadata instanceof FileMetadata file) {
 			size = file.getSize();
 			dir = false;
 			date = file.getServerModified().getTime();
 			id = file.getId();
 			return;
 		}
-		if (metadata instanceof FolderMetadata) {
-			FolderMetadata folder = (FolderMetadata) metadata;
+		if (metadata instanceof FolderMetadata folder) {
 			dir = true;
 			id = folder.getId();
 			return;

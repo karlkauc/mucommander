@@ -166,8 +166,7 @@ public class XAlignedComponentPanel extends JPanel {
         if(firstComponent ==null)
             super.requestFocus();
         else {
-            if(firstComponent instanceof JTextComponent) {
-                JTextComponent textComponent = (JTextComponent) firstComponent;
+            if(firstComponent instanceof JTextComponent textComponent) {
                 String text = textComponent.getText();
                 if(!text.equals("")) {
                     textComponent.setSelectionStart(0);
