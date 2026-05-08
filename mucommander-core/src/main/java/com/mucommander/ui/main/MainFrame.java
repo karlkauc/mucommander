@@ -25,10 +25,7 @@ import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -130,8 +127,8 @@ public class MainFrame implements LocationListener {
     /** Terminal integration instance */
     private TerminalIntegration terminalIntegration;
 
-    /** Contains all registered ActivePanelListener instances, stored as weak references */
-    private final Map<ActivePanelListener, ?> activePanelListeners = Collections.synchronizedMap(new WeakHashMap<>());
+    /** Listener registry for active-panel-changed notifications. */
+    private final ActivePanelListeners activePanelListeners = new ActivePanelListeners();
 
     /**
      * Sets the window icon, using the best method (Java 1.6's Window#setIconImages when available, Window#setIconImage
@@ -389,7 +386,7 @@ public class MainFrame implements LocationListener {
      * @param activePanelListener the ActivePanelListener to add
      */
     public void addActivePanelListener(ActivePanelListener activePanelListener) {
-        activePanelListeners.put(activePanelListener, null);
+        activePanelListeners.add(activePanelListener);
     }
 
     /**
@@ -407,7 +404,7 @@ public class MainFrame implements LocationListener {
      * @param folderPanel the new active panel
      */
     private void fireActivePanelChanged(FolderPanel folderPanel) {
-        activePanelListeners.keySet().forEach(listener -> listener.activePanelChanged(folderPanel));
+        activePanelListeners.fire(folderPanel);
     }
 
 
