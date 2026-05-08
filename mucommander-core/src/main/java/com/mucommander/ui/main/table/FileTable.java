@@ -292,25 +292,14 @@ public class FileTable extends JTable implements MouseListener, MouseMotionListe
      * the headers accordingly, instead of having to use a {@link FileTableHeaderRenderer custom header renderer}.
      */
     private void setTableHeaderRenderingProperties() {
-        JTableHeader tableHeader = getTableHeader();
-        if (tableHeader==null)
-            return;
-
-        boolean isActiveTable = isActiveTable();
-
-        // Highlights the selected column
-        tableHeader.putClientProperty("JTableHeader.selectedColumn", isActiveTable
-                ? convertColumnIndexToView(sortInfo.getCriterion().ordinal())
-                        : null);
-
-        // Displays an ascending/descending arrow
-        tableHeader.putClientProperty("JTableHeader.sortDirection", isActiveTable
-                ? sortInfo.getAscendingOrder()?"ascending":"decending"      // 'decending' is misspelled but this is OK
-                    : null);
-
         // Note: if this table is not currently active, properties are cleared to remove the highlighting effect.
         // However, clearing the properties does not yield the desired behavior as it does not restore the table
         // header back to normal. This looks like a bug in Apple's implementation.
+        TableHeaderProperties.apply(
+                getTableHeader(),
+                isActiveTable(),
+                convertColumnIndexToView(sortInfo.getCriterion().ordinal()),
+                sortInfo.getAscendingOrder());
     }
 
     /**
