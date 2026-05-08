@@ -39,6 +39,7 @@ import com.mucommander.ui.main.menu.TablePopupMenu;
 import com.mucommander.ui.theme.ColorChangedEvent;
 import com.mucommander.ui.theme.FontChangedEvent;
 import com.mucommander.ui.theme.Theme;
+import com.mucommander.ui.theme.ThemeColor;
 import com.mucommander.ui.theme.ThemeListener;
 import com.mucommander.ui.theme.ThemeManager;
 
@@ -75,14 +76,14 @@ public class FileTableWrapperForDisplay extends JScrollPane implements FocusList
 		this.folderPanel = folderPanel;
 		this.fileTable = fileTable;
 		
-		backgroundColor          = ThemeManager.getCurrentColor(Theme.FILE_TABLE_BACKGROUND_COLOR);
-        unmatchedBackgroundColor = ThemeManager.getCurrentColor(Theme.FILE_TABLE_UNMATCHED_BACKGROUND_COLOR);
-        unfocusedBorderColor 	 = ThemeManager.getCurrentColor(Theme.FILE_TABLE_INACTIVE_BORDER_COLOR);
-        unfocusedBackgroundColor = ThemeManager.getCurrentColor(Theme.FILE_TABLE_INACTIVE_BACKGROUND_COLOR);
-        
+		backgroundColor          = ThemeManager.getCurrentColor(ThemeColor.FILE_TABLE_BACKGROUND.id());
+        unmatchedBackgroundColor = ThemeManager.getCurrentColor(ThemeColor.FILE_TABLE_UNMATCHED_BACKGROUND.id());
+        unfocusedBorderColor 	 = ThemeManager.getCurrentColor(ThemeColor.FILE_TABLE_INACTIVE_BORDER.id());
+        unfocusedBackgroundColor = ThemeManager.getCurrentColor(ThemeColor.FILE_TABLE_INACTIVE_BACKGROUND.id());
+
 		// Sets the table border.
         setBorder(new MutableLineBorder(unfocusedBorderColor, 1));
-        borderColor = ThemeManager.getCurrentColor(Theme.FILE_TABLE_BORDER_COLOR);
+        borderColor = ThemeManager.getCurrentColor(ThemeColor.FILE_TABLE_BORDER.id());
 
         // Set scroll pane's background color to match the one of this panel and FileTable
         getViewport().setBackground(unfocusedBackgroundColor);

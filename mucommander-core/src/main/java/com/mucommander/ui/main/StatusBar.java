@@ -64,6 +64,8 @@ import com.mucommander.ui.main.table.FileTableModel;
 import com.mucommander.ui.theme.ColorChangedEvent;
 import com.mucommander.ui.theme.FontChangedEvent;
 import com.mucommander.ui.theme.Theme;
+import com.mucommander.ui.theme.ThemeColor;
+import com.mucommander.ui.theme.ThemeFont;
 import com.mucommander.ui.theme.ThemeListener;
 import com.mucommander.ui.theme.ThemeManager;
 
@@ -311,14 +313,14 @@ public class StatusBar extends JPanel {
         });
 
         // Initialises theme.
-        selectedFilesLabel.setFont(ThemeManager.getCurrentFont(Theme.STATUS_BAR_FONT));
-        selectedFilesLabel.setForeground(ThemeManager.getCurrentColor(Theme.STATUS_BAR_FOREGROUND_COLOR));
-        volumeSpaceLabel.setFont(ThemeManager.getCurrentFont(Theme.STATUS_BAR_FONT));
-        volumeSpaceLabel.setForeground(ThemeManager.getCurrentColor(Theme.STATUS_BAR_FOREGROUND_COLOR));
+        selectedFilesLabel.setFont(ThemeManager.getCurrentFont(ThemeFont.STATUS_BAR.id()));
+        selectedFilesLabel.setForeground(ThemeManager.getCurrentColor(ThemeColor.STATUS_BAR_FOREGROUND.id()));
+        volumeSpaceLabel.setFont(ThemeManager.getCurrentFont(ThemeFont.STATUS_BAR.id()));
+        volumeSpaceLabel.setForeground(ThemeManager.getCurrentColor(ThemeColor.STATUS_BAR_FOREGROUND.id()));
         themeListener = new ThemeListener() {
             @Override
             public void fontChanged(FontChangedEvent event) {
-                if(event.getFontId() == Theme.STATUS_BAR_FONT) {
+                if(event.getFontId() == ThemeFont.STATUS_BAR.id()) {
                     selectedFilesLabel.setFont(event.getFont());
                     volumeSpaceLabel.setFont(event.getFont());
                     repaint();
@@ -326,7 +328,7 @@ public class StatusBar extends JPanel {
             }
             @Override
             public void colorChanged(ColorChangedEvent event) {
-                if(event.getColorId() == Theme.STATUS_BAR_FOREGROUND_COLOR) {
+                if(event.getColorId() == ThemeColor.STATUS_BAR_FOREGROUND.id()) {
                     selectedFilesLabel.setForeground(event.getColor());
                     volumeSpaceLabel.setForeground(event.getColor());
                     repaint();
@@ -566,12 +568,12 @@ public class StatusBar extends JPanel {
         private VolumeSpaceLabel() {
             super("");
             setHorizontalAlignment(CENTER);
-            backgroundColor = ThemeManager.getCurrentColor(Theme.STATUS_BAR_BACKGROUND_COLOR);
+            backgroundColor = ThemeManager.getCurrentColor(ThemeColor.STATUS_BAR_BACKGROUND.id());
             //            borderColor     = ThemeManager.getCurrentColor(Theme.STATUS_BAR_BORDER_COLOR);
-            okColor         = ThemeManager.getCurrentColor(Theme.STATUS_BAR_OK_COLOR);
-            warningColor    = ThemeManager.getCurrentColor(Theme.STATUS_BAR_WARNING_COLOR);
-            criticalColor   = ThemeManager.getCurrentColor(Theme.STATUS_BAR_CRITICAL_COLOR);
-            setBorder(new MutableLineBorder(ThemeManager.getCurrentColor(Theme.STATUS_BAR_BORDER_COLOR)));
+            okColor         = ThemeManager.getCurrentColor(ThemeColor.STATUS_BAR_OK.id());
+            warningColor    = ThemeManager.getCurrentColor(ThemeColor.STATUS_BAR_WARNING.id());
+            criticalColor   = ThemeManager.getCurrentColor(ThemeColor.STATUS_BAR_CRITICAL.id());
+            setBorder(new MutableLineBorder(ThemeManager.getCurrentColor(ThemeColor.STATUS_BAR_BORDER.id())));
             ThemeManager.addCurrentThemeListener(this);
         }
 

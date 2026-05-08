@@ -85,7 +85,7 @@ import com.mucommander.ui.main.menu.TablePopupMenu;
 import com.mucommander.ui.quicksearch.QuickSearch;
 import com.mucommander.ui.theme.ColorChangedEvent;
 import com.mucommander.ui.theme.FontChangedEvent;
-import com.mucommander.ui.theme.Theme;
+import com.mucommander.ui.theme.ThemeFont;
 import com.mucommander.ui.theme.ThemeListener;
 import com.mucommander.ui.theme.ThemeManager;
 
@@ -1828,7 +1828,7 @@ public class FileTable extends JTable implements MouseListener, MouseMotionListe
      * Receives theme font changes notifications.
      */
     public void fontChanged(FontChangedEvent event) {
-        if(event.getFontId() == Theme.FILE_TABLE_FONT) {
+        if(event.getFontId() == ThemeFont.FILE_TABLE.id()) {
             // Changes filename editor's font
             filenameEditor.filenameField.setFont(event.getFont());
 

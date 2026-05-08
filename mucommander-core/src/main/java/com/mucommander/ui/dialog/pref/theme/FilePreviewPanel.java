@@ -40,7 +40,6 @@ import com.mucommander.ui.icon.CustomFileIconProvider;
 import com.mucommander.ui.icon.FileIcons;
 import com.mucommander.ui.icon.IconManager;
 import com.mucommander.ui.main.table.CellLabel;
-import com.mucommander.ui.theme.Theme;
 import com.mucommander.ui.theme.ThemeColor;
 import com.mucommander.ui.theme.ThemeData;
 import com.mucommander.ui.theme.ThemeFont;
@@ -94,21 +93,21 @@ class FilePreviewPanel extends JScrollPane implements PropertyChangeListener {
         table = new PreviewTable();
         setViewportView(table);
 
-        getViewport().setBackground(data.getColor(isActive ? Theme.FILE_TABLE_BACKGROUND_COLOR : Theme.FILE_TABLE_INACTIVE_BACKGROUND_COLOR));
+        getViewport().setBackground(data.getColor(isActive ? ThemeColor.FILE_TABLE_BACKGROUND : ThemeColor.FILE_TABLE_INACTIVE_BACKGROUND));
 
-        setBorder(new MutableLineBorder(data.getColor(isActive ? Theme.FILE_TABLE_BORDER_COLOR : Theme.FILE_TABLE_INACTIVE_BORDER_COLOR)));
+        setBorder(new MutableLineBorder(data.getColor(isActive ? ThemeColor.FILE_TABLE_BORDER : ThemeColor.FILE_TABLE_INACTIVE_BORDER)));
 
         addPropertyChangeListener(this);
     }
 
     public void propertyChange(PropertyChangeEvent event) {
         if(event.getPropertyName().equals(PreviewLabel.BACKGROUND_COLOR_PROPERTY_NAME))
-            getViewport().setBackground(data.getColor(isActive ? Theme.FILE_TABLE_BACKGROUND_COLOR : Theme.FILE_TABLE_INACTIVE_BACKGROUND_COLOR));
+            getViewport().setBackground(data.getColor(isActive ? ThemeColor.FILE_TABLE_BACKGROUND : ThemeColor.FILE_TABLE_INACTIVE_BACKGROUND));
         else if(event.getPropertyName().equals(PreviewLabel.BORDER_COLOR_PROPERTY_NAME)) {
             // Some (rather evil) look and feels will change borders outside of muCommander's control,
             // this check is necessary to ensure no exception is thrown.
             if(getBorder() instanceof MutableLineBorder)
-                ((MutableLineBorder)getBorder()).setLineColor(data.getColor(isActive ? Theme.FILE_TABLE_BORDER_COLOR : Theme.FILE_TABLE_INACTIVE_BORDER_COLOR));
+                ((MutableLineBorder)getBorder()).setLineColor(data.getColor(isActive ? ThemeColor.FILE_TABLE_BORDER : ThemeColor.FILE_TABLE_INACTIVE_BORDER));
         }
         else if(!event.getPropertyName().equals(PreviewLabel.FOREGROUND_COLOR_PROPERTY_NAME))
             return;

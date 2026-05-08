@@ -20,7 +20,8 @@ package com.mucommander.ui.dialog.about;
 import com.mucommander.RuntimeConstants;
 import com.mucommander.commons.util.ui.dialog.FocusDialog;
 import com.mucommander.text.Translator;
-import com.mucommander.ui.theme.Theme;
+import com.mucommander.ui.theme.ThemeColor;
+import com.mucommander.ui.theme.ThemeFont;
 import com.mucommander.ui.theme.ThemeManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,11 +109,11 @@ public class LicenseDialog extends FocusDialog implements ActionListener {
         license.setEditable(false);
 
         // Applies the file editor's theme to the license text.
-        license.setForeground(ThemeManager.getCurrentColor(Theme.EDITOR_FOREGROUND_COLOR));
-        license.setBackground(ThemeManager.getCurrentColor(Theme.EDITOR_BACKGROUND_COLOR));
-        license.setSelectedTextColor(ThemeManager.getCurrentColor(Theme.EDITOR_SELECTED_FOREGROUND_COLOR));
-        license.setSelectionColor(ThemeManager.getCurrentColor(Theme.EDITOR_SELECTED_BACKGROUND_COLOR));
-        license.setFont(ThemeManager.getCurrentFont(Theme.EDITOR_FONT));
+        license.setForeground(ThemeManager.getCurrentColor(ThemeColor.EDITOR_FOREGROUND.id()));
+        license.setBackground(ThemeManager.getCurrentColor(ThemeColor.EDITOR_BACKGROUND.id()));
+        license.setSelectedTextColor(ThemeManager.getCurrentColor(ThemeColor.EDITOR_SELECTED_FOREGROUND.id()));
+        license.setSelectionColor(ThemeManager.getCurrentColor(ThemeColor.EDITOR_SELECTED_BACKGROUND.id()));
+        license.setFont(ThemeManager.getCurrentFont(ThemeFont.EDITOR.id()));
 
         license.setText(getLicenseText());
 

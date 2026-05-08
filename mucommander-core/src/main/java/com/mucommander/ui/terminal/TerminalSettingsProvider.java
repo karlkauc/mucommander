@@ -39,7 +39,8 @@ import com.mucommander.conf.MuPreferences;
 import com.mucommander.ui.action.ActionId;
 import com.mucommander.ui.action.ActionKeymap;
 import com.mucommander.ui.action.TerminalActions;
-import com.mucommander.ui.theme.Theme;
+import com.mucommander.ui.theme.ThemeColor;
+import com.mucommander.ui.theme.ThemeFont;
 import com.mucommander.ui.theme.ThemeManager;
 
 import javax.swing.KeyStroke;
@@ -74,9 +75,9 @@ public class TerminalSettingsProvider extends DefaultSettingsProvider implements
     public TextStyle getDefaultStyle() {
         return new TextStyle(
                 new TerminalColor(() ->
-                        AwtTransformers.fromAwtColor(ThemeManager.getCurrentColor(Theme.TERMINAL_FOREGROUND_COLOR))),
+                        AwtTransformers.fromAwtColor(ThemeManager.getCurrentColor(ThemeColor.TERMINAL_FOREGROUND.id()))),
                 new TerminalColor(() ->
-                        AwtTransformers.fromAwtColor(ThemeManager.getCurrentColor(Theme.TERMINAL_BACKGROUND_COLOR)))
+                        AwtTransformers.fromAwtColor(ThemeManager.getCurrentColor(ThemeColor.TERMINAL_BACKGROUND.id())))
         );
     }
 
@@ -85,9 +86,9 @@ public class TerminalSettingsProvider extends DefaultSettingsProvider implements
         // since we set #useInverseSelectionColor to return false, this method is called.
         return new TextStyle(
                 new TerminalColor(() ->
-                        AwtTransformers.fromAwtColor(ThemeManager.getCurrentColor(Theme.TERMINAL_SELECTED_FOREGROUND_COLOR))),
+                        AwtTransformers.fromAwtColor(ThemeManager.getCurrentColor(ThemeColor.TERMINAL_SELECTED_FOREGROUND.id()))),
                 new TerminalColor(() ->
-                        AwtTransformers.fromAwtColor(ThemeManager.getCurrentColor(Theme.TERMINAL_SELECTED_BACKGROUND_COLOR)))
+                        AwtTransformers.fromAwtColor(ThemeManager.getCurrentColor(ThemeColor.TERMINAL_SELECTED_BACKGROUND.id())))
         );
     }
 
@@ -99,7 +100,7 @@ public class TerminalSettingsProvider extends DefaultSettingsProvider implements
     // The returned font is already in a good size (no need to override or call #getTerminalFontSize).
     @Override
     public Font getTerminalFont() {
-        return ThemeManager.getCurrentFont(Theme.TERMINAL_FONT);
+        return ThemeManager.getCurrentFont(ThemeFont.TERMINAL.id());
     }
 
     @Override

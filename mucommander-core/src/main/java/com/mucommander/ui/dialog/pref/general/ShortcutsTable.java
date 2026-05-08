@@ -78,8 +78,8 @@ import com.mucommander.ui.table.CenteredTableHeaderRenderer;
 import com.mucommander.ui.text.KeyStrokeUtils;
 import com.mucommander.ui.theme.ColorChangedEvent;
 import com.mucommander.ui.theme.FontChangedEvent;
-import com.mucommander.ui.theme.Theme;
 import com.mucommander.ui.theme.ThemeCache;
+import com.mucommander.ui.theme.ThemeFont;
 import com.mucommander.ui.theme.ThemeListener;
 
 
@@ -980,7 +980,7 @@ public class ShortcutsTable extends PrefTable implements KeyListener, ListSelect
          */
         @Override
         public void fontChanged(FontChangedEvent event) {
-            if (event.getFontId() == Theme.FILE_TABLE_FONT) {
+            if (event.getFontId() == ThemeFont.FILE_TABLE.id()) {
                 setCellLabelsFont(ThemeCache.tableFont);
             }
         }

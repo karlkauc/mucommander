@@ -65,59 +65,59 @@ public class ThemeCache implements ThemeListener {
         backgroundColors = new Color[2][4];
 
         // Active background colors.
-        backgroundColors[ACTIVE][NORMAL]    = ThemeManager.getCurrentColor(Theme.FILE_TABLE_BACKGROUND_COLOR);
-        backgroundColors[ACTIVE][SELECTED]  = ThemeManager.getCurrentColor(Theme.FILE_TABLE_SELECTED_BACKGROUND_COLOR);
-        backgroundColors[ACTIVE][ALTERNATE] = ThemeManager.getCurrentColor(Theme.FILE_TABLE_ALTERNATE_BACKGROUND_COLOR);
-        backgroundColors[ACTIVE][SECONDARY] = ThemeManager.getCurrentColor(Theme.FILE_TABLE_SELECTED_SECONDARY_BACKGROUND_COLOR);
+        backgroundColors[ACTIVE][NORMAL]    = ThemeManager.getCurrentColor(ThemeColor.FILE_TABLE_BACKGROUND.id());
+        backgroundColors[ACTIVE][SELECTED]  = ThemeManager.getCurrentColor(ThemeColor.FILE_TABLE_SELECTED_BACKGROUND.id());
+        backgroundColors[ACTIVE][ALTERNATE] = ThemeManager.getCurrentColor(ThemeColor.FILE_TABLE_ALTERNATE_BACKGROUND.id());
+        backgroundColors[ACTIVE][SECONDARY] = ThemeManager.getCurrentColor(ThemeColor.FILE_TABLE_SELECTED_SECONDARY_BACKGROUND.id());
 
         // Inactive background colors.
-        backgroundColors[INACTIVE][NORMAL]    = ThemeManager.getCurrentColor(Theme.FILE_TABLE_INACTIVE_BACKGROUND_COLOR);
-        backgroundColors[INACTIVE][SELECTED]  = ThemeManager.getCurrentColor(Theme.FILE_TABLE_INACTIVE_SELECTED_BACKGROUND_COLOR);
-        backgroundColors[INACTIVE][ALTERNATE] = ThemeManager.getCurrentColor(Theme.FILE_TABLE_INACTIVE_ALTERNATE_BACKGROUND_COLOR);
-        backgroundColors[INACTIVE][SECONDARY] = ThemeManager.getCurrentColor(Theme.FILE_TABLE_INACTIVE_SELECTED_SECONDARY_BACKGROUND_COLOR);
+        backgroundColors[INACTIVE][NORMAL]    = ThemeManager.getCurrentColor(ThemeColor.FILE_TABLE_INACTIVE_BACKGROUND.id());
+        backgroundColors[INACTIVE][SELECTED]  = ThemeManager.getCurrentColor(ThemeColor.FILE_TABLE_INACTIVE_SELECTED_BACKGROUND.id());
+        backgroundColors[INACTIVE][ALTERNATE] = ThemeManager.getCurrentColor(ThemeColor.FILE_TABLE_INACTIVE_ALTERNATE_BACKGROUND.id());
+        backgroundColors[INACTIVE][SECONDARY] = ThemeManager.getCurrentColor(ThemeColor.FILE_TABLE_INACTIVE_SELECTED_SECONDARY_BACKGROUND.id());
 
         // Normal foreground foregroundColors.
-        foregroundColors[ACTIVE][NORMAL][HIDDEN_FILE]     = ThemeManager.getCurrentColor(Theme.HIDDEN_FILE_FOREGROUND_COLOR);
-        foregroundColors[ACTIVE][NORMAL][READ_ONLY]       = ThemeManager.getCurrentColor(Theme.READ_ONLY_FOREGROUND_COLOR);
-        foregroundColors[ACTIVE][NORMAL][FOLDER]          = ThemeManager.getCurrentColor(Theme.FOLDER_FOREGROUND_COLOR);
-        foregroundColors[ACTIVE][NORMAL][ARCHIVE]         = ThemeManager.getCurrentColor(Theme.ARCHIVE_FOREGROUND_COLOR);
-        foregroundColors[ACTIVE][NORMAL][SYMLINK]         = ThemeManager.getCurrentColor(Theme.SYMLINK_FOREGROUND_COLOR);
-        foregroundColors[ACTIVE][NORMAL][MARKED]          = ThemeManager.getCurrentColor(Theme.MARKED_FOREGROUND_COLOR);
-        foregroundColors[ACTIVE][NORMAL][PLAIN_FILE]      = ThemeManager.getCurrentColor(Theme.FILE_FOREGROUND_COLOR);
+        foregroundColors[ACTIVE][NORMAL][HIDDEN_FILE]     = ThemeManager.getCurrentColor(ThemeColor.HIDDEN_FILE_FOREGROUND.id());
+        foregroundColors[ACTIVE][NORMAL][READ_ONLY]       = ThemeManager.getCurrentColor(ThemeColor.READ_ONLY_FOREGROUND.id());
+        foregroundColors[ACTIVE][NORMAL][FOLDER]          = ThemeManager.getCurrentColor(ThemeColor.FOLDER_FOREGROUND.id());
+        foregroundColors[ACTIVE][NORMAL][ARCHIVE]         = ThemeManager.getCurrentColor(ThemeColor.ARCHIVE_FOREGROUND.id());
+        foregroundColors[ACTIVE][NORMAL][SYMLINK]         = ThemeManager.getCurrentColor(ThemeColor.SYMLINK_FOREGROUND.id());
+        foregroundColors[ACTIVE][NORMAL][MARKED]          = ThemeManager.getCurrentColor(ThemeColor.MARKED_FOREGROUND.id());
+        foregroundColors[ACTIVE][NORMAL][PLAIN_FILE]      = ThemeManager.getCurrentColor(ThemeColor.FILE_FOREGROUND.id());
 
         // Normal unfocused foreground foregroundColors.
-        foregroundColors[INACTIVE][NORMAL][HIDDEN_FILE]    = ThemeManager.getCurrentColor(Theme.HIDDEN_FILE_INACTIVE_FOREGROUND_COLOR);
-        foregroundColors[INACTIVE][NORMAL][READ_ONLY]      = ThemeManager.getCurrentColor(Theme.READ_ONLY_INACTIVE_FOREGROUND_COLOR);
-        foregroundColors[INACTIVE][NORMAL][FOLDER]         = ThemeManager.getCurrentColor(Theme.FOLDER_INACTIVE_FOREGROUND_COLOR);
-        foregroundColors[INACTIVE][NORMAL][ARCHIVE]        = ThemeManager.getCurrentColor(Theme.ARCHIVE_INACTIVE_FOREGROUND_COLOR);
-        foregroundColors[INACTIVE][NORMAL][SYMLINK]        = ThemeManager.getCurrentColor(Theme.SYMLINK_INACTIVE_FOREGROUND_COLOR);
-        foregroundColors[INACTIVE][NORMAL][MARKED]         = ThemeManager.getCurrentColor(Theme.MARKED_INACTIVE_FOREGROUND_COLOR);
-        foregroundColors[INACTIVE][NORMAL][PLAIN_FILE]     = ThemeManager.getCurrentColor(Theme.FILE_INACTIVE_FOREGROUND_COLOR);
+        foregroundColors[INACTIVE][NORMAL][HIDDEN_FILE]    = ThemeManager.getCurrentColor(ThemeColor.HIDDEN_FILE_INACTIVE_FOREGROUND.id());
+        foregroundColors[INACTIVE][NORMAL][READ_ONLY]      = ThemeManager.getCurrentColor(ThemeColor.READ_ONLY_INACTIVE_FOREGROUND.id());
+        foregroundColors[INACTIVE][NORMAL][FOLDER]         = ThemeManager.getCurrentColor(ThemeColor.FOLDER_INACTIVE_FOREGROUND.id());
+        foregroundColors[INACTIVE][NORMAL][ARCHIVE]        = ThemeManager.getCurrentColor(ThemeColor.ARCHIVE_INACTIVE_FOREGROUND.id());
+        foregroundColors[INACTIVE][NORMAL][SYMLINK]        = ThemeManager.getCurrentColor(ThemeColor.SYMLINK_INACTIVE_FOREGROUND.id());
+        foregroundColors[INACTIVE][NORMAL][MARKED]         = ThemeManager.getCurrentColor(ThemeColor.MARKED_INACTIVE_FOREGROUND.id());
+        foregroundColors[INACTIVE][NORMAL][PLAIN_FILE]     = ThemeManager.getCurrentColor(ThemeColor.FILE_INACTIVE_FOREGROUND.id());
 
         // Selected foreground foregroundColors.
-        foregroundColors[ACTIVE][SELECTED][HIDDEN_FILE]   = ThemeManager.getCurrentColor(Theme.HIDDEN_FILE_SELECTED_FOREGROUND_COLOR);
-        foregroundColors[ACTIVE][SELECTED][READ_ONLY]     = ThemeManager.getCurrentColor(Theme.READ_ONLY_SELECTED_FOREGROUND_COLOR);
-        foregroundColors[ACTIVE][SELECTED][FOLDER]        = ThemeManager.getCurrentColor(Theme.FOLDER_SELECTED_FOREGROUND_COLOR);
-        foregroundColors[ACTIVE][SELECTED][ARCHIVE]       = ThemeManager.getCurrentColor(Theme.ARCHIVE_SELECTED_FOREGROUND_COLOR);
-        foregroundColors[ACTIVE][SELECTED][SYMLINK]       = ThemeManager.getCurrentColor(Theme.SYMLINK_SELECTED_FOREGROUND_COLOR);
-        foregroundColors[ACTIVE][SELECTED][MARKED]        = ThemeManager.getCurrentColor(Theme.MARKED_SELECTED_FOREGROUND_COLOR);
-        foregroundColors[ACTIVE][SELECTED][PLAIN_FILE]    = ThemeManager.getCurrentColor(Theme.FILE_SELECTED_FOREGROUND_COLOR);
+        foregroundColors[ACTIVE][SELECTED][HIDDEN_FILE]   = ThemeManager.getCurrentColor(ThemeColor.HIDDEN_FILE_SELECTED_FOREGROUND.id());
+        foregroundColors[ACTIVE][SELECTED][READ_ONLY]     = ThemeManager.getCurrentColor(ThemeColor.READ_ONLY_SELECTED_FOREGROUND.id());
+        foregroundColors[ACTIVE][SELECTED][FOLDER]        = ThemeManager.getCurrentColor(ThemeColor.FOLDER_SELECTED_FOREGROUND.id());
+        foregroundColors[ACTIVE][SELECTED][ARCHIVE]       = ThemeManager.getCurrentColor(ThemeColor.ARCHIVE_SELECTED_FOREGROUND.id());
+        foregroundColors[ACTIVE][SELECTED][SYMLINK]       = ThemeManager.getCurrentColor(ThemeColor.SYMLINK_SELECTED_FOREGROUND.id());
+        foregroundColors[ACTIVE][SELECTED][MARKED]        = ThemeManager.getCurrentColor(ThemeColor.MARKED_SELECTED_FOREGROUND.id());
+        foregroundColors[ACTIVE][SELECTED][PLAIN_FILE]    = ThemeManager.getCurrentColor(ThemeColor.FILE_SELECTED_FOREGROUND.id());
 
         // Selected unfocused foreground foregroundColors.
-        foregroundColors[INACTIVE][SELECTED][HIDDEN_FILE]  = ThemeManager.getCurrentColor(Theme.HIDDEN_FILE_INACTIVE_SELECTED_FOREGROUND_COLOR);
-        foregroundColors[INACTIVE][SELECTED][READ_ONLY]    = ThemeManager.getCurrentColor(Theme.READ_ONLY_INACTIVE_SELECTED_FOREGROUND_COLOR);
-        foregroundColors[INACTIVE][SELECTED][FOLDER]       = ThemeManager.getCurrentColor(Theme.FOLDER_INACTIVE_SELECTED_FOREGROUND_COLOR);
-        foregroundColors[INACTIVE][SELECTED][ARCHIVE]      = ThemeManager.getCurrentColor(Theme.ARCHIVE_INACTIVE_SELECTED_FOREGROUND_COLOR);
-        foregroundColors[INACTIVE][SELECTED][SYMLINK]      = ThemeManager.getCurrentColor(Theme.SYMLINK_INACTIVE_SELECTED_FOREGROUND_COLOR);
-        foregroundColors[INACTIVE][SELECTED][MARKED]       = ThemeManager.getCurrentColor(Theme.MARKED_INACTIVE_SELECTED_FOREGROUND_COLOR);
-        foregroundColors[INACTIVE][SELECTED][PLAIN_FILE]   = ThemeManager.getCurrentColor(Theme.FILE_INACTIVE_SELECTED_FOREGROUND_COLOR);
+        foregroundColors[INACTIVE][SELECTED][HIDDEN_FILE]  = ThemeManager.getCurrentColor(ThemeColor.HIDDEN_FILE_INACTIVE_SELECTED_FOREGROUND.id());
+        foregroundColors[INACTIVE][SELECTED][READ_ONLY]    = ThemeManager.getCurrentColor(ThemeColor.READ_ONLY_INACTIVE_SELECTED_FOREGROUND.id());
+        foregroundColors[INACTIVE][SELECTED][FOLDER]       = ThemeManager.getCurrentColor(ThemeColor.FOLDER_INACTIVE_SELECTED_FOREGROUND.id());
+        foregroundColors[INACTIVE][SELECTED][ARCHIVE]      = ThemeManager.getCurrentColor(ThemeColor.ARCHIVE_INACTIVE_SELECTED_FOREGROUND.id());
+        foregroundColors[INACTIVE][SELECTED][SYMLINK]      = ThemeManager.getCurrentColor(ThemeColor.SYMLINK_INACTIVE_SELECTED_FOREGROUND.id());
+        foregroundColors[INACTIVE][SELECTED][MARKED]       = ThemeManager.getCurrentColor(ThemeColor.MARKED_INACTIVE_SELECTED_FOREGROUND.id());
+        foregroundColors[INACTIVE][SELECTED][PLAIN_FILE]   = ThemeManager.getCurrentColor(ThemeColor.FILE_INACTIVE_SELECTED_FOREGROUND.id());
 
-        unmatchedForeground                                = ThemeManager.getCurrentColor(Theme.FILE_TABLE_UNMATCHED_FOREGROUND_COLOR);
-        unmatchedBackground                                = ThemeManager.getCurrentColor(Theme.FILE_TABLE_UNMATCHED_BACKGROUND_COLOR);
-        tableFont                                          = ThemeManager.getCurrentFont(Theme.FILE_TABLE_FONT);
+        unmatchedForeground                                = ThemeManager.getCurrentColor(ThemeColor.FILE_TABLE_UNMATCHED_FOREGROUND.id());
+        unmatchedBackground                                = ThemeManager.getCurrentColor(ThemeColor.FILE_TABLE_UNMATCHED_BACKGROUND.id());
+        tableFont                                          = ThemeManager.getCurrentFont(ThemeFont.FILE_TABLE.id());
 
-        activeOutlineColor                                 = ThemeManager.getCurrentColor(Theme.FILE_TABLE_SELECTED_OUTLINE_COLOR);
-        inactiveOutlineColor                               = ThemeManager.getCurrentColor(Theme.FILE_TABLE_INACTIVE_SELECTED_OUTLINE_COLOR);
+        activeOutlineColor                                 = ThemeManager.getCurrentColor(ThemeColor.FILE_TABLE_SELECTED_OUTLINE.id());
+        inactiveOutlineColor                               = ThemeManager.getCurrentColor(ThemeColor.FILE_TABLE_INACTIVE_SELECTED_OUTLINE.id());
 
         ThemeManager.addCurrentThemeListener(instance);
     }

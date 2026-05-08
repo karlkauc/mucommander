@@ -20,7 +20,8 @@ package com.mucommander.ui.main;
 import com.mucommander.commons.file.AbstractFile;
 import com.mucommander.ui.theme.ColorChangedEvent;
 import com.mucommander.ui.theme.FontChangedEvent;
-import com.mucommander.ui.theme.Theme;
+import com.mucommander.ui.theme.ThemeColor;
+import com.mucommander.ui.theme.ThemeFont;
 import com.mucommander.ui.theme.ThemeListener;
 import com.mucommander.ui.theme.ThemeManager;
 
@@ -65,7 +66,7 @@ class BreadcrumbBar extends JTextField implements ThemeListener {
         setEditable(false);
         setFocusable(false);
         setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        setBackground(ThemeManager.getCurrentColor(Theme.LOCATION_BAR_BACKGROUND_COLOR));
+        setBackground(ThemeManager.getCurrentColor(ThemeColor.LOCATION_BAR_BACKGROUND.id()));
         ThemeManager.addCurrentThemeListener(this);
     }
 
@@ -117,10 +118,10 @@ class BreadcrumbBar extends JTextField implements ThemeListener {
         var hoverContent = "<html><u>" + escapedText + "</u></html>";
 
         JLabel lbl = new JLabel(normalContent);
-        lbl.setForeground(ThemeManager.getCurrentColor(Theme.LOCATION_BAR_FOREGROUND_COLOR));
-        lbl.setFont(ThemeManager.getCurrentFont(Theme.LOCATION_BAR_FONT));
+        lbl.setForeground(ThemeManager.getCurrentColor(ThemeColor.LOCATION_BAR_FOREGROUND.id()));
+        lbl.setFont(ThemeManager.getCurrentFont(ThemeFont.LOCATION_BAR.id()));
         lbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        lbl.setBackground(ThemeManager.getCurrentColor(Theme.LOCATION_BAR_BACKGROUND_COLOR));
+        lbl.setBackground(ThemeManager.getCurrentColor(ThemeColor.LOCATION_BAR_BACKGROUND.id()));
         lbl.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -141,17 +142,17 @@ class BreadcrumbBar extends JTextField implements ThemeListener {
     /** A plain (non-clickable) label for the current directory segment. */
     private JLabel makePlainLabel(String text) {
         JLabel lbl = new JLabel("<html>" + escapeHtml(text) + "</html>");
-        lbl.setForeground(ThemeManager.getCurrentColor(Theme.LOCATION_BAR_FOREGROUND_COLOR));
-        lbl.setFont(ThemeManager.getCurrentFont(Theme.LOCATION_BAR_FONT));
-        lbl.setBackground(ThemeManager.getCurrentColor(Theme.LOCATION_BAR_BACKGROUND_COLOR));
+        lbl.setForeground(ThemeManager.getCurrentColor(ThemeColor.LOCATION_BAR_FOREGROUND.id()));
+        lbl.setFont(ThemeManager.getCurrentFont(ThemeFont.LOCATION_BAR.id()));
+        lbl.setBackground(ThemeManager.getCurrentColor(ThemeColor.LOCATION_BAR_BACKGROUND.id()));
         return lbl;
     }
 
     private JLabel makeSeparatorLabel() {
         JLabel sep = new JLabel(SEPARATOR_GLYPH);
-        sep.setForeground(ThemeManager.getCurrentColor(Theme.LOCATION_BAR_FOREGROUND_COLOR));
-        sep.setFont(ThemeManager.getCurrentFont(Theme.LOCATION_BAR_FONT));
-        sep.setBackground(ThemeManager.getCurrentColor(Theme.LOCATION_BAR_BACKGROUND_COLOR));
+        sep.setForeground(ThemeManager.getCurrentColor(ThemeColor.LOCATION_BAR_FOREGROUND.id()));
+        sep.setFont(ThemeManager.getCurrentFont(ThemeFont.LOCATION_BAR.id()));
+        sep.setBackground(ThemeManager.getCurrentColor(ThemeColor.LOCATION_BAR_BACKGROUND.id()));
         return sep;
     }
 
@@ -164,7 +165,7 @@ class BreadcrumbBar extends JTextField implements ThemeListener {
 
     @Override
     public void colorChanged(ColorChangedEvent event) {
-        if (event.getColorId() == Theme.LOCATION_BAR_BACKGROUND_COLOR) {
+        if (event.getColorId() == ThemeColor.LOCATION_BAR_BACKGROUND.id()) {
             setBackground(event.getColor());
         }
     }

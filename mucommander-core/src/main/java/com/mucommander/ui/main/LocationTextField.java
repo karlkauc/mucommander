@@ -43,6 +43,8 @@ import com.mucommander.ui.progress.ProgressTextField;
 import com.mucommander.ui.theme.ColorChangedEvent;
 import com.mucommander.ui.theme.FontChangedEvent;
 import com.mucommander.ui.theme.Theme;
+import com.mucommander.ui.theme.ThemeColor;
+import com.mucommander.ui.theme.ThemeFont;
 import com.mucommander.ui.theme.ThemeListener;
 import com.mucommander.ui.theme.ThemeManager;
 
@@ -84,17 +86,17 @@ public class LocationTextField extends ProgressTextField implements LocationList
      */
     public LocationTextField(FolderPanel folderPanel) {
         // Use a custom text field that can display loading progress when changing folders
-        super(0, ThemeManager.getCurrentColor(Theme.LOCATION_BAR_PROGRESS_COLOR));
+        super(0, ThemeManager.getCurrentColor(ThemeColor.LOCATION_BAR_PROGRESS.id()));
 
         this.folderPanel = folderPanel;
 
         // Applies theme values.
-        setFont(ThemeManager.getCurrentFont(Theme.LOCATION_BAR_FONT));
-        setDisabledTextColor(ThemeManager.getCurrentColor(Theme.LOCATION_BAR_FOREGROUND_COLOR));
-        setForeground(ThemeManager.getCurrentColor(Theme.LOCATION_BAR_FOREGROUND_COLOR));
-        setBackground(ThemeManager.getCurrentColor(Theme.LOCATION_BAR_BACKGROUND_COLOR));
-        setSelectedTextColor(ThemeManager.getCurrentColor(Theme.LOCATION_BAR_SELECTED_FOREGROUND_COLOR));
-        setSelectionColor(ThemeManager.getCurrentColor(Theme.LOCATION_BAR_SELECTED_BACKGROUND_COLOR));
+        setFont(ThemeManager.getCurrentFont(ThemeFont.LOCATION_BAR.id()));
+        setDisabledTextColor(ThemeManager.getCurrentColor(ThemeColor.LOCATION_BAR_FOREGROUND.id()));
+        setForeground(ThemeManager.getCurrentColor(ThemeColor.LOCATION_BAR_FOREGROUND.id()));
+        setBackground(ThemeManager.getCurrentColor(ThemeColor.LOCATION_BAR_BACKGROUND.id()));
+        setSelectedTextColor(ThemeManager.getCurrentColor(ThemeColor.LOCATION_BAR_SELECTED_FOREGROUND.id()));
+        setSelectionColor(ThemeManager.getCurrentColor(ThemeColor.LOCATION_BAR_SELECTED_BACKGROUND.id()));
 
         // Listen to location changes to update popup menu choices and disable this component while the location is
         // being changed
@@ -357,7 +359,7 @@ public class LocationTextField extends ProgressTextField implements LocationList
      */
     @Override
     public void fontChanged(FontChangedEvent event) {
-        if(event.getFontId() == Theme.LOCATION_BAR_FONT)
+        if(event.getFontId() == ThemeFont.LOCATION_BAR.id())
             setFont(event.getFont());
     }
 }

@@ -35,8 +35,8 @@ import com.mucommander.ui.icon.IconManager;
 import com.mucommander.ui.quicksearch.QuickSearch;
 import com.mucommander.ui.theme.ColorChangedEvent;
 import com.mucommander.ui.theme.FontChangedEvent;
-import com.mucommander.ui.theme.Theme;
 import com.mucommander.ui.theme.ThemeCache;
+import com.mucommander.ui.theme.ThemeFont;
 import com.mucommander.ui.theme.ThemeListener;
 
 
@@ -274,7 +274,7 @@ public class FileTableCellRenderer implements TableCellRenderer, ThemeListener {
      * Receives theme font changes notifications.
      */
     public void fontChanged(FontChangedEvent event) {
-        if(event.getFontId() == Theme.FILE_TABLE_FONT) {
+        if(event.getFontId() == ThemeFont.FILE_TABLE.id()) {
             setCellLabelsFont(ThemeCache.tableFont);
         }
     }
