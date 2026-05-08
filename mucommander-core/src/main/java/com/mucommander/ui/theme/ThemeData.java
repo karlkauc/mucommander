@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -743,10 +744,10 @@ public class ThemeData {
 
     // - Instance variables --------------------------------------------------------------------------------------------
     // -----------------------------------------------------------------------------------------------------------------
-    /** All the colors contained by the theme. */
-    private Color[] colors;
-    /** All the fonts contained by the theme. */
-    private Font[]  fonts;
+    /** Explicit color overrides keyed by color identifier. Absent entries fall back to the registered default. */
+    private Map<Integer, Color> colors;
+    /** Explicit font overrides keyed by font identifier. Absent entries fall back to the registered default. */
+    private Map<Integer, Font>  fonts;
 
 
 
@@ -1011,8 +1012,8 @@ public class ThemeData {
      * @see #cloneData()
      */
     public ThemeData() {
-        colors = new Color[COLOR_COUNT];
-        fonts  = new Font[FONT_COUNT];
+        colors = new HashMap<>(COLOR_COUNT);
+        fonts  = new HashMap<>(FONT_COUNT);
     }
 
     /**
@@ -1037,6 +1038,9 @@ public class ThemeData {
         colors = from.colors;
     }
 
+    // Iteration helpers used by cloneData / importData / isIdentical. The freeze-defaults clone path
+    // and isIdentical must visit every known id (set or not), not just the ones currently in the map.
+
 
 
     // - Data import / export ------------------------------------------------------------------------------------------
@@ -1055,13 +1059,23 @@ public class ThemeData {
     public ThemeData cloneData(boolean freezeDefaults) {
         ThemeData data = new ThemeData();
 
-        // Clones the theme's colors.
-        for (int i = 0; i < COLOR_COUNT; i++)
-            data.colors[i] = freezeDefaults ? getColor(i) : colors[i];
+        // Clones the theme's colors. When freezing defaults we resolve every known id so the
+        // clone captures the current default values; otherwise we only carry over the explicit
+        // overrides that are actually set on this instance.
+        if (freezeDefaults) {
+            for (int i = 0; i < COLOR_COUNT; i++)
+                data.colors.put(i, getColor(i));
+        } else {
+            data.colors.putAll(colors);
+        }
 
         // Clones the theme's fonts.
-        for (int i = 0; i < FONT_COUNT; i++)
-            data.fonts[i] = freezeDefaults ? getFont(i) : fonts[i];
+        if (freezeDefaults) {
+            for (int i = 0; i < FONT_COUNT; i++)
+                data.fonts.put(i, getFont(i));
+        } else {
+            data.fonts.putAll(fonts);
+        }
 
         return data;
     }
@@ -1093,13 +1107,15 @@ public class ThemeData {
      * @param data data to import.
      */
     public void importData(ThemeData data) {
-        // Imports the theme's colors.
+        // Imports the theme's colors. We must walk every known id so that ids unset on `data`
+        // clear any matching override on `this` (preserving the original "overwrite everything"
+        // semantics of the array-based implementation).
         for (int i = 0; i < COLOR_COUNT; i++)
-            setColor(i, data.colors[i]);
+            setColor(i, data.colors.get(i));
 
         // Imports the theme's fonts.
         for (int i = 0; i < FONT_COUNT; i++)
-            setFont(i, data.fonts[i]);
+            setFont(i, data.fonts.get(i));
     }
 
 
@@ -1126,7 +1142,10 @@ public class ThemeData {
      */
     public synchronized boolean setColor(int id, Color color) {
         boolean buffer = isColorDifferent(id, color);
-        colors[id] = color;
+        if (color == null)
+            colors.remove(id);
+        else
+            colors.put(id, color);
         switch(id) {
         case FILE_TABLE_SELECTED_SECONDARY_BACKGROUND_COLOR:
         case FILE_TABLE_SELECTED_OUTLINE_COLOR:
@@ -1158,7 +1177,10 @@ public class ThemeData {
      */
     public synchronized boolean setFont(int id, Font font) {
         boolean buffer = isFontDifferent(id, font);
-        fonts[id] = font;
+        if (font == null)
+            fonts.remove(id);
+        else
+            fonts.put(id, font);
 
         return buffer;
     }
@@ -1178,7 +1200,8 @@ public class ThemeData {
      */
     public synchronized Color getColor(int id) {
         checkColorIdentifier(id);
-        return (colors[id] == null) ? getDefaultColor(id, this) : colors[id];
+        Color color = colors.get(id);
+        return (color == null) ? getDefaultColor(id, this) : color;
     }
 
     /**
@@ -1193,8 +1216,8 @@ public class ThemeData {
      */
     public synchronized Font getFont(int id) {
         checkFontIdentifier(id);
-
-        return (fonts[id] == null) ? getDefaultFont(id, this) : fonts[id];
+        Font font = fonts.get(id);
+        return (font == null) ? getDefaultFont(id, this) : font;
     }
 
 
@@ -1204,7 +1227,7 @@ public class ThemeData {
      * @return    <code>true</code> if the specified color is set, <code>false</code> otherwise.
      * @see       #getDefaultColor(int,ThemeData)
      */
-    public boolean isColorSet(int id) {return colors[id] != null;}
+    public boolean isColorSet(int id) {return colors.containsKey(id);}
 
     /**
      * Returns <code>true</code> if the specified font is set.
@@ -1212,7 +1235,7 @@ public class ThemeData {
      * @return    <code>true</code> if the specified font is set, <code>false</code> otherwise.
      * @see       #getDefaultFont(int, ThemeData)
      */
-    public boolean isFontSet(int id) {return fonts[id] != null;}
+    public boolean isFontSet(int id) {return fonts.containsKey(id);}
 
     /**
      * Returns the default value for the specified color.
@@ -1280,14 +1303,15 @@ public class ThemeData {
      * @see                   #isColorDifferent(int,Color,boolean)
      */
     public boolean isIdentical(ThemeData data, boolean ignoreDefaults) {
-        // Compares the colors.
+        // Compares the colors. Walk every known id (set or not) so two ThemeData instances
+        // are identical exactly when every id resolves the same way.
         for (int i = 0; i < COLOR_COUNT; i++)
-            if (isColorDifferent(i, data.colors[i] , ignoreDefaults))
+            if (isColorDifferent(i, data.colors.get(i), ignoreDefaults))
                 return false;
 
         // Compares the fonts.
         for (int i = 0; i < FONT_COUNT; i++)
-            if (isFontDifferent(i, data.fonts[i], ignoreDefaults))
+            if (isFontDifferent(i, data.fonts.get(i), ignoreDefaults))
                 return false;
 
         return true;
@@ -1334,18 +1358,20 @@ public class ThemeData {
     public synchronized boolean isFontDifferent(int id, Font font, boolean ignoreDefaults) {
         checkFontIdentifier(id);
 
-        // If the specified font is null, the only way for both fonts to be equal is for fonts[id]
-        // to be null as well.
-        if (font == null)
-            return fonts[id] != null;
+        Font current = fonts.get(id);
 
-        // If fonts[id] is null and we're set to ignore defaults, both fonts are different.
+        // If the specified font is null, the only way for both fonts to be equal is for the
+        // override at id to be unset as well.
+        if (font == null)
+            return current != null;
+
+        // If the override at id is unset and we're set to ignore defaults, both fonts are different.
         // If we're set to use defaults, we must compare font and the default value for id.
-        if (fonts[id] == null)
+        if (current == null)
             return ignoreDefaults || !getDefaultFont(id, this).equals(font);
 
         // 'Standard' case: both fonts are set, compare them normally.
-        return !font.equals(fonts[id]);
+        return !font.equals(current);
     }
 
     /**
@@ -1379,18 +1405,20 @@ public class ThemeData {
     public synchronized boolean isColorDifferent(int id, Color color, boolean ignoreDefaults) {
         checkColorIdentifier(id);
 
-        // If the specified color is null, the only way for both colors to be equal is for colors[id]
-        // to be null as well.
-        if (color == null)
-            return colors[id] != null;
+        Color current = colors.get(id);
 
-        // If colors[id] is null and we're set to ignore defaults, both colors are different.
+        // If the specified color is null, the only way for both colors to be equal is for the
+        // override at id to be unset as well.
+        if (color == null)
+            return current != null;
+
+        // If the override at id is unset and we're set to ignore defaults, both colors are different.
         // If we're set to use defaults, we must compare color and the default value for id.
-        if (colors[id] == null)
+        if (current == null)
             return ignoreDefaults || !getDefaultColor(id, this).equals(color);
 
         // 'Standard' case: both colors are set, compare them normally.
-        return !color.equals(colors[id]);
+        return !color.equals(current);
     }
 
 
