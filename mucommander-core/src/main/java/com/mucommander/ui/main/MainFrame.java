@@ -728,9 +728,7 @@ public class MainFrame implements LocationListener {
      */
 
     public void toFront() {
-        if((getJFrame().getExtendedState()&Frame.ICONIFIED)!=0)
-            getJFrame().setExtendedState(Frame.NORMAL);
-        getJFrame().toFront();
+        WindowFront.bringToFront(getJFrame());
     }
 
     public boolean isAutoSizeColumnsEnabled() {
