@@ -78,6 +78,18 @@ subprojects {
         dependsOn tasks.named('jacocoTestReport')
     }
 
+    // Phase 6.3: every test JVM runs in AWT headless mode so any test that
+    // happens to touch a Swing default (Look&Feel lookup, Font/Color
+    // resolution, etc.) doesn't try to open a connection to the display.
+    // Individual test classes no longer need to set this property in
+    // @BeforeAll/@BeforeClass blocks. CI Linux runners therefore don't
+    // need Xvfb just to run unit tests — that requirement only kicks in
+    // if/when real UI-driving tests are introduced (a separate effort, see
+    // the Phase 6.3 note in the plan).
+    tasks.withType(Test).configureEach {
+        systemProperty 'java.awt.headless', 'true'
+    }
+
     compileJava.options.compilerArgs += ['--release', '21']
     compileJava.options.encoding = 'UTF-8'
     compileTestJava.options.encoding = 'UTF-8'

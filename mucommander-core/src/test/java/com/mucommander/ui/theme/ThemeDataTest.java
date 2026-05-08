@@ -26,7 +26,6 @@ import static org.testng.Assert.assertTrue;
 import java.awt.Color;
 import java.awt.Font;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**
@@ -38,16 +37,12 @@ import org.testng.annotations.Test;
  * (set/get round-trips, clone independence, identity comparison) and do not
  * claim anything about default-value resolution, which depends on the
  * current Look &amp; Feel.
+ *
+ * <p>{@code java.awt.headless=true} is set globally for every test JVM in
+ * the root build.gradle (Phase 6.3), so individual test classes no longer
+ * have to bootstrap headless mode in a {@code @BeforeAll} block.
  */
 public class ThemeDataTest {
-
-    @BeforeClass
-    public void enableHeadless() {
-        // ThemeData transitively touches Swing component defaults via its
-        // DefaultColor / DefaultFont resolvers; force headless mode so the
-        // tests do not depend on a display being available.
-        System.setProperty("java.awt.headless", "true");
-    }
 
     @Test
     public void newThemeData_hasNoExplicitColorsSet() {
