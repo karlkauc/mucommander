@@ -60,6 +60,7 @@ import com.mucommander.job.FileJobState;
 import com.mucommander.job.JobProgress;
 import com.mucommander.job.JobListener;
 import com.mucommander.job.JobsManager;
+import com.mucommander.job.JobsService;
 import com.mucommander.job.impl.TransferFileJob;
 import com.mucommander.text.DurationFormat;
 import com.mucommander.text.SizeFormat;
@@ -126,8 +127,20 @@ public class ProgressDialog extends FocusDialog implements ActionListener, ItemL
     }
 
 
+    private final JobsService jobsService;
+
     public ProgressDialog(MainFrame mainFrame, String title) {
+        this(mainFrame, title, JobsManager.getInstance());
+    }
+
+    /**
+     * Test-friendly constructor: lets callers wire in an alternative
+     * {@link JobsService} instead of always going through the
+     * {@link JobsManager#getInstance() singleton}.
+     */
+    public ProgressDialog(MainFrame mainFrame, String title, JobsService jobsService) {
         super(mainFrame.getJFrame(), title, mainFrame.getJFrame());
+        this.jobsService = jobsService;
 
         // Sets maximum and minimum dimensions for this dialog
         setMaximumSize(MAXIMUM_DIALOG_DIMENSION);
@@ -260,8 +273,8 @@ public class ProgressDialog extends FocusDialog implements ActionListener, ItemL
 
         initUI();
         
-		JobsManager.getInstance().addJob(job);
-        JobsManager.getInstance().addJobListener(this);
+		jobsService.addJob(job);
+        jobsService.addJobListener(this);
 
         if (job.isRunInBackground()) {
             firstTimeActivated = false;
@@ -276,7 +289,7 @@ public class ProgressDialog extends FocusDialog implements ActionListener, ItemL
      * Stops repaint thread.
      */
     public void stop() {
-    	JobsManager.getInstance().removeJobListener(this);
+    	jobsService.removeJobListener(this);
     }
 
 
