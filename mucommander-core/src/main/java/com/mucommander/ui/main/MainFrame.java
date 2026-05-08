@@ -40,7 +40,6 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
-import javax.swing.table.TableColumnModel;
 
 import com.mucommander.commons.file.AbstractFile;
 import com.mucommander.commons.file.archive.AbstractArchiveEntryFile;
@@ -616,45 +615,26 @@ public class MainFrame implements LocationListener {
         foldersSplitPane.remove(leftFolderPanel.getPanel());
         foldersSplitPane.remove(rightFolderPanel.getPanel());
 
-        // Swaps the folder panels.
+        // Swap the folder panel references.
         FolderPanel tempPanel = leftFolderPanel;
         leftFolderPanel = rightFolderPanel;
         rightFolderPanel = tempPanel;
 
-        // swaps folders trees
-        int tempTreeWidth = leftFolderPanel.getTreeWidth();
-        leftFolderPanel.setTreeWidth(rightFolderPanel.getTreeWidth());
-        rightFolderPanel.setTreeWidth(tempTreeWidth);
-        boolean tempTreeVisible = leftFolderPanel.isTreeVisible();
-        leftFolderPanel.setTreeVisible(rightFolderPanel.isTreeVisible());
-        rightFolderPanel.setTreeVisible(tempTreeVisible);
-        
+        // Swap tree-width / tree-visibility between the now-flipped panels.
+        MainFrameSwap.swapTreeState(leftFolderPanel, rightFolderPanel);
 
-        // Resets the tables.
+        // Swap the file-table references.
         FileTable tempTable = leftTable;
         leftTable = rightTable;
         rightTable = tempTable;
 
-        // Preserve the sort order and columns visibility.
-        TableColumnModel model = leftTable.getColumnModel();
-        leftTable.setColumnModel(rightTable.getColumnModel());
-        rightTable.setColumnModel(model);
+        // Swap column model + sort order between the now-flipped tables.
+        MainFrameSwap.swapTableState(leftTable, rightTable);
 
-        SortInfo sortInfo = (SortInfo)leftTable.getSortInfo().clone();
-
-        leftTable.sortBy(rightTable.getSortInfo());
-        leftTable.updateColumnsVisibility();
-
-        rightTable.sortBy(sortInfo);
-        rightTable.updateColumnsVisibility();
-
-        // Do the swap and update the split pane
+        // Re-attach panels to the split pane in their new positions.
         foldersSplitPane.setLeftComponent(leftFolderPanel.getPanel());
         foldersSplitPane.setRightComponent(rightFolderPanel.getPanel());
-
         foldersSplitPane.doLayout();
-
-        // Update split pane divider's location
         foldersSplitPane.updateDividerLocation();
 
         activeTable.requestFocus();
