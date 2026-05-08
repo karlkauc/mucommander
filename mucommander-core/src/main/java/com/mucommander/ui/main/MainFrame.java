@@ -214,17 +214,16 @@ public class MainFrame implements LocationListener {
         });
 
         // Create the split pane that separates folder panels and allows to resize how much space is allocated to the
-        // both of them. The split orientation is loaded from and saved to the preferences.
-        // Note: the vertical/horizontal terminology used in muCommander is just the opposite of the one used
-        // in JSplitPane which is anti-natural / confusing.
+        // both of them. The split orientation is loaded from and saved to the preferences. The muCommander/Swing
+        // vertical/horizontal flip is handled by SplitPaneOrientation.
+        boolean muVertical = MuSnapshot.getSnapshot().getVariable(
+                MuSnapshot.getSplitOrientation(0),
+                MuSnapshot.DEFAULT_SPLIT_ORIENTATION).equals(MuSnapshot.VERTICAL_SPLIT_ORIENTATION);
         foldersSplitPane = new ProportionalSplitPane(getJFrame(),
-                MuSnapshot.getSnapshot().getVariable(
-                        MuSnapshot.getSplitOrientation(0),
-                        MuSnapshot.DEFAULT_SPLIT_ORIENTATION).equals(MuSnapshot.VERTICAL_SPLIT_ORIENTATION) ?
-                        JSplitPane.HORIZONTAL_SPLIT : JSplitPane.VERTICAL_SPLIT,
-                        false,
-                        MainFrame.this.leftFolderPanel.getPanel(),
-                        MainFrame.this.rightFolderPanel.getPanel()) {
+                SplitPaneOrientation.forMuVertical(muVertical),
+                false,
+                MainFrame.this.leftFolderPanel.getPanel(),
+                MainFrame.this.rightFolderPanel.getPanel()) {
             // We don't want any extra space around split pane
             @Override
             public Insets getInsets() {
@@ -587,9 +586,7 @@ public class MainFrame implements LocationListener {
      * @param vertical if true, the folder panels will be split horizontally (default), vertically otherwise.
      */
     public void setSplitPaneOrientation(boolean vertical) {
-        // Note: the vertical/horizontal terminology used in muCommander is just the opposite of the one used
-        // in JSplitPane which is anti-natural / confusing
-        foldersSplitPane.setOrientation(vertical?JSplitPane.HORIZONTAL_SPLIT:JSplitPane.VERTICAL_SPLIT);
+        foldersSplitPane.setOrientation(SplitPaneOrientation.forMuVertical(vertical));
     }
 
     /**
@@ -599,9 +596,7 @@ public class MainFrame implements LocationListener {
      * @return <code>true</code> if folder panels are split vertically
      */
     public boolean getSplitPaneOrientation() {
-        // Note: the vertical/horizontal terminology used in muCommander is just the opposite of the one used
-        // in JSplitPane which is anti-natural / confusing
-        return foldersSplitPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT;
+        return SplitPaneOrientation.isMuVertical(foldersSplitPane.getOrientation());
     }
 
 
