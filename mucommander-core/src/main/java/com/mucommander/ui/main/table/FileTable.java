@@ -156,8 +156,8 @@ public class FileTable extends JTable implements MouseListener, MouseMotionListe
     /** Instance of the inner class that handles quick search */
     private QuickSearch<AbstractFile> quickSearch = new FileTableQuickSearch();
 
-    /** TableSelectionListener instances registered to receive selection change events */
-    private WeakHashMap<TableSelectionListener, ?> tableSelectionListeners = new WeakHashMap<TableSelectionListener, Object>();
+    /** Listener registry for selected-file-changed and marked-files-changed notifications. */
+    private final TableSelectionListeners tableSelectionListeners = new TableSelectionListeners();
 
     /** True when this table is the current or last active table in the MainFrame */
     private boolean isActiveTable;
@@ -1042,7 +1042,7 @@ public class FileTable extends JTable implements MouseListener, MouseMotionListe
      * @param listener the TableSelectionListener instance to add to the list of registered listeners.
      */
     public void addTableSelectionListener(TableSelectionListener listener) {
-        tableSelectionListeners.put(listener, null);
+        tableSelectionListeners.add(listener);
     }
 
     /**
@@ -1062,14 +1062,14 @@ public class FileTable extends JTable implements MouseListener, MouseMotionListe
      * Notifies all registered listeners that the currently selected file has changed on this FileTable.
      */
     private void fireSelectedFileChangedEvent() {
-        tableSelectionListeners.keySet().forEach(listener -> listener.selectedFileChanged(this));
+        tableSelectionListeners.fireSelectedFileChanged(this);
     }
 
     /**
      * Notifies all registered listeners that the currently marked files have changed on this FileTable.
      */
     public void fireMarkedFilesChangedEvent() {
-        tableSelectionListeners.keySet().forEach(listener -> listener.markedFilesChanged(this));
+        tableSelectionListeners.fireMarkedFilesChanged(this);
     }
 
 
