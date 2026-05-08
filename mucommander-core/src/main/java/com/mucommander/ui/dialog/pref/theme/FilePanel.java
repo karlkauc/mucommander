@@ -27,6 +27,7 @@ import com.mucommander.text.Translator;
 import com.mucommander.ui.chooser.FontChooser;
 import com.mucommander.ui.chooser.PreviewLabel;
 import com.mucommander.ui.dialog.pref.PreferencesDialog;
+import com.mucommander.ui.theme.ThemeColor;
 import com.mucommander.ui.theme.ThemeData;
 
 /**
@@ -75,85 +76,85 @@ class FilePanel extends ThemeEditorPanel {
         // Background
         gridPanel.add(createCaptionLabel("theme_editor.background"));
         ColorButton backgroundButton = new ColorButton(parent, themeData,
-                active ? ThemeData.FILE_TABLE_BACKGROUND_COLOR :
-                    ThemeData.FILE_TABLE_INACTIVE_BACKGROUND_COLOR,
+                active ? ThemeColor.FILE_TABLE_BACKGROUND.id() :
+                    ThemeColor.FILE_TABLE_INACTIVE_BACKGROUND.id(),
                     PreviewLabel.BACKGROUND_COLOR_PROPERTY_NAME, preview);
         gridPanel.add(backgroundButton);
         ColorButton selectedBackgroundButton = new ColorButton(parent, themeData,
-                active ? ThemeData.FILE_TABLE_SELECTED_BACKGROUND_COLOR :
-                    ThemeData.FILE_TABLE_INACTIVE_SELECTED_BACKGROUND_COLOR,
+                active ? ThemeColor.FILE_TABLE_SELECTED_BACKGROUND.id() :
+                    ThemeColor.FILE_TABLE_INACTIVE_SELECTED_BACKGROUND.id(),
                     PreviewLabel.BACKGROUND_COLOR_PROPERTY_NAME, preview);
         gridPanel.add(selectedBackgroundButton);
 
         // Alternate background
         gridPanel.add(createCaptionLabel("theme_editor.alternate_background"));
         gridPanel.add(new ColorButton(parent, themeData,
-                                      active ? ThemeData.FILE_TABLE_ALTERNATE_BACKGROUND_COLOR : ThemeData.FILE_TABLE_INACTIVE_ALTERNATE_BACKGROUND_COLOR,
+                                      active ? ThemeColor.FILE_TABLE_ALTERNATE_BACKGROUND.id() : ThemeColor.FILE_TABLE_INACTIVE_ALTERNATE_BACKGROUND.id(),
                                       PreviewLabel.BACKGROUND_COLOR_PROPERTY_NAME, preview));
         gridPanel.add(new JLabel());
 
         // Folders.
         gridPanel.add(createCaptionLabel("theme_editor.folder"));
-        addForegroundColor(gridPanel, active ? ThemeData.FOLDER_FOREGROUND_COLOR : ThemeData.FOLDER_INACTIVE_FOREGROUND_COLOR,
+        addForegroundColor(gridPanel, active ? ThemeColor.FOLDER_FOREGROUND.id() : ThemeColor.FOLDER_INACTIVE_FOREGROUND.id(),
                            backgroundButton, fontChooser, preview);
-        addForegroundColor(gridPanel, active ? ThemeData.FOLDER_SELECTED_FOREGROUND_COLOR : ThemeData.FOLDER_INACTIVE_SELECTED_FOREGROUND_COLOR,
+        addForegroundColor(gridPanel, active ? ThemeColor.FOLDER_SELECTED_FOREGROUND.id() : ThemeColor.FOLDER_INACTIVE_SELECTED_FOREGROUND.id(),
                            selectedBackgroundButton, fontChooser, preview);
 
         // Plain files.
         gridPanel.add(createCaptionLabel("theme_editor.plain_file"));
-        addForegroundColor(gridPanel, active ? ThemeData.FILE_FOREGROUND_COLOR : ThemeData.FILE_INACTIVE_FOREGROUND_COLOR,
+        addForegroundColor(gridPanel, active ? ThemeColor.FILE_FOREGROUND.id() : ThemeColor.FILE_INACTIVE_FOREGROUND.id(),
                            backgroundButton, fontChooser, preview);
-        addForegroundColor(gridPanel, active ? ThemeData.FILE_SELECTED_FOREGROUND_COLOR : ThemeData.FILE_INACTIVE_SELECTED_FOREGROUND_COLOR,
+        addForegroundColor(gridPanel, active ? ThemeColor.FILE_SELECTED_FOREGROUND.id() : ThemeColor.FILE_INACTIVE_SELECTED_FOREGROUND.id(),
                            selectedBackgroundButton, fontChooser, preview);
 
         // Archives.
         gridPanel.add(createCaptionLabel("theme_editor.archive_file"));
-        addForegroundColor(gridPanel, active ? ThemeData.ARCHIVE_FOREGROUND_COLOR : ThemeData.ARCHIVE_INACTIVE_FOREGROUND_COLOR,
+        addForegroundColor(gridPanel, active ? ThemeColor.ARCHIVE_FOREGROUND.id() : ThemeColor.ARCHIVE_INACTIVE_FOREGROUND.id(),
                            backgroundButton, fontChooser, preview);
-        addForegroundColor(gridPanel, active ? ThemeData.ARCHIVE_SELECTED_FOREGROUND_COLOR : ThemeData.ARCHIVE_INACTIVE_SELECTED_FOREGROUND_COLOR,
+        addForegroundColor(gridPanel, active ? ThemeColor.ARCHIVE_SELECTED_FOREGROUND.id() : ThemeColor.ARCHIVE_INACTIVE_SELECTED_FOREGROUND.id(),
                            selectedBackgroundButton, fontChooser, preview);
 
         // Hidden files.
         gridPanel.add(createCaptionLabel("theme_editor.hidden_file"));
-        addForegroundColor(gridPanel, active ? ThemeData.HIDDEN_FILE_FOREGROUND_COLOR : ThemeData.HIDDEN_FILE_INACTIVE_FOREGROUND_COLOR,
+        addForegroundColor(gridPanel, active ? ThemeColor.HIDDEN_FILE_FOREGROUND.id() : ThemeColor.HIDDEN_FILE_INACTIVE_FOREGROUND.id(),
                            backgroundButton, fontChooser, preview);
-        addForegroundColor(gridPanel, active ? ThemeData.HIDDEN_FILE_SELECTED_FOREGROUND_COLOR : ThemeData.HIDDEN_FILE_INACTIVE_SELECTED_FOREGROUND_COLOR,
+        addForegroundColor(gridPanel, active ? ThemeColor.HIDDEN_FILE_SELECTED_FOREGROUND.id() : ThemeColor.HIDDEN_FILE_INACTIVE_SELECTED_FOREGROUND.id(),
                            selectedBackgroundButton, fontChooser, preview);
 
         // Symlinks.
         gridPanel.add(createCaptionLabel("theme_editor.symbolic_link"));
-        addForegroundColor(gridPanel, active ? ThemeData.SYMLINK_FOREGROUND_COLOR : ThemeData.SYMLINK_INACTIVE_FOREGROUND_COLOR,
+        addForegroundColor(gridPanel, active ? ThemeColor.SYMLINK_FOREGROUND.id() : ThemeColor.SYMLINK_INACTIVE_FOREGROUND.id(),
                            backgroundButton, fontChooser, preview);
-        addForegroundColor(gridPanel, active ? ThemeData.SYMLINK_SELECTED_FOREGROUND_COLOR : ThemeData.SYMLINK_INACTIVE_SELECTED_FOREGROUND_COLOR,
+        addForegroundColor(gridPanel, active ? ThemeColor.SYMLINK_SELECTED_FOREGROUND.id() : ThemeColor.SYMLINK_INACTIVE_SELECTED_FOREGROUND.id(),
                            selectedBackgroundButton, fontChooser, preview);
 
         // Marked files.
         gridPanel.add(createCaptionLabel("theme_editor.marked_file"));
-        addForegroundColor(gridPanel, active ? ThemeData.MARKED_FOREGROUND_COLOR : ThemeData.MARKED_INACTIVE_FOREGROUND_COLOR,
+        addForegroundColor(gridPanel, active ? ThemeColor.MARKED_FOREGROUND.id() : ThemeColor.MARKED_INACTIVE_FOREGROUND.id(),
                            backgroundButton, fontChooser, preview);
-        addForegroundColor(gridPanel, active ? ThemeData.MARKED_SELECTED_FOREGROUND_COLOR : ThemeData.MARKED_INACTIVE_SELECTED_FOREGROUND_COLOR,
+        addForegroundColor(gridPanel, active ? ThemeColor.MARKED_SELECTED_FOREGROUND.id() : ThemeColor.MARKED_INACTIVE_SELECTED_FOREGROUND.id(),
                            selectedBackgroundButton, fontChooser, preview);
 
         // Read-only
         gridPanel.add(createCaptionLabel("theme_editor.read_only_file"));
         addForegroundColor(gridPanel,
-                active ? ThemeData.READ_ONLY_FOREGROUND_COLOR : ThemeData.READ_ONLY_INACTIVE_FOREGROUND_COLOR,
+                active ? ThemeColor.READ_ONLY_FOREGROUND.id() : ThemeColor.READ_ONLY_INACTIVE_FOREGROUND.id(),
                 backgroundButton,
                 fontChooser,
                 preview);
         addForegroundColor(gridPanel,
-                active ? ThemeData.READ_ONLY_SELECTED_FOREGROUND_COLOR
-                        : ThemeData.READ_ONLY_INACTIVE_SELECTED_FOREGROUND_COLOR,
+                active ? ThemeColor.READ_ONLY_SELECTED_FOREGROUND.id()
+                        : ThemeColor.READ_ONLY_INACTIVE_SELECTED_FOREGROUND.id(),
                 selectedBackgroundButton, fontChooser, preview);
 
         // Border.
         gridPanel.add(createCaptionLabel("theme_editor.border"));
-        ColorButton borderButton = new ColorButton(parent, themeData, active ? ThemeData.FILE_TABLE_BORDER_COLOR :
-            ThemeData.FILE_TABLE_INACTIVE_BORDER_COLOR, PreviewLabel.BORDER_COLOR_PROPERTY_NAME);
+        ColorButton borderButton = new ColorButton(parent, themeData, active ? ThemeColor.FILE_TABLE_BORDER.id() :
+            ThemeColor.FILE_TABLE_INACTIVE_BORDER.id(), PreviewLabel.BORDER_COLOR_PROPERTY_NAME);
         gridPanel.add(borderButton);
         borderButton.addUpdatedPreviewComponent(preview);
-        borderButton = new ColorButton(parent, themeData, active ? ThemeData.FILE_TABLE_SELECTED_OUTLINE_COLOR :
-            ThemeData.FILE_TABLE_INACTIVE_SELECTED_OUTLINE_COLOR, PreviewLabel.BORDER_COLOR_PROPERTY_NAME);
+        borderButton = new ColorButton(parent, themeData, active ? ThemeColor.FILE_TABLE_SELECTED_OUTLINE.id() :
+            ThemeColor.FILE_TABLE_INACTIVE_SELECTED_OUTLINE.id(), PreviewLabel.BORDER_COLOR_PROPERTY_NAME);
         gridPanel.add(borderButton);
         borderButton.addUpdatedPreviewComponent(preview);
 

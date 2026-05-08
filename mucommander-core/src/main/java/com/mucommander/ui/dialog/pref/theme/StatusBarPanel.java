@@ -39,7 +39,9 @@ import com.mucommander.ui.chooser.FontChooser;
 import com.mucommander.ui.chooser.PreviewLabel;
 import com.mucommander.ui.dialog.pref.PreferencesDialog;
 import com.mucommander.ui.main.StatusBar;
+import com.mucommander.ui.theme.ThemeColor;
 import com.mucommander.ui.theme.ThemeData;
+import com.mucommander.ui.theme.ThemeFont;
 
 /**
  * @author Nicolas Rinaudo, Maxence Bernard
@@ -50,9 +52,9 @@ class StatusBarPanel extends ThemeEditorPanel implements PropertyChangeListener 
     private static final int CRITICAL = 2;
 
     private final static int WARNING_LEVEL_COLOR_IDS[] = {
-        ThemeData.STATUS_BAR_OK_COLOR,
-        ThemeData.STATUS_BAR_WARNING_COLOR,
-        ThemeData.STATUS_BAR_CRITICAL_COLOR
+        ThemeColor.STATUS_BAR_OK.id(),
+        ThemeColor.STATUS_BAR_WARNING.id(),
+        ThemeColor.STATUS_BAR_CRITICAL.id()
     };
 
     private final static String WARNING_LEVEL_LABELS[] = {
@@ -155,7 +157,7 @@ class StatusBarPanel extends ThemeEditorPanel implements PropertyChangeListener 
         YBoxPanel previewPanel = new YBoxPanel();
 
         addPreviewLabel(previewPanel, normalPreview = new JLabel(Translator.get("status_bar.selected_files", "3", "14")), "theme_editor.normal", fontChooser);
-        normalPreview.setForeground(themeData.getColor(ThemeData.STATUS_BAR_FOREGROUND_COLOR));
+        normalPreview.setForeground(themeData.getColor(ThemeColor.STATUS_BAR_FOREGROUND));
 
         addPreviewLabel(previewPanel, okPreview       = new Preview(OK),       "theme_editor.free_space.ok", fontChooser);
         addPreviewLabel(previewPanel, warningPreview  = new Preview(WARNING),  "theme_editor.free_space.warning", fontChooser);
@@ -176,17 +178,17 @@ class StatusBarPanel extends ThemeEditorPanel implements PropertyChangeListener 
         PreviewLabel previewLabel;
         PreviewLabel borderPreviewLabel;
 
-        FontChooser fontChooser = createFontChooser(ThemeData.STATUS_BAR_FONT);
+        FontChooser fontChooser = createFontChooser(ThemeFont.STATUS_BAR.id());
 
         // Initialises the foreground color button.
-        ColorButton foreground = new ColorButton(parent, themeData, ThemeData.STATUS_BAR_FOREGROUND_COLOR, PreviewLabel.FOREGROUND_COLOR_PROPERTY_NAME, previewLabel = new PreviewLabel());
+        ColorButton foreground = new ColorButton(parent, themeData, ThemeColor.STATUS_BAR_FOREGROUND.id(), PreviewLabel.FOREGROUND_COLOR_PROPERTY_NAME, previewLabel = new PreviewLabel());
         previewLabel.setTextPainted(true);
         addFontChooserListener(fontChooser, previewLabel);
         previewLabel.addPropertyChangeListener(this);
 
         // Initialises the background and border color buttons.
-        ColorButton background = new ColorButton(parent, themeData, ThemeData.STATUS_BAR_BACKGROUND_COLOR, PreviewLabel.BACKGROUND_COLOR_PROPERTY_NAME, previewLabel = new PreviewLabel());
-        ColorButton border = new ColorButton(parent, themeData, ThemeData.STATUS_BAR_BORDER_COLOR, PreviewLabel.BORDER_COLOR_PROPERTY_NAME, borderPreviewLabel = new PreviewLabel());
+        ColorButton background = new ColorButton(parent, themeData, ThemeColor.STATUS_BAR_BACKGROUND.id(), PreviewLabel.BACKGROUND_COLOR_PROPERTY_NAME, previewLabel = new PreviewLabel());
+        ColorButton border = new ColorButton(parent, themeData, ThemeColor.STATUS_BAR_BORDER.id(), PreviewLabel.BORDER_COLOR_PROPERTY_NAME, borderPreviewLabel = new PreviewLabel());
 
         // Initialises the background color preview.
         previewLabel.setTextPainted(true);
@@ -245,7 +247,7 @@ class StatusBarPanel extends ThemeEditorPanel implements PropertyChangeListener 
         else if(event.getPropertyName().equals(PreviewLabel.FOREGROUND_COLOR_PROPERTY_NAME)) {
             Color color;
 
-            color = themeData.getColor(ThemeData.STATUS_BAR_FOREGROUND_COLOR);
+            color = themeData.getColor(ThemeColor.STATUS_BAR_FOREGROUND);
 
             okPreview.setForeground(color);
             warningPreview.setForeground(color);
@@ -274,12 +276,12 @@ class StatusBarPanel extends ThemeEditorPanel implements PropertyChangeListener 
             setOpaque(false);
             setBorder(border = new MutableLineBorder(Color.BLACK, 1));
             setHorizontalAlignment(CENTER);
-            setForeground(themeData.getColor(ThemeData.STATUS_BAR_FOREGROUND_COLOR));
+            setForeground(themeData.getColor(ThemeColor.STATUS_BAR_FOREGROUND));
             this.type = type;
         }
 
         public void refreshBorder() {
-            border.setLineColor(themeData.getColor(ThemeData.STATUS_BAR_BORDER_COLOR));
+            border.setLineColor(themeData.getColor(ThemeColor.STATUS_BAR_BORDER));
             repaint();
         }
 
@@ -290,14 +292,14 @@ class StatusBarPanel extends ThemeEditorPanel implements PropertyChangeListener 
             width = ((getWidth() - 2) * WARNING_DRAW_PERCENTAGE[type]) / 100;
 
             if(type == OK)
-                g.setColor(themeData.getColor(ThemeData.STATUS_BAR_OK_COLOR));
+                g.setColor(themeData.getColor(ThemeColor.STATUS_BAR_OK));
             else if(type == WARNING)
-                g.setColor(themeData.getColor(ThemeData.STATUS_BAR_WARNING_COLOR));
+                g.setColor(themeData.getColor(ThemeColor.STATUS_BAR_WARNING));
             else
-                g.setColor(themeData.getColor(ThemeData.STATUS_BAR_CRITICAL_COLOR));
+                g.setColor(themeData.getColor(ThemeColor.STATUS_BAR_CRITICAL));
             g.fillRect(1, 1, width + 1, getHeight() - 2);
 
-            g.setColor(themeData.getColor(ThemeData.STATUS_BAR_BACKGROUND_COLOR));
+            g.setColor(themeData.getColor(ThemeColor.STATUS_BAR_BACKGROUND));
             g.fillRect(width + 1, 1, getWidth() - width - 1, getHeight() - 2);
 
             super.paint(g);

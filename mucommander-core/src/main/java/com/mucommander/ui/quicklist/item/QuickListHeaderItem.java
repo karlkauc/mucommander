@@ -26,7 +26,9 @@ import java.awt.image.BufferedImage;
 
 import com.mucommander.ui.theme.ColorChangedEvent;
 import com.mucommander.ui.theme.FontChangedEvent;
+import com.mucommander.ui.theme.ThemeColor;
 import com.mucommander.ui.theme.ThemeData;
+import com.mucommander.ui.theme.ThemeFont;
 import com.mucommander.ui.theme.ThemeManager;
 
 /**
@@ -42,10 +44,10 @@ public class QuickListHeaderItem extends QuickListItem {
 	
 	public QuickListHeaderItem(String text) {
 	   super(text);
-	   foreground = ThemeManager.getCurrentColor(ThemeData.QUICK_LIST_HEADER_FOREGROUND_COLOR);
-	   background = ThemeManager.getCurrentColor(ThemeData.QUICK_LIST_HEADER_BACKGROUND_COLOR);
-	   secondaryBackground = ThemeManager.getCurrentColor(ThemeData.QUICK_LIST_HEADER_SECONDARY_BACKGROUND_COLOR);
-	   setFont(ThemeManager.getCurrentFont(ThemeData.QUICK_LIST_HEADER_FONT));
+	   foreground = ThemeManager.getCurrentColor(ThemeColor.QUICK_LIST_HEADER_FOREGROUND.id());
+	   background = ThemeManager.getCurrentColor(ThemeColor.QUICK_LIST_HEADER_BACKGROUND.id());
+	   secondaryBackground = ThemeManager.getCurrentColor(ThemeColor.QUICK_LIST_HEADER_SECONDARY_BACKGROUND.id());
+	   setFont(ThemeManager.getCurrentFont(ThemeFont.QUICK_LIST_HEADER.id()));
 	}
 		
 	@Override
@@ -97,18 +99,18 @@ public class QuickListHeaderItem extends QuickListItem {
 	
 	@Override
     public void colorChanged(ColorChangedEvent event) {
-		if (event.getColorId() == ThemeData.QUICK_LIST_HEADER_BACKGROUND_COLOR)
+		if (event.getColorId() == ThemeColor.QUICK_LIST_HEADER_BACKGROUND.id())
 			background = event.getColor();
 
-		else if (event.getColorId() == ThemeData.QUICK_LIST_HEADER_FOREGROUND_COLOR)
+		else if (event.getColorId() == ThemeColor.QUICK_LIST_HEADER_FOREGROUND.id())
 			foreground = event.getColor();
-		
-		else if (event.getColorId() == ThemeData.QUICK_LIST_HEADER_SECONDARY_BACKGROUND_COLOR)
+
+		else if (event.getColorId() == ThemeColor.QUICK_LIST_HEADER_SECONDARY_BACKGROUND.id())
 			secondaryBackground = event.getColor();
 	}
-	
+
 	@Override
     public void fontChanged(FontChangedEvent event) {
-		setFont(ThemeManager.getCurrentFont(ThemeData.QUICK_LIST_HEADER_FONT));
+		setFont(ThemeManager.getCurrentFont(ThemeFont.QUICK_LIST_HEADER.id()));
 	}
 }

@@ -29,7 +29,9 @@ import com.mucommander.commons.util.ui.layout.YBoxPanel;
 import com.mucommander.text.Translator;
 import com.mucommander.ui.chooser.FontChooser;
 import com.mucommander.ui.dialog.pref.PreferencesDialog;
+import com.mucommander.ui.theme.ThemeColor;
 import com.mucommander.ui.theme.ThemeData;
+import com.mucommander.ui.theme.ThemeFont;
 
 /**
  * @author Nicolas Rinaudo, Maxence Bernard
@@ -59,7 +61,7 @@ class FolderPanePanel extends ThemeEditorPanel {
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 
         // Adds the general panel.
-        FontChooser fontChooser = createFontChooser(ThemeData.FILE_TABLE_FONT);
+        FontChooser fontChooser = createFontChooser(ThemeFont.FILE_TABLE.id());
         tabbedPane.add(Translator.get("theme_editor.general"),
                 createScrollPane(createGeneralPanel(fontChooser)));
 
@@ -83,8 +85,8 @@ class FolderPanePanel extends ThemeEditorPanel {
         // Initialises the quicksearch panel.
         ProportionalGridPanel panel = new ProportionalGridPanel(4);
         addLabelRow(panel);
-        panel.add(addColorButtons(panel, chooser, "theme_editor.quick_search.unmatched_file", ThemeData.FILE_TABLE_UNMATCHED_FOREGROUND_COLOR,
-                                  ThemeData.FILE_TABLE_UNMATCHED_BACKGROUND_COLOR));
+        panel.add(addColorButtons(panel, chooser, "theme_editor.quick_search.unmatched_file", ThemeColor.FILE_TABLE_UNMATCHED_FOREGROUND.id(),
+                                  ThemeColor.FILE_TABLE_UNMATCHED_BACKGROUND.id()));
         JPanel quickSearchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         quickSearchPanel.add(panel);
         quickSearchPanel.setBorder(BorderFactory.createTitledBorder(Translator.get("theme_editor.quick_search")));

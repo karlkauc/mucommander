@@ -35,7 +35,9 @@ import com.mucommander.text.Translator;
 import com.mucommander.ui.chooser.FontChooser;
 import com.mucommander.ui.chooser.PreviewLabel;
 import com.mucommander.ui.dialog.pref.PreferencesDialog;
+import com.mucommander.ui.theme.ThemeColor;
 import com.mucommander.ui.theme.ThemeData;
+import com.mucommander.ui.theme.ThemeFont;
 
 /**
  * @author Nicolas Rinaudo, Maxence Bernard
@@ -78,9 +80,9 @@ class FileEditorPanel extends ThemeEditorPanel implements PropertyChangeListener
 
         // Color buttons.
         addColorButtons(gridPanel, fontChooser, "theme_editor.normal",
-                        ThemeData.EDITOR_FOREGROUND_COLOR, ThemeData.EDITOR_BACKGROUND_COLOR).addPropertyChangeListener(this);
+                        ThemeColor.EDITOR_FOREGROUND.id(), ThemeColor.EDITOR_BACKGROUND.id()).addPropertyChangeListener(this);
         addColorButtons(gridPanel, fontChooser, "theme_editor.selected",
-                        ThemeData.EDITOR_SELECTED_FOREGROUND_COLOR, ThemeData.EDITOR_SELECTED_BACKGROUND_COLOR).addPropertyChangeListener(this);
+                        ThemeColor.EDITOR_SELECTED_FOREGROUND.id(), ThemeColor.EDITOR_SELECTED_BACKGROUND.id()).addPropertyChangeListener(this);
 
         // Wraps everything in a flow layout.
         JPanel colorsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -96,7 +98,7 @@ class FileEditorPanel extends ThemeEditorPanel implements PropertyChangeListener
     private void initUI() {
         // Font chooser and preview initialisation.
         JPanel mainPanel = new JPanel(new BorderLayout());
-        FontChooser fontChooser = createFontChooser(ThemeData.EDITOR_FONT);
+        FontChooser fontChooser = createFontChooser(ThemeFont.EDITOR.id());
         mainPanel.add(createPreviewPanel(), BorderLayout.EAST);
         addFontChooserListener(fontChooser, preview);
 
@@ -154,14 +156,14 @@ class FileEditorPanel extends ThemeEditorPanel implements PropertyChangeListener
     }
 
     private void setBackgroundColors() {
-        preview.setBackground(themeData.getColor(ThemeData.EDITOR_BACKGROUND_COLOR));
-        preview.setSelectionColor(themeData.getColor(ThemeData.EDITOR_SELECTED_BACKGROUND_COLOR));
+        preview.setBackground(themeData.getColor(ThemeColor.EDITOR_BACKGROUND));
+        preview.setSelectionColor(themeData.getColor(ThemeColor.EDITOR_SELECTED_BACKGROUND));
     }
 
     private void setForegroundColors() {
-        preview.setForeground(themeData.getColor(ThemeData.EDITOR_FOREGROUND_COLOR));
-        preview.setCaretColor(themeData.getColor(ThemeData.EDITOR_FOREGROUND_COLOR));
-        preview.setSelectedTextColor(themeData.getColor(ThemeData.EDITOR_SELECTED_FOREGROUND_COLOR));
+        preview.setForeground(themeData.getColor(ThemeColor.EDITOR_FOREGROUND));
+        preview.setCaretColor(themeData.getColor(ThemeColor.EDITOR_FOREGROUND));
+        preview.setSelectedTextColor(themeData.getColor(ThemeColor.EDITOR_SELECTED_FOREGROUND));
     }
 
 

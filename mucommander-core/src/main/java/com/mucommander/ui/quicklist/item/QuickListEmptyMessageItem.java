@@ -23,7 +23,9 @@ import java.awt.Graphics2D;
 
 import com.mucommander.ui.theme.ColorChangedEvent;
 import com.mucommander.ui.theme.FontChangedEvent;
+import com.mucommander.ui.theme.ThemeColor;
 import com.mucommander.ui.theme.ThemeData;
+import com.mucommander.ui.theme.ThemeFont;
 import com.mucommander.ui.theme.ThemeManager;
 
 /**
@@ -40,9 +42,9 @@ public class QuickListEmptyMessageItem extends QuickListItem {
 	
 	public QuickListEmptyMessageItem(String text) {
 		super(text);
-		foreground = ThemeManager.getCurrentColor(ThemeData.QUICK_LIST_ITEM_FOREGROUND_COLOR);
-		background = ThemeManager.getCurrentColor(ThemeData.QUICK_LIST_ITEM_BACKGROUND_COLOR);
-		setFont(ThemeManager.getCurrentFont(ThemeData.QUICK_LIST_ITEM_FONT));
+		foreground = ThemeManager.getCurrentColor(ThemeColor.QUICK_LIST_ITEM_FOREGROUND.id());
+		background = ThemeManager.getCurrentColor(ThemeColor.QUICK_LIST_ITEM_BACKGROUND.id());
+		setFont(ThemeManager.getCurrentFont(ThemeFont.QUICK_LIST_ITEM.id()));
 	}
 	
 	@Override
@@ -61,15 +63,15 @@ public class QuickListEmptyMessageItem extends QuickListItem {
 
 	@Override
     public void colorChanged(ColorChangedEvent event) {
-		if (event.getColorId() == ThemeData.QUICK_LIST_ITEM_BACKGROUND_COLOR)
+		if (event.getColorId() == ThemeColor.QUICK_LIST_ITEM_BACKGROUND.id())
 			background = event.getColor();
-			
-		else if (event.getColorId() == ThemeData.QUICK_LIST_ITEM_FOREGROUND_COLOR)
+
+		else if (event.getColorId() == ThemeColor.QUICK_LIST_ITEM_FOREGROUND.id())
 			foreground = event.getColor();
 	}
-	
+
 	@Override
     public void fontChanged(FontChangedEvent event) {
-		setFont(ThemeManager.getCurrentFont(ThemeData.QUICK_LIST_ITEM_FONT));
+		setFont(ThemeManager.getCurrentFont(ThemeFont.QUICK_LIST_ITEM.id()));
 	}
 }

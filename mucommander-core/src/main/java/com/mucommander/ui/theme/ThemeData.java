@@ -1237,6 +1237,44 @@ public class ThemeData {
      */
     public boolean isFontSet(int id) {return fonts.containsKey(id);}
 
+    // -- Type-safe overloads -------------------------------------------------------------------
+    // The integer variants above stay around so external callers don't break, but new code should
+    // use these enum-parameterised methods instead.
+
+    /** Type-safe variant of {@link #setColor(int, Color)}. */
+    public boolean setColor(ThemeColor color, Color value) {return setColor(color.id(), value);}
+
+    /** Type-safe variant of {@link #setFont(int, Font)}. */
+    public boolean setFont(ThemeFont font, Font value) {return setFont(font.id(), value);}
+
+    /** Type-safe variant of {@link #getColor(int)}. */
+    public Color getColor(ThemeColor color) {return getColor(color.id());}
+
+    /** Type-safe variant of {@link #getFont(int)}. */
+    public Font getFont(ThemeFont font) {return getFont(font.id());}
+
+    /** Type-safe variant of {@link #isColorSet(int)}. */
+    public boolean isColorSet(ThemeColor color) {return isColorSet(color.id());}
+
+    /** Type-safe variant of {@link #isFontSet(int)}. */
+    public boolean isFontSet(ThemeFont font) {return isFontSet(font.id());}
+
+    /** Type-safe variant of {@link #isColorDifferent(int, Color)}. */
+    public boolean isColorDifferent(ThemeColor color, Color value) {return isColorDifferent(color.id(), value);}
+
+    /** Type-safe variant of {@link #isColorDifferent(int, Color, boolean)}. */
+    public boolean isColorDifferent(ThemeColor color, Color value, boolean ignoreDefaults) {
+        return isColorDifferent(color.id(), value, ignoreDefaults);
+    }
+
+    /** Type-safe variant of {@link #isFontDifferent(int, Font)}. */
+    public boolean isFontDifferent(ThemeFont font, Font value) {return isFontDifferent(font.id(), value);}
+
+    /** Type-safe variant of {@link #isFontDifferent(int, Font, boolean)}. */
+    public boolean isFontDifferent(ThemeFont font, Font value, boolean ignoreDefaults) {
+        return isFontDifferent(font.id(), value, ignoreDefaults);
+    }
+
     /**
      * Returns the default value for the specified color.
      * <p>

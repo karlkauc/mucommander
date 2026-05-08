@@ -35,7 +35,9 @@ import com.mucommander.text.Translator;
 import com.mucommander.ui.chooser.FontChooser;
 import com.mucommander.ui.chooser.PreviewLabel;
 import com.mucommander.ui.dialog.pref.PreferencesDialog;
+import com.mucommander.ui.theme.ThemeColor;
 import com.mucommander.ui.theme.ThemeData;
+import com.mucommander.ui.theme.ThemeFont;
 
 /**
  * @author Nicolas Rinaudo, Maxence Bernard
@@ -116,9 +118,9 @@ class TerminalPanel extends ThemeEditorPanel implements PropertyChangeListener {
         mainPanel.add(previewPanel, BorderLayout.EAST);
         YBoxPanel configurationPanel = new YBoxPanel();
         configurationPanel.add(
-                createConfigurationPanel(ThemeData.TERMINAL_FONT,
-                        ThemeData.TERMINAL_FOREGROUND_COLOR, ThemeData.TERMINAL_BACKGROUND_COLOR,
-                        ThemeData.TERMINAL_SELECTED_FOREGROUND_COLOR, ThemeData.TERMINAL_SELECTED_BACKGROUND_COLOR, terminalPreview)
+                createConfigurationPanel(ThemeFont.TERMINAL.id(),
+                        ThemeColor.TERMINAL_FOREGROUND.id(), ThemeColor.TERMINAL_BACKGROUND.id(),
+                        ThemeColor.TERMINAL_SELECTED_FOREGROUND.id(), ThemeColor.TERMINAL_SELECTED_BACKGROUND.id(), terminalPreview)
                 );
         mainPanel.add(configurationPanel, BorderLayout.CENTER);
 
@@ -136,14 +138,14 @@ class TerminalPanel extends ThemeEditorPanel implements PropertyChangeListener {
     }
 
     private void setBackgroundColors() {
-        terminalPreview.setBackground(themeData.getColor(ThemeData.TERMINAL_BACKGROUND_COLOR));
-        terminalPreview.setSelectionColor(themeData.getColor(ThemeData.TERMINAL_SELECTED_BACKGROUND_COLOR));
+        terminalPreview.setBackground(themeData.getColor(ThemeColor.TERMINAL_BACKGROUND));
+        terminalPreview.setSelectionColor(themeData.getColor(ThemeColor.TERMINAL_SELECTED_BACKGROUND));
     }
 
     private void setForegroundColors() {
-        terminalPreview.setForeground(themeData.getColor(ThemeData.TERMINAL_FOREGROUND_COLOR));
-        terminalPreview.setSelectedTextColor(themeData.getColor(ThemeData.TERMINAL_SELECTED_FOREGROUND_COLOR));
-        terminalPreview.setCaretColor(themeData.getColor(ThemeData.TERMINAL_FOREGROUND_COLOR));
+        terminalPreview.setForeground(themeData.getColor(ThemeColor.TERMINAL_FOREGROUND));
+        terminalPreview.setSelectedTextColor(themeData.getColor(ThemeColor.TERMINAL_SELECTED_FOREGROUND));
+        terminalPreview.setCaretColor(themeData.getColor(ThemeColor.TERMINAL_FOREGROUND));
     }
 
 

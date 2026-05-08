@@ -38,7 +38,9 @@ import com.mucommander.ui.quicksearch.QuickSearch;
 import com.mucommander.ui.theme.ColorChangedEvent;
 import com.mucommander.ui.theme.FontChangedEvent;
 import com.mucommander.ui.theme.ThemeCache;
+import com.mucommander.ui.theme.ThemeColor;
 import com.mucommander.ui.theme.ThemeData;
+import com.mucommander.ui.theme.ThemeFont;
 import com.mucommander.ui.theme.ThemeListener;
 import com.mucommander.ui.theme.ThemeManager;
 
@@ -141,12 +143,12 @@ public class QuickListDataList<T> extends JList {
 	 */
 	protected class DataListItemRenderer extends DefaultListCellRenderer implements ThemeListener {
 
-		private Color selectedItemBackgound = ThemeManager.getCurrentColor(ThemeData.QUICK_LIST_SELECTED_ITEM_BACKGROUND_COLOR);
-		private Color selectedItemForeground = ThemeManager.getCurrentColor(ThemeData.QUICK_LIST_SELECTED_ITEM_FOREGROUND_COLOR);
-		private Color itemBackgound = ThemeManager.getCurrentColor(ThemeData.QUICK_LIST_ITEM_BACKGROUND_COLOR);
-		private Color itemForeground = ThemeManager.getCurrentColor(ThemeData.QUICK_LIST_ITEM_FOREGROUND_COLOR);
+		private Color selectedItemBackgound = ThemeManager.getCurrentColor(ThemeColor.QUICK_LIST_SELECTED_ITEM_BACKGROUND.id());
+		private Color selectedItemForeground = ThemeManager.getCurrentColor(ThemeColor.QUICK_LIST_SELECTED_ITEM_FOREGROUND.id());
+		private Color itemBackgound = ThemeManager.getCurrentColor(ThemeColor.QUICK_LIST_ITEM_BACKGROUND.id());
+		private Color itemForeground = ThemeManager.getCurrentColor(ThemeColor.QUICK_LIST_ITEM_FOREGROUND.id());
 
-		private Font itemFont = ThemeManager.getCurrentFont(ThemeData.QUICK_LIST_ITEM_FONT);
+		private Font itemFont = ThemeManager.getCurrentFont(ThemeFont.QUICK_LIST_ITEM.id());
 
 		protected DataListItemRenderer() { }
 
@@ -205,22 +207,22 @@ public class QuickListDataList<T> extends JList {
 		// ThemeListener implementation //
 		//////////////////////////////////
 
-		public void colorChanged(ColorChangedEvent event) {		
-			if (event.getColorId() == ThemeData.QUICK_LIST_ITEM_BACKGROUND_COLOR)
-				itemBackgound = ThemeManager.getCurrentColor(ThemeData.QUICK_LIST_ITEM_BACKGROUND_COLOR);
+		public void colorChanged(ColorChangedEvent event) {
+			if (event.getColorId() == ThemeColor.QUICK_LIST_ITEM_BACKGROUND.id())
+				itemBackgound = ThemeManager.getCurrentColor(ThemeColor.QUICK_LIST_ITEM_BACKGROUND.id());
 
-			else if (event.getColorId() == ThemeData.QUICK_LIST_ITEM_FOREGROUND_COLOR)
-				itemForeground = ThemeManager.getCurrentColor(ThemeData.QUICK_LIST_ITEM_FOREGROUND_COLOR);
+			else if (event.getColorId() == ThemeColor.QUICK_LIST_ITEM_FOREGROUND.id())
+				itemForeground = ThemeManager.getCurrentColor(ThemeColor.QUICK_LIST_ITEM_FOREGROUND.id());
 
-			else if (event.getColorId() == ThemeData.QUICK_LIST_SELECTED_ITEM_BACKGROUND_COLOR)
-				selectedItemBackgound= ThemeManager.getCurrentColor(ThemeData.QUICK_LIST_SELECTED_ITEM_BACKGROUND_COLOR);
+			else if (event.getColorId() == ThemeColor.QUICK_LIST_SELECTED_ITEM_BACKGROUND.id())
+				selectedItemBackgound= ThemeManager.getCurrentColor(ThemeColor.QUICK_LIST_SELECTED_ITEM_BACKGROUND.id());
 
-			else if (event.getColorId() == ThemeData.QUICK_LIST_SELECTED_ITEM_FOREGROUND_COLOR)
-				selectedItemForeground = ThemeManager.getCurrentColor(ThemeData.QUICK_LIST_SELECTED_ITEM_FOREGROUND_COLOR);
+			else if (event.getColorId() == ThemeColor.QUICK_LIST_SELECTED_ITEM_FOREGROUND.id())
+				selectedItemForeground = ThemeManager.getCurrentColor(ThemeColor.QUICK_LIST_SELECTED_ITEM_FOREGROUND.id());
 		}
 
 		public void fontChanged(FontChangedEvent event) {
-			itemFont = ThemeManager.getCurrentFont(ThemeData.QUICK_LIST_ITEM_FONT);		
+			itemFont = ThemeManager.getCurrentFont(ThemeFont.QUICK_LIST_ITEM.id());
 		}
 	}
 
