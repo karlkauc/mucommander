@@ -42,8 +42,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import com.mucommander.commons.file.AbstractFile;
-import com.mucommander.commons.file.archive.AbstractArchiveEntryFile;
-import com.mucommander.commons.file.protocol.local.LocalFile;
 import com.mucommander.commons.runtime.OsFamily;
 import com.mucommander.commons.util.ui.layout.YBoxPanel;
 import com.mucommander.conf.MuConfigurations;
@@ -711,26 +709,11 @@ public class MainFrame implements LocationListener {
         getJFrame().setTitle(title);
 
         if (OsFamily.MAC_OS.isCurrent()) {
-            // Displays the document icon in the window title bar, works only for local files
-            AbstractFile currentFolder = activeTable.getFolderPanel().getCurrentFolder();
-            Object javaIoFile;
-            if (currentFolder.getURL().getScheme().equals(LocalFile.SCHEMA)) {
-                // If the current folder is an archive entry, display the archive file, this is the closest we can get
-                // with a java.io.File
-                if (currentFolder.hasAncestor(AbstractArchiveEntryFile.class)) {
-                    javaIoFile = currentFolder.getParentArchive().getUnderlyingFileObject();
-                } else {
-                    javaIoFile = currentFolder.getUnderlyingFileObject();
-                }
-            } else {
-                // If the current folder is not a local file, use the special /Network directory which is sort of
-                // 'Network Neighborhood'.
-                javaIoFile = new java.io.File("/Network");
-            }
-
+            // Displays the document icon in the window title bar.
             // Note that for some strange reason (looks like a bug), setting the property to null won't remove
             // the previous icon.
-            getJFrame().getRootPane().putClientProperty("Window.documentFile", javaIoFile);
+            getJFrame().getRootPane().putClientProperty("Window.documentFile",
+                    MacDocumentFile.resolveFor(activeTable.getFolderPanel().getCurrentFolder()));
         }
     }
 
