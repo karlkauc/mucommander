@@ -12,7 +12,6 @@ plugins {
     id 'com.athaydes.osgi-run' version '1.6.0'
     id 'java'
     id 'org.ajoberstar.grgit' version '5.0.0'
-    id 'edu.sc.seis.launch4j' version '2.5.4'
 }
 
 // This is the only syntax that appears to work for a local plugin
@@ -241,8 +240,6 @@ ext {
     git = grgit.open(dir: project.rootDir)
     // Get commit id of HEAD.
     revision = project.hasProperty('revision') ? revision : git.head().id.substring(0, 7)
-    // Whether or not to bundle the JRE in order to create a 'standalone' executable
-    bundleJRE = project.hasProperty('mucommanderBundleJRE') ? mucommanderBundleJRE.toBoolean() : false
     arch = project.hasProperty('arch') ? arch : System.getProperty('os.arch') // defaults to system architecture
     identity = project.hasProperty('identity') ? identity : ""
 }
@@ -264,120 +261,71 @@ jar {
 
 test.useTestNG()
 
-import org.apache.tools.ant.filters.ReplaceTokens
+ext.jlinkModules = [
+        'java.base',
+        'java.compiler',
+        'java.datatransfer',
+        'java.desktop',
+        'java.logging',
+        'java.management',
+        'java.naming',
+        'java.net.http',
+        'java.prefs',
+        'java.rmi',
+        'java.scripting',
+        'java.security.jgss',
+        'java.security.sasl',
+        'java.sql',
+        'java.sql.rowset',
+        'java.transaction.xa',
+        'java.xml',
+        'java.xml.crypto',
+        'jdk.charsets',
+        'jdk.crypto.cryptoki',
+        'jdk.crypto.ec',
+        'jdk.httpserver',
+        'jdk.localedata',
+        'jdk.management',
+        'jdk.naming.dns',
+        'jdk.security.auth',
+        'jdk.security.jgss',
+        'jdk.unsupported',
+        'jdk.zipfs'
+].join(',')
 
-launch4j {
-    icon = "$projectDir/package/windows/mucommander.ico"
-    mainClassName = "com.mucommander.main.muCommander"
-    jar = "${project.tasks.jar.archiveFileName.get()}"
-    productName = "muCommander"
-    companyName = "Arik Hadas"
-    version = project.version
-    textVersion = project.version
-    copyright = "Arik Hadas"
-    fileDescription = "a lightweight, cross-platform file manager"
-
-    dontWrapJar = true
-    classpath = ['.']
-    headerType = "gui"
-    jreMinVersion = "1.8"
-    if (project.ext.bundleJRE) {
-        bundledJre64Bit = true
-        bundledJrePath = "jre"
-    } else {
-        bundledJrePath = '%JAVA_HOME%'
-        bundledJreAsFallback = true
+def buildJlinkRuntime(String os) {
+    def runtimeArch = project.ext.arch
+    def runtimeDir = file("${buildDir}/runtime/${os}/${runtimeArch}")
+    def jmodsPath = project.findProperty('jmodsPath') ?: "${System.getProperty('java.home')}/jmods"
+    delete(runtimeDir)
+    runtimeDir.parentFile.mkdirs()
+    exec {
+        commandLine 'jlink',
+                '--module-path', jmodsPath,
+                '--add-modules', project.ext.jlinkModules,
+                '--strip-debug',
+                '--no-header-files',
+                '--no-man-pages',
+                '--output', runtimeDir
     }
-    outfile = "mucommander.exe"
 }
 
-// Portable packaging
-task portable(dependsOn: [createExe, createBundlesDir], type: Zip) {
-    group = 'Installer'
-    description = 'Creates a portable package (.exe + .sh)'
-
-    from ("$buildDir/launch4j") {
-        include 'mucommander.exe'
-    }
-    from ("$buildDir/osgi") {
-        include '*.jar'
-    }
-    from ('package') { include 'license.txt', 'readme.txt' }
-    def tempDir = File.createTempDir()
-    tempDir.deleteOnExit()
-    from ({ new File(temporaryDir, '.portable').createNewFile(); new File(temporaryDir, 'felix-cache').mkdirs(); temporaryDir }) {
-        include '.portable'
-        include 'felix-cache'
-        dirMode 0777
-    }
-    from ('package/unix/mucommander.sh') {
-        filter(ReplaceTokens, tokens: [MU_VERSION: project.version])
-    }
-    into ""
-    from ("$buildDir/osgi/bundle") {
-        include '*.jar'
-        exclude 'osgiaas*'
-        exclude 'junit*'
-        exclude 'hamcrest*'
-        exclude 'jline*'
-        into 'bundle'
-    }
-    from ("$buildDir/osgi/app") {
-        include '*.jar'
-        into 'app'
-    }
-    from ("$buildDir/osgi/conf") {
-        include '*'
-        into 'conf'
-    }
-
-    archiveClassifier = 'portable'
-    archiveVersion = project.version+'-'+project.ext.release
+task jlinkMacRuntime {
+    group = 'Build'
+    description = 'Creates a custom Java runtime image for macOS using jlink'
+    doLast { buildJlinkRuntime('macOS') }
 }
 
-// Unix packaging
-task tgz(dependsOn: createBundlesDir, type: Tar) {
-    group = 'Installer'
-    description = 'Creates TGZ unix package'
+task jlinkLinuxRuntime {
+    group = 'Build'
+    description = 'Creates a custom Java runtime image for Linux using jlink'
+    doLast { buildJlinkRuntime('linux') }
+}
 
-    from ("$buildDir/osgi") {
-        include '*.jar'
-    }
-    from ('package') { include 'license.txt', 'readme.txt' }
-    def tempDir = File.createTempDir()
-    tempDir.deleteOnExit()
-    from ({ new File(temporaryDir, 'felix-cache').mkdirs(); temporaryDir }) {
-        include 'felix-cache'
-        dirMode 0777
-    }
-    from ('package/unix/mucommander.sh') {
-        filter(ReplaceTokens, tokens: [MU_VERSION: project.version])
-    }
-    into ""
-
-    from ("$buildDir/osgi/bundle") {
-        include '*.jar'
-        exclude 'osgiaas*'
-        exclude 'jline*'
-        exclude 'junit*'
-        exclude 'hamcrest*'
-        exclude 'mucommander-os-win*'
-        exclude 'mucommander-os-macos*'
-        exclude 'mucommander-os-openvms*'
-        into 'bundle'
-    }
-    from ("$buildDir/osgi/app") {
-        include '*.jar'
-        into 'app'
-    }
-    from ("$buildDir/osgi/conf") {
-        include '*'
-        into 'conf'
-    }
-
-    archiveExtension = 'tgz'
-    compression = Compression.GZIP
-    archiveVersion = project.version+'-'+project.ext.release
+task jlinkWinRuntime {
+    group = 'Build'
+    description = 'Creates a custom Java runtime image for Windows using jlink'
+    doLast { buildJlinkRuntime('win') }
 }
 
 task(afterEclipseImport).doLast {
@@ -413,7 +361,7 @@ task(afterEclipseImport).doLast {
     f.append('encoding//src/main/resources/dictionary_zh_TW.properties=UTF-8\n')
 }
 
-task macAppImage(dependsOn: 'createBundlesDir', type: Exec) {
+task macAppImage(dependsOn: ['createBundlesDir', 'jlinkMacRuntime'], type: Exec) {
     workingDir "${projectDir}"
 
 
@@ -425,7 +373,7 @@ task macAppImage(dependsOn: 'createBundlesDir', type: Exec) {
                 '--icon', 'package/osx/icon.icns', \
                 '--main-jar', 'mucommander-'+project.version+'.jar', \
                 '--main-class', 'com.mucommander.main.muCommander', \
-                '--runtime-image', 'jre/macOS/'+project.ext.arch, \
+                '--runtime-image', "${buildDir}/runtime/macOS/${project.ext.arch}", \
                 '--java-options', '\
                          -Dsun.java2d.d3d=false -Dsun.java2d.noddraw=false -Dsun.java2d.metal=false \
                          -Dapple.awt.enableTemplateImages=true \
@@ -516,7 +464,7 @@ task dmg(dependsOn: 'macAppImage', type: Exec) {
                 '--dest', "${buildDir}/distributions"
 }
 
-task linuxAppImage(dependsOn: 'createBundlesDir', type: Exec) {
+task linuxAppImage(dependsOn: ['createBundlesDir', 'jlinkLinuxRuntime'], type: Exec) {
     workingDir "${projectDir}"
     commandLine 'jpackage', \
                 '--input', 'build/osgi/', \
@@ -538,7 +486,7 @@ task linuxAppImage(dependsOn: 'createBundlesDir', type: Exec) {
                                    --add-opens jdk.httpserver/com.sun.net.httpserver=ALL-UNNAMED \
                                    --add-opens java.compiler/javax.lang.model.element=ALL-UNNAMED', \
                 '--type', 'app-image', \
-                '--runtime-image', 'jre/linux/'+project.ext.arch, \
+                '--runtime-image', "${buildDir}/runtime/linux/${project.ext.arch}", \
                 '--dest', "${buildDir}"
     doLast {
         copy {
@@ -597,7 +545,7 @@ task deb(dependsOn: 'linuxAppImage', type: Exec) {
                 '--linux-menu-group', 'Application;FileManager;Utility;'
 }
 
-task winAppImage(dependsOn: 'createBundlesDir', type: Exec) {
+task winAppImage(dependsOn: ['createBundlesDir', 'jlinkWinRuntime'], type: Exec) {
     workingDir "${projectDir}"
     commandLine 'jpackage', \
                 '--input', "${buildDir}/osgi/", \
@@ -618,7 +566,7 @@ task winAppImage(dependsOn: 'createBundlesDir', type: Exec) {
                     --add-opens java.base/sun.net.www.protocol.https=ALL-UNNAMED \
                     --add-opens java.compiler/javax.lang.model.element=ALL-UNNAMED', \
                 '--type', 'app-image', \
-                '--runtime-image', 'jre/win/'+project.ext.arch, \
+                '--runtime-image', "${buildDir}/runtime/win/${project.ext.arch}", \
                 '--dest', "${buildDir}", \
                 '--resource-dir', 'package/windows/'
     doLast {
@@ -659,6 +607,83 @@ task msi(dependsOn: 'winAppImage', type: Exec) {
                 '--win-dir-chooser', \
                 '--vendor', 'Arik Hadas', \
                 '--win-menu-group', "muCommander"
+}
+
+task winExe(dependsOn: 'winAppImage', type: Exec) {
+    group = 'Installer'
+    description = 'Creates EXE Windows installer (requires Inno Setup on PATH)'
+
+    workingDir "${projectDir}"
+    commandLine 'jpackage', \
+                '--type', 'exe', \
+                '--app-image', "${buildDir}/muCommander", \
+                '--license-file', "${buildDir}/muCommander/license.txt", \
+                '--app-version', project.version, \
+                '--about-url', 'https://www.mucommander.com', \
+                '--dest', "${buildDir}/distributions", \
+                '--win-menu', \
+                '--win-shortcut', \
+                '--win-shortcut-prompt', \
+                '--win-dir-chooser', \
+                '--vendor', 'Arik Hadas', \
+                '--win-menu-group', "muCommander"
+}
+
+task windowsPortable(dependsOn: 'winAppImage', type: Zip) {
+    group = 'Installer'
+    description = 'Creates portable Windows zip with bundled JRE'
+
+    archiveBaseName = 'mucommander'
+    archiveVersion = project.version + '-' + project.ext.release + '-' + project.ext.arch
+    archiveClassifier = 'portable-windows'
+    archiveExtension = 'zip'
+
+    into 'muCommander'
+    from "${buildDir}/muCommander"
+
+    from ({ new File(temporaryDir, '.portable').createNewFile(); temporaryDir }) {
+        include '.portable'
+        into 'app'
+    }
+}
+
+task linuxPortable(dependsOn: 'linuxAppImage', type: Tar) {
+    group = 'Installer'
+    description = 'Creates portable Linux tarball with bundled JRE'
+
+    archiveBaseName = 'mucommander'
+    archiveVersion = project.version + '-' + project.ext.release + '-' + project.ext.arch
+    archiveClassifier = 'portable-linux'
+    archiveExtension = 'tgz'
+    compression = Compression.GZIP
+
+    into 'muCommander'
+    from "${buildDir}/muCommander"
+
+    from ({ new File(temporaryDir, '.portable').createNewFile(); temporaryDir }) {
+        include '.portable'
+        into 'lib/app'
+    }
+}
+
+task macosPortable(dependsOn: 'macAppImage', type: Tar) {
+    group = 'Installer'
+    description = 'Creates portable macOS tarball with bundled JRE'
+
+    archiveBaseName = 'mucommander'
+    archiveVersion = project.version + '-' + project.ext.release + '-' + project.ext.arch
+    archiveClassifier = 'portable-macos'
+    archiveExtension = 'tgz'
+    compression = Compression.GZIP
+
+    from ("${buildDir}") {
+        include 'muCommander.app/**'
+    }
+
+    from ({ new File(temporaryDir, '.portable').createNewFile(); temporaryDir }) {
+        include '.portable'
+        into 'muCommander.app/Contents/app'
+    }
 }
 
 configurations.default.canBeResolved=true

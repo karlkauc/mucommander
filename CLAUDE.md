@@ -11,7 +11,7 @@ Everything is driven by the Gradle wrapper from the repo root.
 - Build a single sub-project: `./gradlew :mucommander-protocol-ftp:build`.
 - Tests: `./gradlew test`. Single module: `./gradlew :mucommander-core:test`. Single class: `./gradlew :mucommander-core:test --tests com.mucommander.SomeTest`.
 - JDK: source level is **Java 11** (`--release 11` enforced for every subproject), but CI in `.github/workflows/tests.yaml` uses JDK 17 — build/test with 17+ locally to match.
-- Packaging targets (all use `jpackage` and end up in `build/distributions/` or `build/launch4j/`): `dmg` (mac, `-PskipDmgSign -Parch=x86_64|aarch64`), `createExe`/`msi` (win), `tgz`/`rpm`/`deb` (linux), `portable` (cross-platform zip).
+- Packaging targets (all use `jlink` + `jpackage`, output in `build/distributions/`): `dmg` + `macosPortable` (mac), `msi` / `winExe` / `windowsPortable` (win, `winExe` needs Inno Setup on PATH), `rpm` / `deb` / `linuxPortable` (linux). Each takes `-Parch=x86_64|aarch64`. Cross-arch builds: pass `-PjmodsPath=/path/to/<target-arch>/jdk/lib/jmods` so `jlink` reads jmods for the target architecture.
 
 ## Architecture
 
@@ -19,7 +19,7 @@ muCommander is a **single Java application composed of OSGi bundles** running on
 
 ### Two source roots
 
-- `src/` (top-level, `com.mucommander.main`) — the **launcher only**. `muCommander.java` is a fork of the Felix launcher: it parses CLI args via JCommander, locates `bundle/` and `app/` next to its jar, boots a Felix framework, and auto-deploys every bundle. The packaged jar (defined by `jar { ... }` in the root `build.gradle`) is what `jpackage`/launch4j wraps. Main-Class everywhere is `com.mucommander.main.muCommander`.
+- `src/` (top-level, `com.mucommander.main`) — the **launcher only**. `muCommander.java` is a fork of the Felix launcher: it parses CLI args via JCommander, locates `bundle/` and `app/` next to its jar, boots a Felix framework, and auto-deploys every bundle. The packaged jar (defined by `jar { ... }` in the root `build.gradle`) is what `jpackage` wraps into native installers and portables. Main-Class everywhere is `com.mucommander.main.muCommander`.
 - `mucommander-*/` — the actual application, split across ~50 sub-projects listed in `settings.gradle`. Each is its own Gradle subproject and produces an OSGi bundle (`biz.aQute.bnd.builder` plugin generates the manifest from `bnd { ... }` in its `build.gradle`).
 
 ### Bundle composition is configured in the root build.gradle

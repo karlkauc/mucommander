@@ -66,32 +66,54 @@ Then, you can run a debugger that connects to this port using your favorite IDE 
 
 
 ### Packaging
-The creation of a DMG file for macOS (produced in build/distributions):
+All distributables are produced in `build/distributions`. They embed a custom Java runtime built with `jlink`, so end users do not need a system JVM. The build host must provide a JDK (17+) with `jlink` and `jpackage` on the `PATH`.
+
+macOS DMG installer:
 ```
 ./gradlew clean dmg -PskipDmgSign -Parch=[x86_64|aarch64]
+```
+
+macOS portable tarball (signed `muCommander.app` with bundled JRE):
+```
+./gradlew clean macosPortable -PskipDmgSign -Parch=[x86_64|aarch64]
 ```
 
 Note: as the application is not signed, the following error may appear when trying to start it on macOS: "muCommander damaged and cannot be opened".
 This can be solved by executing: `sudo xattr -r -d com.apple.quarantine /Applications/muCommander.app`
 
-The creation of an EXE file for Windows (produced in build/launch4j):
+Windows MSI installer:
 ```
-./gradlew clean createExe
-```
-
-The creation of TGZ distribution for Linux/Unix (produced in build/distributions):
-```
-./gradlew clean tgz
+./gradlew clean msi -Parch=[x86_64|aarch64]
 ```
 
-The creation of RPM distribution for Red Hat Linux flavors:
+Windows EXE installer (requires Inno Setup on `PATH`):
 ```
-./gradlew clean rpm
+./gradlew clean winExe -Parch=[x86_64|aarch64]
 ```
 
-The creation of DEB distribution for Debian Linux flavors:
+Windows portable zip (bundled JRE):
 ```
-./gradlew clean deb
+./gradlew clean windowsPortable -Parch=[x86_64|aarch64]
+```
+
+Linux portable tarball (bundled JRE):
+```
+./gradlew clean linuxPortable -Parch=[x86_64|aarch64]
+```
+
+RPM distribution for Red Hat Linux flavors:
+```
+./gradlew clean rpm -Parch=[x86_64|aarch64]
+```
+
+DEB distribution for Debian Linux flavors:
+```
+./gradlew clean deb -Parch=[x86_64|aarch64]
+```
+
+When building for an architecture different from the host, point `jlink` at a matching JDK's `jmods` directory:
+```
+./gradlew clean linuxPortable -Parch=aarch64 -PjmodsPath=/path/to/aarch64-jdk/lib/jmods
 ```
 
 More packaging options are described in [our wiki](https://github.com/mucommander/mucommander/wiki/Packaging).
