@@ -98,6 +98,7 @@ public final class BonjourDirectory implements ServiceListener, ConfigurationLis
      * collect services. The activation (aka initialization) is being done asynchronously.
      * @param enabled whether Bonjour services discovery should be enabled.
      */
+    @SuppressWarnings("FutureReturnValueIgnored") // initBonjour is intentionally fire-and-forget after a 5s delay
     public static void setActive(boolean enabled) {
         if (starting) {     // not so thread-safe, but I don't see risk here.
             return;

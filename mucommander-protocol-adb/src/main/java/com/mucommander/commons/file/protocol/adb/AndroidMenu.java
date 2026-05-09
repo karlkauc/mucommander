@@ -95,6 +95,7 @@ public class AndroidMenu extends JMenu implements MenuListener {
     }
 
     @Override
+    @SuppressWarnings("FutureReturnValueIgnored") // device discovery runs async; UI updates happen via SwingUtilities.invokeLater
     public void menuSelected(MenuEvent e) {
         // Remove previous menu items (if any)
         removeAll();

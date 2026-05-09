@@ -141,6 +141,7 @@ public class Application {
     /**
      * Prints the specified startup message.
      */
+    @SuppressWarnings("FutureReturnValueIgnored") // fire-and-forget update once the splash future completes
     private void printStartupMessage(CompletableFuture<SplashScreen> splashScreenProvider, String message) {
         splashScreenProvider.thenAccept(splashScreen -> {
             splashScreen.setLoadingMessage(message);
@@ -176,6 +177,7 @@ public class Application {
         }
     }
 
+    @SuppressWarnings("FutureReturnValueIgnored") // launch sequence fires several CompletableFutures fire-and-forget (splash dispose, async update check)
     private void run() {
         ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
 
@@ -485,7 +487,7 @@ public class Application {
                 }
                 LOGGER.debug("Launch lock freed");
 
-                // Dispose splash screen.
+                // Dispose splash screen (fire-and-forget once the splash future completes).
                 splashScreenProvider.thenAccept(splashScreen -> splashScreen.dispose());
 
                 // Enable system notifications, only after MainFrame is created as SystemTrayNotifier needs to retrieve
