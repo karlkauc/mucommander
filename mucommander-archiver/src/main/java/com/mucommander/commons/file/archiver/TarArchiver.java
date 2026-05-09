@@ -65,7 +65,7 @@ class TarArchiver extends Archiver {
             tos.closeArchiveEntry();
 
         boolean isDirectory = file.isDirectory();
-        boolean symlink = file.getURL().getScheme() == LocalFile.SCHEMA && file.isSymlink();
+        boolean symlink = LocalFile.SCHEMA.equals(file.getURL().getScheme()) && file.isSymlink();
 
         // Create the entry
         TarArchiveEntry entry = symlink ?
@@ -109,7 +109,7 @@ class TarArchiver extends Archiver {
 
     @Override
     public InputStream getContentStream(AbstractFile file) throws UnsupportedFileOperationException, IOException {
-        if (file.getURL().getScheme() == LocalFile.SCHEMA && file.isSymlink()) {
+        if (LocalFile.SCHEMA.equals(file.getURL().getScheme()) && file.isSymlink()) {
             return new ByteArrayInputStream(new byte[0]);
         }
         return super.getContentStream(file);

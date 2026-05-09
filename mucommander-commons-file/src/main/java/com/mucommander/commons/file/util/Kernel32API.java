@@ -326,6 +326,7 @@ public interface Kernel32API extends W32API {
     ////////////////////////////
     /** Alias class for W32API.HANDLE. */
     public final class FindFileHandle extends W32API.HANDLE {
+    	@SuppressWarnings("ReferenceEquality") // INVALID_HANDLE_VALUE is a Win32 sentinel constant; identity is the correct check
     	public boolean isValid() {
     		return this != W32API.INVALID_HANDLE_VALUE;
     	}

@@ -342,6 +342,7 @@ public class FoldersTreePanel implements TreeSelectionListener,
      * Changes the current folder in an associated folder panel, depending on
      * the current selection in tree.
      */
+    @SuppressWarnings("ReferenceEquality") // identity check: avoids reloading when the very same instance is reselected
     public void valueChanged(TreeSelectionEvent e) {
         TreePath path = e.getNewLeadSelectionPath();
         if (path != null) {

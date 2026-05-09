@@ -85,7 +85,7 @@ class ZipArchiver extends Archiver {
         int unixMode = SimpleFilePermissions.padPermissions(file.getPermissions(), isDirectory ?
                 FilePermissions.DEFAULT_DIRECTORY_PERMISSIONS
                 : FilePermissions.DEFAULT_FILE_PERMISSIONS).getIntValue();
-        unixMode |= file.getURL().getScheme() == LocalFile.SCHEMA && file.isSymlink() ? UnixStat.LINK_FLAG : 0;
+        unixMode |= LocalFile.SCHEMA.equals(file.getURL().getScheme()) && file.isSymlink() ? UnixStat.LINK_FLAG : 0;
         entry.setUnixMode(unixMode);
 
         // Add the entry
@@ -106,7 +106,7 @@ class ZipArchiver extends Archiver {
 
     @Override
     public InputStream getContentStream(AbstractFile file) throws UnsupportedFileOperationException, IOException {
-        if (file.getURL().getScheme() == LocalFile.SCHEMA && file.isSymlink()) {
+        if (LocalFile.SCHEMA.equals(file.getURL().getScheme()) && file.isSymlink()) {
             // we return the target of the link here so it will be
             // written to the "file" within the archive
             Path path = Path.of(file.getAbsolutePath());

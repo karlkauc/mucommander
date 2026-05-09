@@ -944,6 +944,7 @@ public abstract class AbstractFile implements FileAttributes {
      * Class, or <code>this</code> if this instance's class matches those criteria. Returns <code>null</code> if this
      * file has no such ancestor.
      */
+    @SuppressWarnings("ReferenceEquality") // sentinel: getAncestor() returns the same instance when the chain ends
     public final <T extends AbstractFile> T getAncestor(Class<T> abstractFileClass) {
     	AbstractFile ancestor = this;
         AbstractFile lastAncestor;
@@ -995,6 +996,7 @@ public abstract class AbstractFile implements FileAttributes {
      * @return <code>true</code> if this file has an ancestor (immediate or not) that is an instance of the given Class
      * or of a subclass of the given Class.
      */
+    @SuppressWarnings("ReferenceEquality") // sentinel: getAncestor() returns the same instance when the chain ends
     public final boolean hasAncestor(Class<? extends AbstractFile> abstractFileClass) {
         AbstractFile ancestor = this;
         AbstractFile lastAncestor;

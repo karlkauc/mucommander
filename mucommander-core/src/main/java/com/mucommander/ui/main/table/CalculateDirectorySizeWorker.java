@@ -77,6 +77,7 @@ public class CalculateDirectorySizeWorker extends SwingWorker<Long, Long> {
         // table.updateSelectedFilesStatusBar();
     }
 
+    @SuppressWarnings("ReferenceEquality") // identity check: only the recursion-root instance is allowed to be a symlink
     private void calcDirectorySize(AbstractFile path) throws IOException {
         if (isCancelled()) {
             return;

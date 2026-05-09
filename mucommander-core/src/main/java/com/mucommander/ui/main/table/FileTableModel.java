@@ -276,6 +276,7 @@ public class FileTableModel extends AbstractTableModel {
      *
      * @param cachedFile a CachedFile instance from which to pre-fetch attributes
      */
+    @SuppressWarnings("ReferenceEquality") // identity check is the cheap loop guard described in the comment below
     private static void prefetchCachedFileAttributes(AbstractFile cachedFile) {
         cachedFile.isDirectory();
         cachedFile.isBrowsable();
