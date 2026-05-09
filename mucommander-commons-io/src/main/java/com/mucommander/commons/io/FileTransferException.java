@@ -49,8 +49,9 @@ public class FileTransferException extends IOException {
 		return bytesWritten;
 	}
 
-	public String toString() {
-        return super.toString()+" reason="+reason;
+	@Override
+	public String getMessage() {
+        return super.getMessage()+" reason="+reason;
     }
 
 }

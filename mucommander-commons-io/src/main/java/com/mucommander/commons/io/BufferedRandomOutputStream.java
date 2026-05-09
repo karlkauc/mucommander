@@ -210,6 +210,7 @@ public class BufferedRandomOutputStream extends RandomAccessOutputStream {
      * memory leak.
      */
     @Override
+    @SuppressWarnings({"Finalize", "UnsafeFinalization", "removal"}) // legacy net safety: callers should always close, finalize is a fallback
     protected void finalize() throws Throwable {
         // If this stream hasn't been closed, release the buffer before finalizing the object
         if(buffer!=null)

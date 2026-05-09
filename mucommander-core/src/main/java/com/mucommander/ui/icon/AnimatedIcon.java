@@ -263,6 +263,7 @@ public abstract class AnimatedIcon implements Icon {
     }
 
     @Override
+    @SuppressWarnings({"Finalize", "removal"}) // legacy fallback: stops the Swing timer if the icon was leaked without explicit teardown
     protected void finalize() throws Throwable {
         // Forces the timer to stop when the animation isn't used anymore.
         timer.stop();
