@@ -96,6 +96,7 @@ public class TerminalIntegration {
                             MuPreference.USE_CUSTOM_SHELL, MuPreferences.DEFAULT_USE_CUSTOM_SHELL)) {
                         return;
                     }
+                    // fall through
                 case MuPreferences.USE_CUSTOM_SHELL:
                     if (terminal != null) {
                         terminal.close();

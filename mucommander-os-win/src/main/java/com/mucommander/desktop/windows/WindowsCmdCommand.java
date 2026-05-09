@@ -42,6 +42,7 @@ public class WindowsCmdCommand extends Command {
             case Command.KEYWORD_PATH:
             case Command.KEYWORD_NAME:
                 replacement = replacement.replace("(", "^(").replace(")", "^)");
+                // fall through
             default:
             }
         return replacement;

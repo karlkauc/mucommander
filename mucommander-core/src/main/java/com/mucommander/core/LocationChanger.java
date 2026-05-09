@@ -187,6 +187,7 @@ public class LocationChanger {
 			        thread = new SearchUpdaterThread(folderURL, changeLockedTab, mainFrame, folderPanel, locationManager, this);
 			        break;
 			    }
+			    // fall through
 			default:
 			    thread = new BrowseLocationThread(folder,
 			            findWorkableFolder,
