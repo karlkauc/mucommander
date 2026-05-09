@@ -25,7 +25,7 @@ import com.vmware.vim25.ManagedObjectReference;
  * @author Yuval Kohavi <yuval.kohavi@intigua.com>
  *
  */
-public class ManagedObjectReferenceWrapper {
+public final class ManagedObjectReferenceWrapper {
 	private ManagedObjectReference mor;
 
 	public ManagedObjectReferenceWrapper(ManagedObjectReference mor) {
@@ -47,9 +47,7 @@ public class ManagedObjectReferenceWrapper {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof ManagedObjectReferenceWrapper))
 			return false;
 		ManagedObjectReferenceWrapper other = (ManagedObjectReferenceWrapper) obj;
 		if (mor.getValue() == null) {

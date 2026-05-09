@@ -29,7 +29,7 @@ import org.exbin.bined.CodeAreaUtils;
  * Parameters for action to search for occurrences of text or data.
  */
 @ParametersAreNonnullByDefault
-public class SearchCondition {
+public final class SearchCondition {
 
     private SearchMode searchMode = SearchMode.TEXT;
     private String searchText = "";
@@ -104,10 +104,7 @@ public class SearchCondition {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof SearchCondition)) {
             return false;
         }
         final SearchCondition other = (SearchCondition) obj;
