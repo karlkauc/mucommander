@@ -88,7 +88,9 @@ public class OneDriveFile extends ProtocolFile implements ConnectionHandlerFacto
     public void postCopyHook() {
         try {
             Thread.sleep(2000);
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     @Override

@@ -192,7 +192,7 @@ public class SFTPFile extends ProtocolFile {
             LOGGER.error("failed to get output stream for {}", getURL());
             try {
                 connHandler.close();
-            } catch (Exception e1) {}
+            } catch (Exception e1) { /* best-effort close on cleanup path; we are about to rethrow */ }
             throw new IOException(e);
         }
     }
@@ -579,7 +579,7 @@ public class SFTPFile extends ProtocolFile {
             LOGGER.error("failed to get input stream {}", getURL());
             try {
                 connHandler.close();
-            } catch (Exception e1) {}
+            } catch (Exception e1) { /* best-effort close on cleanup path; we are about to rethrow */ }
             throw new IOException(e);
         }
     }
@@ -801,7 +801,7 @@ public class SFTPFile extends ProtocolFile {
             try {
                 in.close();
             }
-            catch(IOException e) {}
+            catch(IOException e) { /* best-effort close before reopening at new offset */ }
 
             in = getInputStream(offset);
             this.offset = offset;

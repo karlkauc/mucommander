@@ -136,7 +136,7 @@ public class DropboxFile extends ProtocolFile implements ConnectionHandlerFactor
 	public boolean exists() {
 		if (!fileResolved) {
 			try { resolveFile(); }
-			catch(IOException e) {}
+			catch(IOException e) { /* exists() returns false if we can't reach Dropbox to resolve */ }
 		}
 		return id != null;
 	}

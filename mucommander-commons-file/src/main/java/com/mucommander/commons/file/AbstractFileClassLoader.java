@@ -111,9 +111,10 @@ public class AbstractFileClassLoader extends ClassLoader {
                 if (file.exists())
                     return file;
             }
-            // Treats error as a simple 'resource not found' case and keeps looking for
-            // one with the correct name that will load.
-            catch(IOException e) {}
+            catch(IOException e) {
+                // Treats error as a simple 'resource not found' case and keeps looking for
+                // one with the correct name that will load.
+            }
         }
 
         // The requested resource wasn't found.
@@ -137,7 +138,7 @@ public class AbstractFileClassLoader extends ClassLoader {
         AbstractFile file = findResourceAsFile(name);
         if (file != null) {
             try {return file.getInputStream();}
-            catch(Exception e) {}
+            catch(Exception e) { /* fall through: treat I/O failure as resource-not-found */ }
         }
 
         // Couldn't find the resource.
@@ -178,7 +179,7 @@ public class AbstractFileClassLoader extends ClassLoader {
                 if (file.exists())
                     resources.add(file.getJavaNetURL());
             }
-            catch(IOException e) {}
+            catch(IOException e) { /* skip this entry, continue iterating remaining classpath files */ }
         }
         return Collections.enumeration(resources);
     }
@@ -235,7 +236,7 @@ public class AbstractFileClassLoader extends ClassLoader {
         // Tries to locate the specified class and, if found, load it.
         if((file = findResourceAsFile(name.replace('.', '/') + ".class")) != null) {
             try {return loadClass(name, file);}
-            catch(Exception e) {}
+            catch(Exception e) { /* fall through to ClassNotFoundException */ }
         }
         throw new ClassNotFoundException(name);
     }

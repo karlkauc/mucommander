@@ -65,7 +65,7 @@ public class KdeConfig {
         }
         finally {
             if(br!=null)
-                try { br.close(); } catch(IOException e) {}
+                try { br.close(); } catch(IOException e) { /* best-effort close on cleanup path */ }
         }
     }
 }

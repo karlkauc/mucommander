@@ -931,7 +931,7 @@ public class FileTableModel extends AbstractTableModel {
         if (calculateDirectorySizeWorker != null) {
             try {
                 calculateDirectorySizeWorker.cancel(true);
-            } catch (Exception e) { }
+            } catch (Exception e) { /* worker may already be done; cancellation is best-effort */ }
             calculateDirectorySizeWorker = null;
         }
         synchronized (this) {

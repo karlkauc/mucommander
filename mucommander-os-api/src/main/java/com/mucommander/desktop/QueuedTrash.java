@@ -108,6 +108,7 @@ public abstract class QueuedTrash extends AbstractTrash {
                     moveToTrashLock.wait();
                 }
                 catch(InterruptedException e) {
+                    Thread.currentThread().interrupt();
                 }
             }
         }
@@ -143,7 +144,7 @@ public abstract class QueuedTrash extends AbstractTrash {
                 try {
                     Thread.sleep(QUEUE_PERIOD);
                 }
-                catch(InterruptedException e) {}
+                catch(InterruptedException e) { Thread.currentThread().interrupt(); }
             }
             while(queueSize!=queuedFiles.size());
 

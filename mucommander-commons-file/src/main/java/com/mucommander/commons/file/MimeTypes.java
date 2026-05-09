@@ -63,7 +63,10 @@ public class MimeTypes extends Hashtable<String, String> {
                 }
             }
         }
-        catch(IOException e) {}
+        catch(IOException e) {
+            // Read failure on the bundled mime.types resource is fatal-ish but recoverable: we just
+            // end up with a partial map. No logging available at this layer.
+        }
         // Makes sure the stream is closed.
         // This might not be strictly necessary as streams on internal resources are a bit of an unknown,
         // but since the ClassLoader.getResourceAsStream documentation doesn't explicitly say that such
@@ -71,7 +74,7 @@ public class MimeTypes extends Hashtable<String, String> {
         finally {
             if(br != null) {
                 try {br.close();}
-                catch(IOException e) {}
+                catch(IOException e) { /* best-effort close */ }
             }
         }
     }

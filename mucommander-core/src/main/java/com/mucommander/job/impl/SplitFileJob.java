@@ -236,6 +236,7 @@ public class SplitFileJob extends AbstractCopyJob {
                 if (out != null)
                     out.close();
             } catch (IOException e2) {
+                // best-effort close on cleanup path
             }
         }
 

@@ -75,12 +75,12 @@ public class AdbUtils {
             try {
                 int result = ProcessRunner.execute(new String[]{"./adb", "devices", "-l", adbFile.toString()}).waitFor();
                 return result == 0;
-            } catch (IOException | InterruptedException ignore) {}
+            } catch (IOException | InterruptedException ignore) { /* adb not runnable here, fall through to next attempt */ }
         }
         try {
             int result = ProcessRunner.execute(new String[]{"adb", "devices", "-l", adbFile.toString()}).waitFor();
             return result == 0;
-        } catch (IOException | InterruptedException ignore) {}
+        } catch (IOException | InterruptedException ignore) { /* adb not on PATH; treat as unavailable */ }
         return false;
     }
 

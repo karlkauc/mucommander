@@ -420,10 +420,10 @@ public class ZipFile implements ZipConstants {
         }
         finally {
             try { closeRead(); }
-            catch(IOException e) {}
+            catch(IOException e) { /* best-effort close on cleanup path */ }
 
             try { closeWrite(); }
-            catch(IOException e) {}
+            catch(IOException e) { /* best-effort close on cleanup path */ }
         }
     }
 
@@ -681,10 +681,10 @@ public class ZipFile implements ZipConstants {
         }
         finally {
             try { closeRead(); }
-            catch(IOException e) {}
+            catch(IOException e) { /* best-effort close on cleanup path */ }
 
             try { closeWrite(); }
-            catch(IOException e) {}
+            catch(IOException e) { /* best-effort close on cleanup path */ }
         }
     }
 

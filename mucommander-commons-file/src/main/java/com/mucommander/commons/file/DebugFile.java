@@ -85,7 +85,9 @@ public class DebugFile extends ProxyFile {
             try {
                 Thread.sleep(random.nextInt(maxLatency));
             }
-            catch(InterruptedException e) {}
+            catch(InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 

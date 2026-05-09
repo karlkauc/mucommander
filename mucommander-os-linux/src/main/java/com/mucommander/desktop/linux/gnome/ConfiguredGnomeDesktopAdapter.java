@@ -51,13 +51,13 @@ public class ConfiguredGnomeDesktopAdapter extends GnomeDesktopAdapter {
             ProcessRunner.execute(GVFS_OPEN);
             return GVFS_OPEN;
         }
-        catch(Exception e) {}
+        catch(Exception e) { /* gvfs-open not available, try gnome-open */ }
 
         try {
             ProcessRunner.execute(GNOME_OPEN);
             return GNOME_OPEN;
         }
-        catch(Exception e) {}
+        catch(Exception e) { /* gnome-open not available, fall back to xdg-open */ }
 
         return XDG_OPEN;
     }

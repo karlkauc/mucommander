@@ -480,7 +480,7 @@ public class StatusBar extends JPanel {
                         synchronized(autoUpdateLock) {
                             if (!autoUpdateThreadNotified) {
                                 try { autoUpdateLock.wait(AUTO_UPDATE_PERIOD); }
-                                catch (InterruptedException e) {}
+                                catch (InterruptedException e) { Thread.currentThread().interrupt(); }
                             }
                         }
                     }

@@ -271,6 +271,7 @@ public class SendMailJob extends TransferFileJob {
             in.close();
             out64.close();
         } catch (Exception e) {
+            // best-effort close on cleanup path
         }
     }
 

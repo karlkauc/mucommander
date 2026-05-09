@@ -94,7 +94,9 @@ public class GoogleDriveFile extends ProtocolFile implements ConnectionHandlerFa
     public void postCopyHook() {
         try {
             Thread.sleep(2000);
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     @Override

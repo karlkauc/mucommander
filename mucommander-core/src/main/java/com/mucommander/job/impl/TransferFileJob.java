@@ -395,7 +395,7 @@ public abstract class TransferFileJob extends FileJob {
     protected synchronized void closeCurrentInputStream() {
         if(tlin !=null) {
             try { tlin.close(); }
-            catch(IOException e) {}
+            catch(IOException e) { /* best-effort close on cleanup path */ }
         }
     }
 

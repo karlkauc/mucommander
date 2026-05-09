@@ -147,7 +147,7 @@ class ProcessOutputMonitor implements Runnable {
     public void stopMonitoring() {
 	// Closes the input stream.
 	try {in.close();}
-	catch(Exception e) {}
+	catch(Exception e) { /* stream may already be closed; we're tearing down */ }
 
 	// Notifies the main thread that it should stop monitoring the stream.
 	in      = null;

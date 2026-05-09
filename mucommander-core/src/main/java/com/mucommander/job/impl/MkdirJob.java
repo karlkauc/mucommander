@@ -160,6 +160,7 @@ public class MkdirJob extends FileJob {
                                 try {
                                     mkfileOut.close();
                                 } catch (IOException e) {
+                                    // best-effort close on cleanup path
                                 }
                         }
                     }

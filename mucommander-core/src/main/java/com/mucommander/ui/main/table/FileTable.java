@@ -1300,7 +1300,7 @@ public class FileTable extends JTable implements MouseListener, MouseMotionListe
                         // Create a new thread and sleep long enough to ensure that this click was not the first of a double click
                         Thread.ofVirtual().start(() -> {
                             try { Thread.sleep(800); }
-                            catch (InterruptedException ie) {}
+                            catch (InterruptedException ie) { Thread.currentThread().interrupt(); }
 
                             // Do not execute this block (cancel editing) if:
                             // - a double click was made in the last second

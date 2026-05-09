@@ -344,7 +344,7 @@ public class HTTPFile extends ProtocolFile {
         if(!fileResolved) {
             // Note: file will only be resolved once, even if the request failed
             try { resolveFile(); }
-            catch(IOException e) {}
+            catch(IOException e) { /* attributes.exists() will return false if we can't reach the server */ }
         }
 
         return attributes.exists();
@@ -671,7 +671,7 @@ public class HTTPFile extends ProtocolFile {
                 if(br!=null)
                     br.close();
             }
-            catch(IOException e) {}
+            catch(IOException e) { /* best-effort close on cleanup path */ }
         }
     }
 

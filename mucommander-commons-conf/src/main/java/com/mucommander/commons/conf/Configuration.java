@@ -348,7 +348,7 @@ public class Configuration {
         finally {
             if (in != null) {
                 try {in.close();}
-                catch(Exception e) {}
+                catch(Exception e) { /* ignored: best-effort close on already-loaded source */ }
             }
         }
     }

@@ -398,6 +398,7 @@ class ImageViewer implements FileViewer, ActionListener {
         try {
             tracker.waitForID(0);
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
         tracker.removeImage(image);
         // AppLogger.finest("Image loaded "+image);

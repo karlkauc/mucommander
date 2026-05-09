@@ -204,7 +204,9 @@ public class FileMonitor implements FileMonitorConstants, Runnable {
                 try {
                     wait();     // run() will notify when initialization is complete
                 }
-                catch(InterruptedException e) {}
+                catch(InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
         }
     }
@@ -315,6 +317,7 @@ public class FileMonitor implements FileMonitorConstants, Runnable {
                 Thread.sleep(Math.max(pollPeriod-(System.currentTimeMillis()-now), 0));
             }
             catch(InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
     }

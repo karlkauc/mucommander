@@ -1032,7 +1032,7 @@ public class FTPFile extends ProtocolFile implements ConnectionHandlerFactory {
             try {
                 in.close();
             }
-            catch(IOException e) {}
+            catch(IOException e) { /* best-effort close before reopening at new offset */ }
 
             in = new FTPInputStream(offset);
             this.offset = offset;
@@ -1333,7 +1333,7 @@ public class FTPFile extends ProtocolFile implements ConnectionHandlerFactory {
                                 LOGGER.info("waiting {} ms before retrying to connect", retryDelay);
 
                                 try { Thread.sleep(retryDelay); }
-                                catch(InterruptedException e2) {}
+                                catch(InterruptedException e2) { Thread.currentThread().interrupt(); }
                             }
 
                             continue;
@@ -1342,7 +1342,7 @@ public class FTPFile extends ProtocolFile implements ConnectionHandlerFactory {
 
                     // Disconnect if the connection could not be established
                     if(ftpClient.isConnected())
-                        try { ftpClient.disconnect(); } catch(IOException e2) {}
+                        try { ftpClient.disconnect(); } catch(IOException e2) { /* best-effort disconnect; we are about to rethrow */ }
 
                     // Re-throw the exception
                     throw e;
@@ -1378,11 +1378,11 @@ public class FTPFile extends ProtocolFile implements ConnectionHandlerFactory {
             if(ftpClient!=null) {
                 // Try to logout, this may fail if the connection is broken
                 try { ftpClient.logout(); }
-                catch(IOException e) {}
+                catch(IOException e) { /* best-effort logout on cleanup path */ }
 
                 // Close the socket connection
                 try { ftpClient.disconnect(); }
-                catch(IOException e) {}
+                catch(IOException e) { /* best-effort disconnect on cleanup path */ }
 
                 ftpClient = null;
             }

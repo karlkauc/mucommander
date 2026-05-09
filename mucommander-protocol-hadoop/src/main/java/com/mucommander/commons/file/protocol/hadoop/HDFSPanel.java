@@ -124,7 +124,7 @@ public class HDFSPanel extends ServerPanel {
         // Commits the current spinner value in case it was being edited and 'enter' was pressed
         // (the spinner value would otherwise not be committed)
         try { portSpinner.commitEdit(); }
-        catch(ParseException e) { }
+        catch(ParseException e) { /* leave the spinner at its last committed value */ }
 
         updateValues();
     }

@@ -72,6 +72,7 @@ public class TextFileViewerService implements FileViewerService, FileEditorServi
                 try {
                     in.close();
                 } catch (IOException e2) {
+                    // best-effort close on cleanup path
                 }
             }
         }

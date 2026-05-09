@@ -105,6 +105,7 @@ public class SplashScreen extends JWindow {
         try {
             mediaTracker.waitForID(0);
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
 
         JLabel splash = new JLabel(imageIcon);

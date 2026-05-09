@@ -38,7 +38,7 @@ public class GuessedGnomeDesktopAdapter extends GnomeDesktopAdapter {
             fileOpenerCommand = GVFS_OPEN;
             return true;
         }
-        catch(Exception e) {}
+        catch(Exception e) { /* gvfs-open not available, try gnome-open */ }
 
         try {
             ProcessRunner.execute(GNOME_OPEN);
