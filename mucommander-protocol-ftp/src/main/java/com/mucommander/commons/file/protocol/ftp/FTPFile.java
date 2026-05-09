@@ -119,7 +119,8 @@ public class FTPFile extends ProtocolFile implements ConnectionHandlerFactory {
     /** Default value if {@link #CONNECTION_RETRY_DELAY_PROPERTY_NAME} is not set */
     public final static int DEFAULT_CONNECTION_RETRY_DELAY = 15;
 
-    /** Date format used by the SITE UTIME command */
+    /** Date format used by the SITE UTIME command. Access is guarded by synchronization on this constant — see usages. */
+    @SuppressWarnings("DateFormatConstant")
     private final static SimpleDateFormat SITE_UTIME_DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmm");
 
 

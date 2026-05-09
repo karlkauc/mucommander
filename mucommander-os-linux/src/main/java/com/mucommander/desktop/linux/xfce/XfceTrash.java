@@ -73,7 +73,8 @@ public class XfceTrash extends QueuedTrash {
 	/** Volume on which the trash folder resides, used for checking whether a file can be moved to the trash or not */
 	private final static AbstractFile TRASH_VOLUME;
 
-	/** Formats dates in trash info files */
+	/** Formats dates in trash info files. Access is guarded by synchronization on this constant — see usages. */
+	@SuppressWarnings("DateFormatConstant")
 	private final static SimpleDateFormat INFO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
 	/**
