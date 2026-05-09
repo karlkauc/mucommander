@@ -417,7 +417,7 @@ public class SpinningDial extends AnimatedIcon {
      * @param a whether to start or stop the animation.
      */
     @Override
-    public void setAnimated(boolean a) {
+    public synchronized void setAnimated(boolean a) {
         super.setAnimated(a);
 
         // Makes sure the dial disapears when the animation is stopped.

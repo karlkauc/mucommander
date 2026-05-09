@@ -142,7 +142,7 @@ public class Theme extends ThemeData {
      * @throws IllegalStateException thrown if the theme is not the user one.
      */
     @Override
-    public boolean setFont(int id, Font font) {
+    public synchronized boolean setFont(int id, Font font) {
         // Makes sure we're not trying to modify a non-user theme.
         if (type != ThemeType.USER_THEME)
             throw new IllegalStateException("Trying to modify a non user theme.");
@@ -167,7 +167,7 @@ public class Theme extends ThemeData {
      * @throws IllegalStateException thrown if the theme is not the user one.
      */
     @Override
-    public boolean setColor(int id, Color color) {
+    public synchronized boolean setColor(int id, Color color) {
         // Makes sure we're not trying to modify a non-user theme.
         if (type != ThemeType.USER_THEME)
             throw new IllegalStateException("Trying to modify a non user theme.");
