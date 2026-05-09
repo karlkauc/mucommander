@@ -73,7 +73,7 @@ public final class Credentials {
      * @return the password as a masked string.
      */
     public String getMaskedPassword() {
-        return password.replaceAll(".", "*");
+        return "*".repeat(password.length());
     }
 
     /**

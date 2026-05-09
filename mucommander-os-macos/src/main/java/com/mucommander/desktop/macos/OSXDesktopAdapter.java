@@ -472,7 +472,8 @@ public class OSXDesktopAdapter extends DefaultDesktopAdapter {
                 new String[]{ userShell, "-i", "-c", findDutiCmd }
 
         );
-        dutiCheckCmds.stream().anyMatch(cmd -> runCommand(cmd, false, 0, linePredicate));
+        @SuppressWarnings("ReturnValueIgnored") // anyMatch's short-circuit is what we want; outcome is read via dutiCmdPath below
+        boolean ignored = dutiCheckCmds.stream().anyMatch(cmd -> runCommand(cmd, false, 0, linePredicate));
 
         if (!StringUtils.isNullOrEmpty(dutiCmdPath)) {
             LOGGER.info("Command 'duti' found here: {}", dutiCmdPath);

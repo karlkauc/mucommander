@@ -124,6 +124,7 @@ public class BufferedRandomOutputStream extends RandomAccessOutputStream {
      * @throws IOException if an I/O error occurs.
      */
     @Override
+    @SuppressWarnings("UnsafeFinalization") // arraycopy on the buffer is safe; finalize() does not race with write() — synchronized on this
     public synchronized void write(byte b[], int off, int len) throws IOException {
         if (len >= buffer.length) {
             /* If the request length exceeds the size of the output buffer,

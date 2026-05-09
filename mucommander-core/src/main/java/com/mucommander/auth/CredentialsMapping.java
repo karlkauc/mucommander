@@ -105,6 +105,11 @@ public final class CredentialsMapping {
         return cm.credentials.equals(this.credentials, false) && cm.realm.equals(this.realm, false, true);
     }
 
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(credentials, realm);
+    }
+
     public String toString() {
         return credentials.toString()+" "+realm.toString(false);
     }

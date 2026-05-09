@@ -33,6 +33,7 @@ public class SearchUtils {
             fileURL.setScheme(SearchFile.SCHEMA);
             fileURL.setHost(file.getAbsolutePath(false));
             fileURL.setPath(null);
+            // fall through
         case SearchFile.SCHEMA:
             fileURL.setQuery(null);
         }

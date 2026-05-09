@@ -181,7 +181,7 @@ public class BookmarkManager implements VectorChangeListener {
         finally {
             if(in != null) {
                 try {in.close();}
-                catch(Exception e) {}
+                catch(Exception e) { /* best-effort close on cleanup path */ }
             }
             isLoading = false;
         }
@@ -235,7 +235,7 @@ public class BookmarkManager implements VectorChangeListener {
         finally {
             if(out != null) {
                 try {out.close();}
-                catch(Exception e) {}
+                catch(Exception e) { /* best-effort close on cleanup path */ }
             }
         }
     }

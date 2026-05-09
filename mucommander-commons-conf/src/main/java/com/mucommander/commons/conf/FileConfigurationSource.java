@@ -43,6 +43,7 @@ public class FileConfigurationSource implements ConfigurationSource {
      *             constructor assumes the specified file to be <code>UTF-8</code> encoded.
      */
     @Deprecated
+    @SuppressWarnings("InlineMeSuggester") // not adopting Google @InlineMe in this codebase
     public FileConfigurationSource(File file) {
         this(file, "utf-8");
     }

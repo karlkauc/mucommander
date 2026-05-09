@@ -194,7 +194,7 @@ public class CredentialsManager {
         finally {
             if(out != null) {
                 try {out.close();}
-                catch(Exception e) {}
+                catch(Exception e) { /* best-effort close on cleanup path */ }
             }
         }
 

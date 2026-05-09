@@ -17,8 +17,6 @@
 
 package com.mucommander.ui.dialog.debug;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -150,14 +148,15 @@ public class DebugConsoleAppender extends AppenderBase<ILoggingEvent> {
 
     private static class CustomLoggingLayout extends LayoutBase<ILoggingEvent> {
 
-        private final static SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        private final static java.time.format.DateTimeFormatter SIMPLE_DATE_FORMAT =
+                java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS").withZone(java.time.ZoneId.systemDefault());
 
         public String doLayout(ILoggingEvent event) {
             StackTraceElement stackTraceElement = event.getCallerData()[0];
 
             StringBuilder sbuf = new StringBuilder(128);
             sbuf.append("[");
-            sbuf.append(SIMPLE_DATE_FORMAT.format(new Date(event.getTimeStamp())));
+            sbuf.append(SIMPLE_DATE_FORMAT.format(java.time.Instant.ofEpochMilli(event.getTimeStamp())));
             sbuf.append("] ");
             sbuf.append(getLogLevel(event));
             sbuf.append(" ");

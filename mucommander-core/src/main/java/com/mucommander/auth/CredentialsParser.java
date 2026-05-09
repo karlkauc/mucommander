@@ -78,7 +78,7 @@ class CredentialsParser extends DefaultHandler implements CredentialsConstants {
         finally {
             if(in != null) {
                 try {in.close();}
-                catch(Exception e) {}
+                catch(Exception e) { /* best-effort close on cleanup path */ }
             }
         }
     }

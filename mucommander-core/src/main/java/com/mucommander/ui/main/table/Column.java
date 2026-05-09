@@ -19,8 +19,8 @@ package com.mucommander.ui.main.table;
 
 import static com.mucommander.commons.file.util.FileComparator.CRITERION;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.mucommander.commons.file.util.FileComparator;
@@ -44,9 +44,8 @@ public enum Column {
     OWNER(true, false, CRITERION.OWNER, ActionType.ToggleOwnerColumn, ActionType.SortByOwner),
     GROUP(true, false, CRITERION.GROUP, ActionType.ToggleGroupColumn, ActionType.SortByGroup);
 
-    private static final Map<Integer, Column> ORDINAL_TO_ENUM_MAPPING = new HashMap<>(){{
-        Stream.of(Column.values()).forEach(column -> put(column.ordinal(), column));
-    }};
+    private static final Map<Integer, Column> ORDINAL_TO_ENUM_MAPPING =
+            Stream.of(Column.values()).collect(Collectors.toUnmodifiableMap(Column::ordinal, c -> c));
 
     /** Standard minimum column width */
     private final static int STANDARD_MINIMUM_WIDTH = 2 * CellLabel.CELL_BORDER_WIDTH;

@@ -23,6 +23,7 @@ import java.util.Objects;
 import com.mucommander.commons.util.Pair;
 import com.mucommander.text.Translator;
 
+@SuppressWarnings("ImmutableEnumChecker") // 'value' is mutated via setValue() — this enum is intentionally a mutable preference store
 public enum SearchProperty {
     SEARCH_IN_ARCHIVES("archives", "search_dialog.search_in_archives", Boolean.FALSE.toString()),
     SEARCH_IN_HIDDEN("hidden", "search_dialog.search_in_hidden_files", Boolean.FALSE.toString()),
@@ -46,9 +47,9 @@ public enum SearchProperty {
 
     ;
 
-    private String key;
-    private String i18nKey;
-    private String defaultValue;
+    private final String key;
+    private final String i18nKey;
+    private final String defaultValue;
     private String value;
 
     SearchProperty(String key, String i18nKey, String defaultValue) {

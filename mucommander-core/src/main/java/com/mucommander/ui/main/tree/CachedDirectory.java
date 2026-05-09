@@ -54,7 +54,7 @@ public class CachedDirectory extends ProxyFile {
     private long lsTimeStamp = -1;
     
     /** a cache in which this object is stored */
-    private DirectoryCache cache;
+    private final DirectoryCache cache;
 
     /** a cached icon */
     private Icon cachedIcon;

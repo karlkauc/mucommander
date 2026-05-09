@@ -325,6 +325,7 @@ public interface Kernel32API extends W32API {
     // FindFirstFile function //
     ////////////////////////////
     /** Alias class for W32API.HANDLE. */
+    @SuppressWarnings("NonCanonicalType") // W32API.HANDLE is a JNA alias for WinNT.HANDLE; we use the W32API name to stay aligned with surrounding JNA code
     public final class FindFileHandle extends W32API.HANDLE {
     	@SuppressWarnings("ReferenceEquality") // INVALID_HANDLE_VALUE is a Win32 sentinel constant; identity is the correct check
     	public boolean isValid() {

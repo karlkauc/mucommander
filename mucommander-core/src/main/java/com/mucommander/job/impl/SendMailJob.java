@@ -276,12 +276,12 @@ public class SendMailJob extends TransferFileJob {
     }
 
     private void readWriteLine(String s) throws IOException {
-        out.write((s + "\r\n").getBytes("UTF-8"));
+        out.write((s + "\r\n").getBytes(java.nio.charset.StandardCharsets.UTF_8));
         in.readLine();
     }
 
     private void writeLine(String s) throws IOException {
-        out.write((s + "\r\n").getBytes("UTF-8"));
+        out.write((s + "\r\n").getBytes(java.nio.charset.StandardCharsets.UTF_8));
     }
 
 

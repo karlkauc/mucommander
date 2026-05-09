@@ -98,6 +98,7 @@ public class ClassFinder {
                         result.add(currentClass);
                 }
                 catch (Throwable e) {
+                    // Class can't be loaded — most often a missing transitive dependency; skip and continue scanning.
                 }
             }
         }

@@ -54,6 +54,7 @@ public class MuConfigurations {
         }
     }
 
+    @SuppressWarnings("StaticAssignmentOfThrowable") // intentional: defer reporting to the next check() call
     static void loadPreferences() {
         try {
             preferences.read();

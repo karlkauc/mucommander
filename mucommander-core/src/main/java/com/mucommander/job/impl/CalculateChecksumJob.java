@@ -158,7 +158,7 @@ public class CalculateChecksumJob extends TransferFileJob {
                 // Close the InputStream, we're done with it
                 in.close();
 
-                checksumFileOut.write(line.getBytes("utf-8"));
+                checksumFileOut.write(line.getBytes(java.nio.charset.StandardCharsets.UTF_8));
 
                 return true;
             }

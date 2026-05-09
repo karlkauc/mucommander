@@ -318,6 +318,10 @@ public class CommandManager implements CommandBuilder {
             case SYMLINK:
                 builder.setIsSymlink(!attributeFilter.isInverted());
                 break;
+
+            default:
+                // Other file attributes are not relevant for command association filters.
+                break;
             }
         } else if (filter instanceof PermissionsFileFilter permissionFilter) {
             switch (permissionFilter.getPermission()) {

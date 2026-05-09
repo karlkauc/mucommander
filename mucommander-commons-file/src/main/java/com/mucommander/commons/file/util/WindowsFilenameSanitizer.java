@@ -27,9 +27,10 @@ public class WindowsFilenameSanitizer {
     );
 
     public static String sanitizeFileName(String input) {
-        StringBuilder sanitized = new StringBuilder();
+        StringBuilder sanitized = new StringBuilder(input.length());
 
-        for (char c : input.toCharArray()) {
+        for (int i = 0, len = input.length(); i < len; i++) {
+            char c = input.charAt(i);
             if (ILLEGAL_CHARS.contains(c)) {
                 sanitized.append('_');
             } else {

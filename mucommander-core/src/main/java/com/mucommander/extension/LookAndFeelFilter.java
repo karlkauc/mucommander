@@ -78,7 +78,7 @@ public class LookAndFeelFilter implements ClassFilter {
         while(buffer != null) {
             // c is a LookAndFeel, makes sure it's supported.
             if(buffer.equals(LookAndFeel.class)) {
-                try {return ((LookAndFeel)c.newInstance()).isSupportedLookAndFeel();}
+                try {return ((LookAndFeel)c.getDeclaredConstructor().newInstance()).isSupportedLookAndFeel();}
                 catch(Throwable e) {
                     LOGGER.debug("Caught exception", e);
                     return false;

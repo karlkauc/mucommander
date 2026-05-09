@@ -105,16 +105,12 @@ public class VSphereClient implements Closeable {
 
 	/**
 	 * Establishes session with the vSphere server.
-	 * 
-	 * @return true if connected successfully
-	 * @throws RuntimeFaultFaultMsg
-	 * @throws InvalidLoginFaultMsg
-	 * @throws InvalidLocaleFaultMsg
-	 * @throws NoSuchAlgorithmException
-	 * @throws KeyManagementException
-	 * 
-	 * @throws Exception
-	 *             the exception
+	 *
+	 * @throws RuntimeFaultFaultMsg if the underlying vSphere SOAP service returns a generic runtime fault
+	 * @throws InvalidLoginFaultMsg if the login is invalid
+	 * @throws InvalidLocaleFaultMsg if the locale is invalid
+	 * @throws NoSuchAlgorithmException if SSL initialization fails
+	 * @throws KeyManagementException if SSL initialization fails
 	 */
 	public void connect() throws RuntimeFaultFaultMsg,
 			InvalidLocaleFaultMsg, InvalidLoginFaultMsg {

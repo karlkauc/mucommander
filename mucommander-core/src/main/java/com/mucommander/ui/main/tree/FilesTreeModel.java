@@ -188,6 +188,7 @@ public class FilesTreeModel implements TreeModel, CachedDirectoryListener {
      * @return an array of TreeNodes giving the path from the root to the
      *         specified node 
      */
+    @SuppressWarnings("ReferenceEquality") // identity: 'root' is the singleton tree root
     protected AbstractFile[] getPathToRoot(AbstractFile aNode, int depth) {
         AbstractFile[]              retNodes;
     // This method recurses, traversing towards the root in order

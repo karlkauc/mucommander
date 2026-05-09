@@ -71,6 +71,7 @@ import com.mucommander.ui.text.SelectAllOnFocusTextField;
  *
  * @author Arik Hadas, Gerolf Scherr
  */
+@SuppressWarnings("EnumOrdinal") // SearchUtils.SizeUnit.ordinal() is the JComboBox selection index — populated in enum order
 public class SearchDialog extends FocusDialog implements ActionListener, DocumentListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SearchDialog.class);

@@ -102,13 +102,14 @@ public abstract class QueuedTrash extends AbstractTrash {
     @Override
     public void waitForPendingOperations() {
         synchronized(moveToTrashLock) {
-            if(moveToTrashThread!=null) {
+            while(moveToTrashThread!=null) {
                 try {
                     // Wait until moveToTrashThread wakes this thread up
                     moveToTrashLock.wait();
                 }
                 catch(InterruptedException e) {
                     Thread.currentThread().interrupt();
+                    return;
                 }
             }
         }
