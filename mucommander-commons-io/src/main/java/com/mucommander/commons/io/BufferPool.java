@@ -476,6 +476,11 @@ public class BufferPool {
             return (o instanceof BufferContainer) && buffer == ((BufferContainer)o).buffer;
         }
 
+        @Override
+        public int hashCode() {
+            return System.identityHashCode(buffer);
+        }
+
         /**
          * Returns the length of the wrapped buffer instance.
          *

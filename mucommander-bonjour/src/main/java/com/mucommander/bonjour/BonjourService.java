@@ -101,6 +101,11 @@ public class BonjourService {
         return fullyQualifiedName.equals(((BonjourService)o).fullyQualifiedName);
     }
 
+    @Override
+    public int hashCode() {
+        return fullyQualifiedName.hashCode();
+    }
+
 
     /**
      * Returns a String representation of this BonjourService in the form name / url.

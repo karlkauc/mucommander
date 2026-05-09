@@ -265,6 +265,13 @@ public abstract class ConnectionHandler {
         return equals(connHandler.realm, connHandler.credentials);
     }
 
+    @Override
+    public int hashCode() {
+        // Mirrors equals(realm, credentials): a null login means "match any credentials with this realm",
+        // so hash on realm only to keep the equals/hashCode contract symmetric.
+        return realm == null ? 0 : realm.hashCode();
+    }
+
 
     /**
      * Returns <code>true</code> if both the given realm and credentials are equal to those of this ConnectionHandler.
