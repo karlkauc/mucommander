@@ -23,14 +23,15 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * Image viewer preferences.
  */
 @ParametersAreNonnullByDefault
+@SuppressWarnings("ImmutableEnumChecker") // 'value' is mutated via setValue() — this enum is intentionally a mutable preference store
 public enum ImageViewerPreferences {
 
     INITIAL_ZOOM("initial_zoom", "image_viewer.initial_zoom_menu", "native"),
     SHOW_STATUS_BAR("show_status_bar", "image_viewer.show_status_bar", Boolean.TRUE.toString())
     ;
 
-    private String prefKey;
-    private String i18nKey;
+    private final String prefKey;
+    private final String i18nKey;
     private String value;
 
     ImageViewerPreferences(String prefKey, String i18nKey, String defaultValue) {

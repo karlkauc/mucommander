@@ -25,19 +25,15 @@ package com.mucommander.command;
  */
 public enum CommandType {
 	/** Describes <i>normal</i> commands. */
-    NORMAL_COMMAND,
+    NORMAL_COMMAND(null),
     /** Describes <i>system</i> commands. */
     SYSTEM_COMMAND(CommandsXmlConstants.VALUE_SYSTEM),
     /** Describes <i>invisible</i> commands. */
     INVISIBLE_COMMAND(CommandsXmlConstants.VALUE_INVISIBLE);
 
-    private String value;
-
-    CommandType() {
-    }
+    private final String value;
 
     CommandType(String value) {
-    	this();
     	this.value = value;
     }
 

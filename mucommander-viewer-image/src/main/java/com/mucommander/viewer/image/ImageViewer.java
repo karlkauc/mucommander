@@ -569,7 +569,7 @@ class ImageViewer implements FileViewer, ActionListener {
         FIT_TO_WINDOW("fit_to_window"),
         RESIZE_WINDOW("resize_window");
 
-        private String key;
+        private final String key;
 
         InitialZoom(@Nonnull String key) {
             this.key = key;

@@ -70,7 +70,7 @@ public enum MacOsSystemFolder {
     VM_STORAGE("/VM Storage");
 
     /** file path */
-	String path;
+	final String path;
 	/** Set of the paths declared above */
 	static Set<String> paths;
 

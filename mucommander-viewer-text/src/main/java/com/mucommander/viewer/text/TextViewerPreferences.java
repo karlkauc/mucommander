@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Piotr Skowronek
  */
+@SuppressWarnings("ImmutableEnumChecker") // 'value' / 'mode' are mutated via setValue() — this enum is intentionally a mutable preference store
 enum TextViewerPreferences {
 
     // Whether to wrap long lines.
@@ -101,9 +102,9 @@ enum TextViewerPreferences {
         EDITOR
     };
 
-    String prefKey;
-    String i18nKey;
-    Function<TextEditorImpl, Consumer<Boolean>> textEditorSetter;
+    final String prefKey;
+    final String i18nKey;
+    final Function<TextEditorImpl, Consumer<Boolean>> textEditorSetter;
 
     boolean value = true;
     EditorViewerMode mode = EditorViewerMode.BOTH;

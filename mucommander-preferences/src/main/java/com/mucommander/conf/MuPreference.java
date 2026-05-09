@@ -85,7 +85,7 @@ public enum MuPreference {
     FILE_COMPARATOR_USE_LEXICOGRAPHIC_SORT(MuPreferences.FILES_LEXICOGRAPHIC_ORDER),
     ;
 
-    private String label;
+    private final String label;
     private static Map<String, MuPreference> labelToPreference;
 
     static {
