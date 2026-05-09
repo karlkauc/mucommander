@@ -882,7 +882,7 @@ public class FileURL implements Cloneable {
         int standardPort = getStandardPort();
 
         return port1==port2 ||
-            (standardPort==url.getStandardPort() && ((port1==-1 && port2==standardPort || (port2==-1 && port1==standardPort))));
+            (standardPort==url.getStandardPort() && ((port1==-1 && port2==standardPort) || (port2==-1 && port1==standardPort)));
     }
 
     /**

@@ -217,7 +217,7 @@ public class GoogleCloudStorageFile extends GoogleCloudStorageBucket {
             // Folders can both exist in the Bucket (file representing a folder), then they need to be deleted,
             // or not exist in the Bucket (the folder is a part of another file's path), and deletion has to be skipped
             // GCS flat namespace explanation here https://cloud.google.com/storage/docs/folders
-            if (getBlob().exists() && getBlob().delete() || !getBlob().exists()) {
+            if ((getBlob().exists() && getBlob().delete()) || !getBlob().exists()) {
                 // The blob was deleted or doesn't exist anymore
                 blob = null;
             } else {

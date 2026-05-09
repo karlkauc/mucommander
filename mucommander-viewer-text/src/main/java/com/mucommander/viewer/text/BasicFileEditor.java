@@ -203,7 +203,7 @@ public abstract class BasicFileEditor implements FileEditor {
                 0);
         DialogAction ret = dialog.getActionValue();
 
-        if (ret == BasicFileAction.YES && trySave(getCurrentFile()) || ret == BasicFileAction.NO) {
+        if ((ret == BasicFileAction.YES && trySave(getCurrentFile())) || ret == BasicFileAction.NO) {
             setSaveNeeded(false);
             return true;
         }

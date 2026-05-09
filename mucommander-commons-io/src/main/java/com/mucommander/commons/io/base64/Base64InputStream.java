@@ -114,12 +114,12 @@ public class Base64InputStream extends InputStream {
             }
 
             // Decode byte 0
-            readBuffer[bytesLeft++] = ((decodeBuffer[0]<<2)&0xFC | ((decodeBuffer[1]>>4)&0x03));
+            readBuffer[bytesLeft++] = (((decodeBuffer[0]<<2)&0xFC) | ((decodeBuffer[1]>>4)&0x03));
 
             // Test if the character is not a padding character
             if(decodeBuffer[2]!=-1) {
                 // Decode byte 1
-                readBuffer[bytesLeft++] = (decodeBuffer[1]<<4)&0xF0 | ((decodeBuffer[2]>>2)&0x0F);
+                readBuffer[bytesLeft++] = ((decodeBuffer[1]<<4)&0xF0) | ((decodeBuffer[2]>>2)&0x0F);
 
                 // Test if the character is a padding character
                 if(decodeBuffer[3]!=-1)

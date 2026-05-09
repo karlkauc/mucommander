@@ -379,7 +379,7 @@ class BinaryEditor extends BinaryBase implements FileEditor {
                         0);
         DialogAction ret = dialog.getActionValue();
 
-        if (ret == BinaryEditorAction.YES && trySave(currentFile) || ret == BinaryEditorAction.NO) {
+        if ((ret == BinaryEditorAction.YES && trySave(currentFile)) || ret == BinaryEditorAction.NO) {
             return true;
         }
 
