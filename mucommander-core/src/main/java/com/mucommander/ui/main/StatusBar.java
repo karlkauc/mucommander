@@ -105,6 +105,9 @@ public class StatusBar extends JPanel {
     /** Thread which auto updates volume info */
     private Thread autoUpdateThread;
 
+    /** Lock object guarding {@link #autoUpdateThread}'s wait/notify rendezvous. */
+    private final Object autoUpdateLock = new Object();
+
     /** Number of milliseconds between each volume info update by auto-update thread */
     private final static int AUTO_UPDATE_PERIOD = 60000;
 
@@ -474,9 +477,9 @@ public class StatusBar extends JPanel {
 
                     // Sleep for a while
                     if (!autoUpdateThreadNotified) {
-                        synchronized(autoUpdateThread) {
+                        synchronized(autoUpdateLock) {
                             if (!autoUpdateThreadNotified) {
-                                try { autoUpdateThread.wait(AUTO_UPDATE_PERIOD); }
+                                try { autoUpdateLock.wait(AUTO_UPDATE_PERIOD); }
                                 catch (InterruptedException e) {}
                             }
                         }
@@ -519,10 +522,10 @@ public class StatusBar extends JPanel {
 
     private void triggerVolumeInfoUpdate() {
         if (!autoUpdateThreadNotified && autoUpdateThread != null) {
-            synchronized(autoUpdateThread) {
+            synchronized(autoUpdateLock) {
                 if (!autoUpdateThreadNotified) {
                     autoUpdateThreadNotified = true;
-                    autoUpdateThread.notify();
+                    autoUpdateLock.notify();
                 }
             }
         }
