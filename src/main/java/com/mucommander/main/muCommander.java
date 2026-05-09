@@ -305,6 +305,15 @@ public class muCommander {
                         "org.violetlib.aqua"
         );
 
+        // slf4j-api 2.x declares a Require-Capability on osgi.extender=osgi.serviceloader.processor
+        // (typically provided by Apache Aries SPI Fly). We don't ship that, but slf4j-api falls back
+        // to JDK ServiceLoader at runtime to discover providers — so satisfy the *metadata*
+        // requirement at the system-bundle level. Without this, slf4j-api fails to resolve and
+        // every bundle that imports org.slf4j cascades into a resolution failure on startup.
+        configProps.computeIfAbsent("org.osgi.framework.system.capabilities.extra",
+                key -> "osgi.extender;osgi.extender=\"osgi.serviceloader.processor\";version:Version=\"1.0\""
+        );
+
         configProps.computeIfAbsent(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY,
                 key -> new File(codeParentFolder, "bundle").getAbsolutePath());
 
