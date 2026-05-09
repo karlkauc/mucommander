@@ -56,12 +56,14 @@ public class ExtraFieldUtils {
      */
     public static void register(Class<? extends ZipExtraField> c) {
         try {
-            ZipExtraField ze = c.newInstance();
+            ZipExtraField ze = c.getDeclaredConstructor().newInstance();
             implementations.put(ze.getHeaderId(), c);
         } catch (ClassCastException cc) {
             throw new RuntimeException(c + " doesn\'t implement ZipExtraField");
-        } catch (InstantiationException ie) {
-            throw new RuntimeException(c + " is not a concrete class");
+        } catch (java.lang.reflect.InvocationTargetException
+                 | NoSuchMethodException
+                 | InstantiationException ie) {
+            throw new RuntimeException(c + " is not a concrete class with a no-arg constructor");
         } catch (IllegalAccessException ie) {
             throw new RuntimeException(c + "\'s no-arg constructor is not public");
         }
@@ -79,7 +81,13 @@ public class ExtraFieldUtils {
         throws InstantiationException, IllegalAccessException {
         Class<? extends ZipExtraField> c = implementations.get(headerId);
         if (c != null) {
-            return c.newInstance();
+            try {
+                return c.getDeclaredConstructor().newInstance();
+            } catch (java.lang.reflect.InvocationTargetException | NoSuchMethodException e) {
+                InstantiationException ie = new InstantiationException(c + " could not be instantiated");
+                ie.initCause(e);
+                throw ie;
+            }
         }
         UnrecognizedExtraField u = new UnrecognizedExtraField();
         u.setHeaderId(headerId);
