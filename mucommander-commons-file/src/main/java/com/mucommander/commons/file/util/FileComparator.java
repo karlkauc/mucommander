@@ -256,7 +256,7 @@ public class FileComparator implements Comparator<AbstractFile> {
             diff = f1.getDate()-f2.getDate();
             break;
         case PERMISSIONS:
-            diff = f1.getPermissions().getIntValue() - f2.getPermissions().getIntValue();
+            diff = (long) f1.getPermissions().getIntValue() - f2.getPermissions().getIntValue();
             break;
         case EXTENSION:
             diff = StringUtils.compareIgnoreCase(f1.getExtension(), f2.getExtension());

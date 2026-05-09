@@ -883,7 +883,7 @@ public class ZipFile implements ZipConstants {
                 feedEncodingAccumulator(encodingAccumulator, comment);
             }
 
-            entryInfo.centralHeaderLen = 46 + fileNameLen + extraLen + commentLen;
+            entryInfo.centralHeaderLen = 46L + fileNameLen + extraLen + commentLen;
 
             // Add the new entry to the internal lists
             ze.setEntryInfo(entryInfo);

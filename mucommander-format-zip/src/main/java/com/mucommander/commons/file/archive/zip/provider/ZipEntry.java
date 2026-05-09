@@ -598,7 +598,7 @@ public class ZipEntry implements Cloneable {
                 return MIN_DOS_TIME;
             }
 
-            return ((year - 1980) << 25)
+            return ((long) (year - 1980) << 25)
                 |  ((CALENDAR.get(Calendar.MONTH)+1) << 21)
                 |  (CALENDAR.get(Calendar.DAY_OF_MONTH) << 16)
                 |  (CALENDAR.get(Calendar.HOUR_OF_DAY) << 11)

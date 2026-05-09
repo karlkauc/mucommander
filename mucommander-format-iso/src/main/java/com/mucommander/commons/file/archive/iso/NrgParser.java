@@ -106,7 +106,7 @@ class NrgParser extends IsoParser {
                     for (int z = 18; z < clen - 4; z += DAOX ? 42 : 30) {
                         tracksMode[cur] = buffer[z + 14];
                         tracksOffset[cur] = IsoUtil.toDword(buffer, DAOX ? z + 30 : 22);
-                        tracksEnd[cur] = IsoUtil.toDword(buffer, DAOX ? z + 38 : 26) - 1;
+                        tracksEnd[cur] = (long) IsoUtil.toDword(buffer, DAOX ? z + 38 : 26) - 1;
                         cur++;
                     }
                     tracks = cur;

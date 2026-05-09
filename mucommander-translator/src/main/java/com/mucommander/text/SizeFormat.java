@@ -155,7 +155,7 @@ public class SizeFormat {
             // size < 10KB	-> "9.6 KB"
             if(size<KB_10 && !digitsShort) {
                 int nKB = (int)size/KB_1;
-                digitsString = nKB+DECIMAL_SEPARATOR+(int)((size-nKB*KB_1)/(float)KB_1*10);
+                digitsString = nKB+DECIMAL_SEPARATOR+(int)((size-(long)nKB*KB_1)/(float)KB_1*10);
                 unitString = noUnit?"":KB;
             }
             // size < 1MB -> "436 KB"
@@ -166,7 +166,7 @@ public class SizeFormat {
             // size < 10MB -> "4.3 MB"
             else if(size<MB_10 && !digitsShort) {
                 int nMB = (int)size/MB_1;
-                digitsString = nMB+DECIMAL_SEPARATOR+(int)((size-nMB*MB_1)/(float)MB_1*10);
+                digitsString = nMB+DECIMAL_SEPARATOR+(int)((size-(long)nMB*MB_1)/(float)MB_1*10);
                 unitString = noUnit?"":MB;
             }
             // size < 1GB -> "548 MB"
