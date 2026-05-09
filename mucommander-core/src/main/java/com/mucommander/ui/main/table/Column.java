@@ -33,6 +33,7 @@ import com.mucommander.ui.action.ActionId;
  *
  * @author Maxence Bernard
  */
+@SuppressWarnings("EnumOrdinal") // Column.ordinal() is the persistent column index used in snapshots, FileTable arrays and FileTableModel — order is part of the contract
 public enum Column {
 
     EXTENSION(true, true, CRITERION.EXTENSION, ActionType.ToggleExtensionColumn, ActionType.SortByExtension),

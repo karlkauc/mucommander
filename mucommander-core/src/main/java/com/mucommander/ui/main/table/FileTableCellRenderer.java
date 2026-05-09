@@ -60,6 +60,7 @@ import com.mucommander.ui.theme.ThemeListener;
  *
  * @author Maxence Bernard, Nicolas Rinaudo
  */
+@SuppressWarnings("EnumOrdinal") // Column.ordinal() is the stable column index — see Column.java
 public class FileTableCellRenderer implements TableCellRenderer, ThemeListener {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileTableCellRenderer.class);
 	

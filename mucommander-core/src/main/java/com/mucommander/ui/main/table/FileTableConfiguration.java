@@ -21,6 +21,7 @@ package com.mucommander.ui.main.table;
  * Describes a file table's initial configuration.
  * @author Nicolas Rinaudo
  */
+@SuppressWarnings("EnumOrdinal") // Column.ordinal() is the stable column index — see Column.java
 public class FileTableConfiguration {
     // - Instance fields -----------------------------------------------------------------
     // -----------------------------------------------------------------------------------

@@ -40,6 +40,7 @@ import javax.swing.table.TableColumnModel;
  * Used to keep track of a file table's columns position and visibility settings.
  * @author Nicolas Rinaudo, Maxence Bernard
  */
+@SuppressWarnings("EnumOrdinal") // Column.ordinal() is the stable column index — see Column.java
 public class FileTableColumnModel implements TableColumnModel, PropertyChangeListener {
     // - Class constants -----------------------------------------------------------------
     // -----------------------------------------------------------------------------------

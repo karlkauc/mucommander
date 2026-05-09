@@ -97,6 +97,7 @@ import com.mucommander.ui.theme.ThemeManager;
  *
  * @author Maxence Bernard, Nicolas Rinaudo
  */
+@SuppressWarnings("EnumOrdinal") // Column.ordinal() is the stable column index — see Column.java
 public class FileTable extends JTable implements MouseListener, MouseMotionListener, KeyListener,
                                                  ActivePanelListener, ConfigurationListener, ThemeListener {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileTable.class);

@@ -49,6 +49,7 @@ import com.mucommander.text.SizeFormat;
  *
  * @author Maxence Bernard
  */
+@SuppressWarnings("EnumOrdinal") // Column.ordinal() is the stable column index — see Column.java
 public class FileTableModel extends AbstractTableModel {
 
     private static final Cursor WAIT_CURSOR = new Cursor(Cursor.WAIT_CURSOR);

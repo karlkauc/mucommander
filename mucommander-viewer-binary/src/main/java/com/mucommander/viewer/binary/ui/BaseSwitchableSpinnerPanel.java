@@ -52,6 +52,7 @@ import com.mucommander.text.Translator;
  * Spinner supporting multiple bases.
  */
 @ParametersAreNonnullByDefault
+@SuppressWarnings("EnumOrdinal") // PositionCodeType.ordinal() addresses popup-menu items added in enum-declaration order
 public class BaseSwitchableSpinnerPanel extends javax.swing.JPanel {
 
     private boolean adjusting;
